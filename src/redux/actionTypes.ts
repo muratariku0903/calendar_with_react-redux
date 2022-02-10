@@ -1,0 +1,5 @@
+export enum ActionTypes {
+    PREV_CALENDAR = 'PREV_CALENDAR',
+    NEXT_CALENDAR = 'NEXT_CALENDAR',
+    SET_MONTH = 'SET_MONTH',
+}
