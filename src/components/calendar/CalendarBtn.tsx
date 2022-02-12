@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import { Dispatch } from 'redux';
 import { nextCalendar, prevCalendar, setMonth, CalendarActions } from '../../redux/actions';
 import { useState } from 'react';
+import { months } from '../../constants';
 
 
 type CalendarBtn = {
@@ -16,7 +17,6 @@ type CalendarBtn = {
 
 
 const CalendarBtn: React.FC<CalendarBtn> = (props) => {
-    const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     const [selectedMonth, setSelectedMonth] = useState<number>(props.currentMonth);
 
     const onClickPrev = () => {

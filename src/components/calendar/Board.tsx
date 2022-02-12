@@ -4,18 +4,25 @@ import { connect } from 'react-redux';
 import { getCalendarCells, CalendarCell } from '../../redux/selectors';
 import WeekHeader from './WeekHeader';
 import Cell from './Cell';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 
-
-// コンポーネントでは主に分岐して表示するだけ、データ取得などのロジックは隠す
+const useStyles = makeStyles(() => {
+    return createStyles({
+        calendar: {
+            padding: '30px',
+        },
+    });
+});
 
 type BoardProps = {
     cells: CalendarCell[][]
 }
 
 const Board: React.FC<BoardProps> = (props) => {
+    const classes = useStyles();
     return (
-        <table>
+        <table className={classes.calendar}>
             <WeekHeader />
             <tbody>
                 {props.cells.map((row, idx_r) => {

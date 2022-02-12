@@ -2,11 +2,10 @@ import React from 'react';
 import { State } from '../../redux/types';
 import { connect } from 'react-redux';
 import { getCalendarCells, CalendarCell } from '../../redux/selectors';
+import { weeks } from '../../constants';
 
 
 const WeekHeader = () => {
-    const weeks = ['日', '月', '火', '水', '木', '金', '土'];
-
     return (
         <thead>
             <tr>
