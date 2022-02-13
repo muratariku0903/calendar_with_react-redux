@@ -1,7 +1,19 @@
 import React from 'react';
 import { State } from '../../redux/types';
 import { connect } from 'react-redux';
-import {CalendarDate } from '../../redux/selectors';
+import { CalendarDate } from '../../redux/selectors';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
+
+const useStyles = makeStyles(() => {
+    return createStyles({
+        element: {
+            borderRight: '1px solid #ccc',
+            borderBottom: '1px solid #ccc',
+            height: '18vh',
+        },
+    });
+});
 
 
 type DateProps = {
@@ -10,23 +22,13 @@ type DateProps = {
 }
 
 const Date: React.FC<DateProps> = (props) => {
-    const cellStyle = {
-        normal: {
-            color: 'black'
-        },
-        current: {
-            color: 'blue',
-            fontWeight: 'bold',
-        }
-    }
-
-    const setStyle = () => {
-        // ひちにだけじゃなくて、月と都市も確認しないと
-        return props.date === props.currentDay ? cellStyle.current : cellStyle.normal;
-    }
+    const classes = useStyles();
+    const textColor = props.date === props.currentDay ? 'textPrimary' : 'textSecondary';
 
     return (
-        <div style={setStyle()}>{props.date}</div>
+        <Typography className={classes.element} align="center" component="div" variant="caption" color={textColor}>
+            <span>{props.date}</span>
+        </Typography>
     );
 }
 

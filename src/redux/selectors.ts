@@ -12,15 +12,9 @@ export const getCalendarDates = (store: State): CalendarDate[] => {
     const nextBlankCnt = weekCnt - new Date(year, month + 1, 0).getDay() - 1;
     const lastDate = new Date(year, month + 1, 0).getDate();
     const totalCellCnt = prevBlankCnt + lastDate + nextBlankCnt;
-    const calendarDates: CalendarDate[][] = [];
     let dates: CalendarDate[] = [];
     for (let cell = 0, date = -prevBlankCnt + 1; cell < totalCellCnt; cell++, date++) {
         dates.push(1 <= date && date <= lastDate ? date : null);
-        // if (cell !== 0 && (cell + 1) % 7 === 0) {
-        //     console.log(dates);
-        //     calendarDates.push(dates);
-        //     dates = [];
-        // }
     }
 
     return dates;

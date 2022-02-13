@@ -10,18 +10,9 @@ import Date from './Date';
 
 const useStyles = makeStyles(() => {
     return createStyles({
-        calendar: {
-            padding: '30px',
-        },
         grid: {
             borderLeft: '1px solid #ccc',
             borderTop: '1px solid #ccc',
-        },
-        element: {
-            borderRight: '1px solid #ccc',
-            borderBottom: '1px solid #ccc',
-            height: '18vh',
-            padding: '0',
         },
     });
 });
@@ -35,9 +26,9 @@ const Board: React.FC<BoardProps> = (props) => {
     return (
         <div>
             <WeekHeader />
-            <GridList className={classes.grid} cols={8} cellHeight="auto">
+            <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
                 {props.dates.map((date, idx) => {
-                    return <li key={idx} className={classes.element}><Date date={date} /></li>;
+                    return <li key={idx}><Date date={date} /></li>;
                 })}
             </GridList>
         </div>

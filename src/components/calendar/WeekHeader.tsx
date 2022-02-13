@@ -2,14 +2,20 @@ import React from 'react';
 import { State } from '../../redux/types';
 import { connect } from 'react-redux';
 import { weeks } from '../../constants';
-import { GridList } from '@material-ui/core';
+import { GridList, Typography } from '@material-ui/core';
 
 
 const WeekHeader = () => {
     return (
-        <GridList cols={8}>
+        <GridList cols={7} cellHeight="auto" spacing={0}>
             {weeks.map((week, idx) => {
-                return <li key={idx}>{week}</li>
+                return (
+                    <li key={idx}>
+                        <Typography align="center" component="div" variant="caption" color="textSecondary">
+                            {week}
+                        </Typography>
+                    </li>
+                )
             })}
         </GridList>
     );
