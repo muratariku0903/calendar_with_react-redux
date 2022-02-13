@@ -1,19 +1,17 @@
 import React from 'react';
 import { State } from '../../redux/types';
 import { connect } from 'react-redux';
-import { getCalendarCells, CalendarCell } from '../../redux/selectors';
 import { weeks } from '../../constants';
+import { GridList } from '@material-ui/core';
 
 
 const WeekHeader = () => {
     return (
-        <thead>
-            <tr>
-                {weeks.map((week, idx) => {
-                    return <th key={idx}>{week}</th>
-                })}
-            </tr>
-        </thead>
+        <GridList cols={8}>
+            {weeks.map((week, idx) => {
+                return <li key={idx}>{week}</li>
+            })}
+        </GridList>
     );
 }
 

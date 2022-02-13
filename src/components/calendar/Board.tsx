@@ -1,10 +1,11 @@
 import React from 'react';
 import { State } from '../../redux/types';
 import { connect } from 'react-redux';
-import { getCalendarCells, CalendarCell } from '../../redux/selectors';
-import WeekHeader from './WeekHeader';
-import Cell from './Cell';
+import { getCalendarDates, CalendarDate } from '../../redux/selectors';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { GridList } from '@material-ui/core';
+import WeekHeader from './WeekHeader';
+import Date from './Date';
 
 
 const useStyles = makeStyles(() => {
@@ -12,34 +13,40 @@ const useStyles = makeStyles(() => {
         calendar: {
             padding: '30px',
         },
+        grid: {
+            borderLeft: '1px solid #ccc',
+            borderTop: '1px solid #ccc',
+        },
+        element: {
+            borderRight: '1px solid #ccc',
+            borderBottom: '1px solid #ccc',
+            height: '18vh',
+            padding: '0',
+        },
     });
 });
 
 type BoardProps = {
-    cells: CalendarCell[][]
+    dates: CalendarDate[]
 }
 
 const Board: React.FC<BoardProps> = (props) => {
     const classes = useStyles();
     return (
-        <table className={classes.calendar}>
+        <div>
             <WeekHeader />
-            <tbody>
-                {props.cells.map((row, idx_r) => {
-                    return <tr key={idx_r}>
-                        {row.map((cell, idx_c) => {
-                            return <Cell key={idx_c} date={cell} />
-                        })}
-                    </tr>
+            <GridList className={classes.grid} cols={8} cellHeight="auto">
+                {props.dates.map((date, idx) => {
+                    return <li key={idx} className={classes.element}><Date date={date} /></li>;
                 })}
-            </tbody>
-        </table>
+            </GridList>
+        </div>
     );
 }
 
 const mapStateToProps = (state: State) => {
     return {
-        cells: getCalendarCells(state),
+        dates: getCalendarDates(state),
     };
 }
 

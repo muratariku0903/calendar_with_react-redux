@@ -1,15 +1,15 @@
 import React from 'react';
 import { State } from '../../redux/types';
 import { connect } from 'react-redux';
-import { getCalendarCells, CalendarCell } from '../../redux/selectors';
+import {CalendarDate } from '../../redux/selectors';
 
 
-type CellProps = {
-    date: CalendarCell;
+type DateProps = {
+    date: CalendarDate;
     currentDay: number;
 }
 
-const Cell: React.FC<CellProps> = (props) => {
+const Date: React.FC<DateProps> = (props) => {
     const cellStyle = {
         normal: {
             color: 'black'
@@ -26,7 +26,7 @@ const Cell: React.FC<CellProps> = (props) => {
     }
 
     return (
-        <td style={setStyle()}> {props.date}</td >
+        <div style={setStyle()}>{props.date}</div>
     );
 }
 
@@ -36,4 +36,4 @@ const mapStateToProps = (state: State) => {
     };
 }
 
-export default connect(mapStateToProps)(Cell);
+export default connect(mapStateToProps)(Date);

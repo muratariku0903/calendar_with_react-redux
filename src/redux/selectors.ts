@@ -1,30 +1,29 @@
 import { State } from './types';
 import { weekCnt } from '../constants';
+import dayjs from 'dayjs';
 
-// 二次元配列でカレンダーのセル群を取得したい
+dayjs.locale('ja');
 
-export type CalendarCell = number | null;
+export type CalendarDate = number | null;
 
-export const getCalendarCells = (store: State): CalendarCell[][] => {
+export const getCalendarDates = (store: State): CalendarDate[] => {
     const { year, month } = store.calendar;
     const prevBlankCnt = new Date(year, month, 1).getDay();
     const nextBlankCnt = weekCnt - new Date(year, month + 1, 0).getDay() - 1;
     const lastDate = new Date(year, month + 1, 0).getDate();
     const totalCellCnt = prevBlankCnt + lastDate + nextBlankCnt;
-    const calendarCells: CalendarCell[][] = [];
-    let cells: CalendarCell[] = [];
-    for (let i = 0; i < prevBlankCnt; i++) cells.push(null);
-    // これさ、-prevBlankCnt + 1の方がきれいじゃない？
-    // あと、weekではなく、cellな気がするけど。
-    for (let week = prevBlankCnt + 1, date = 1; week <= totalCellCnt; week++, date++) {
-        cells.push(date > lastDate ? null : date);
-        if (week % 7 === 0) {
-            calendarCells.push(cells);
-            cells = [];
-        }
+    const calendarDates: CalendarDate[][] = [];
+    let dates: CalendarDate[] = [];
+    for (let cell = 0, date = -prevBlankCnt + 1; cell < totalCellCnt; cell++, date++) {
+        dates.push(1 <= date && date <= lastDate ? date : null);
+        // if (cell !== 0 && (cell + 1) % 7 === 0) {
+        //     console.log(dates);
+        //     calendarDates.push(dates);
+        //     dates = [];
+        // }
     }
 
-    return calendarCells;
+    return dates;
 }
 
 // 日にちから曜日を取得する関数も用意したほうが良いかも
