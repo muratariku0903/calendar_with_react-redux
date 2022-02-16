@@ -3,16 +3,15 @@ import { State } from '../../redux/types';
 import { connect } from 'react-redux';
 import { Fragment } from 'react';
 import { Dispatch } from 'redux';
-import { nextCalendar, prevCalendar, setMonth, CalendarActions } from '../../redux/actions';
+import { setMonth, CalendarActions } from '../../redux/actions';
 import { useState } from 'react';
 import { months } from '../../constants';
 
 
 type CalendarBtn = {
+    currentYear: number;
     currentMonth: number;
-    prevCalendar: () => CalendarActions;
-    nextCalendar: () => CalendarActions;
-    setMonth: (month: number) => CalendarActions;
+    setMonth: (year: number, month: number) => CalendarActions;
 }
 
 
@@ -20,11 +19,27 @@ const CalendarBtn: React.FC<CalendarBtn> = (props) => {
     const [selectedMonth, setSelectedMonth] = useState<number>(props.currentMonth);
 
     const onClickPrev = () => {
-        props.prevCalendar();
+        let newYear = props.currentYear;
+        let newMonth = props.currentMonth;
+        if (newMonth === 0) {
+            newYear--;
+            newMonth = 11;
+        } else {
+            newMonth--;
+        }
+        props.setMonth(newYear, newMonth);
     }
 
     const onClickNext = () => {
-        props.nextCalendar();
+        let newYear = props.currentYear;
+        let newMonth = props.currentMonth;
+        if (newMonth === 11) {
+            newYear++;
+            newMonth = 0;
+        } else {
+            newMonth++;
+        }
+        props.setMonth(newYear, newMonth);
     }
 
     const onChangeMonth = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,8 +47,7 @@ const CalendarBtn: React.FC<CalendarBtn> = (props) => {
     }
 
     const onClickSetMonth = () => {
-        console.log(selectedMonth);
-        props.setMonth(selectedMonth);
+        props.setMonth(props.currentYear, selectedMonth);
     }
 
     return (
@@ -52,15 +66,14 @@ const CalendarBtn: React.FC<CalendarBtn> = (props) => {
 
 const mapStateToProps = (state: State) => {
     return {
+        currentYear: state.calendar.year,
         currentMonth: state.calendar.month
     };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        prevCalendar: () => dispatch(prevCalendar()),
-        nextCalendar: () => dispatch(nextCalendar()),
-        setMonth: (month: number) => dispatch(setMonth(month)),
+        setMonth: (year: number, month: number) => dispatch(setMonth(year, month)),
     };
 }
 

@@ -12,42 +12,11 @@ const initialState: CalendarState = {
 
 const calendar = (state = initialState, action: CalendarActions) => {
     switch (action.type) {
-        case ActionTypes.PREV_CALENDAR: {
-            let newYear = state.year;
-            let newMonth = state.month;
-            if (state.month === 0) {
-                newYear--;
-                newMonth = 11;
-            } else {
-                newMonth--;
-            }
-            return {
-                ...state,
-                year: newYear,
-                month: newMonth,
-            }
-        }
-
-        case ActionTypes.NEXT_CALENDAR: {
-            let newYear = state.year;
-            let newMonth = state.month;
-            if (state.month === 11) {
-                newYear++;
-                newMonth = 0;
-            } else {
-                newMonth++;
-            }
-            return {
-                ...state,
-                year: newYear,
-                month: newMonth,
-            }
-        }
-
         case ActionTypes.SET_MONTH: {
-            const month = action.payload.month;
+            const { year, month } = action.payload;
             return {
                 ...state,
+                year: year,
                 month: month,
             }
         }
