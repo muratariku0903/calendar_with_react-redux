@@ -7,7 +7,6 @@ const currentTime = new Date();
 const initialState: CalendarState = {
     year: currentTime.getFullYear(),
     month: currentTime.getMonth(),
-    currentDay: currentTime.getDate(),
 }
 
 const calendar = (state = initialState, action: CalendarActions) => {

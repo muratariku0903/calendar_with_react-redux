@@ -2,7 +2,6 @@
 export type CalendarState = {
     year: number;
     month: number;
-    currentDay: number;
 }
 
 // おそらく、ここに予定のstateが加わることであろう。

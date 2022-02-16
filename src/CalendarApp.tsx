@@ -6,11 +6,6 @@ import Board from './components/calendar/Board';
 import CalendarBtn from './components/calendar/CalendarBtn';
 
 type CalendarAppProps = CalendarState;
-// type CalendarAppProps = {
-//     year: number;
-//     month: number;
-//     currentDay: number;
-// }
 
 const CalendarApp: React.FC<CalendarAppProps> = (props) => {
     return (
@@ -27,7 +22,6 @@ const mapStateToProps = (state: State) => {
     return {
         year: state.calendar.year,
         month: state.calendar.month,
-        currentDay: state.calendar.currentDay,
     };
 };
 
