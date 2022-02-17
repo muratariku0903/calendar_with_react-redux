@@ -1,18 +1,20 @@
 import { ActionTypes } from "../actionTypes";
 import { CalendarActions } from "../actions";
 import { CalendarState } from "../types";
+import dayjs from 'dayjs';
 
-const currentTime = new Date();
+const currentTime = dayjs();
 
 const initialState: CalendarState = {
-    year: currentTime.getFullYear(),
-    month: currentTime.getMonth(),
+    year: currentTime.year(),
+    month: currentTime.month(),
 }
 
 const calendar = (state = initialState, action: CalendarActions) => {
     switch (action.type) {
         case ActionTypes.SET_MONTH: {
             const { year, month } = action.payload;
+            // これpayloadを返却すれば良い気がするけど。
             return {
                 ...state,
                 year: year,

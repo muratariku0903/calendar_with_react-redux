@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { Dayjs } from 'dayjs';
+import { CalendarState } from "../redux/types";
 
 export const isSameDay = (d1: Dayjs, d2: Dayjs): boolean => {
     const format = "YYYYMMDD";
@@ -12,3 +13,14 @@ export const isSameMonth = (m1: Dayjs, m2: Dayjs): boolean => {
 };
 
 export const isFirstDay = (day: Dayjs): boolean => day.date() === 1;
+
+export const getMonth = (year: number, month: number): Dayjs => {
+    return dayjs(`${year}-${month}`);
+}
+
+export const getYearMonthFromDayjsObj = (obj: Dayjs): CalendarState => {
+    return {
+        year: obj.year(),
+        month: obj.month(),
+    }
+}

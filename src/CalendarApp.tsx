@@ -2,16 +2,16 @@ import { Fragment } from 'react';
 import React from 'react';
 import { CalendarState, State } from './redux/types';
 import { connect } from 'react-redux';
-import Board from './components/calendar/Board';
+import Board from './components/calendar/Board/Board';
 import CalendarBtn from './components/calendar/CalendarBtn';
+import Navigation from './components/calendar/Navigation/container';
 
 type CalendarAppProps = CalendarState;
 
 const CalendarApp: React.FC<CalendarAppProps> = (props) => {
     return (
         <Fragment>
-            <h1>カレンダー</h1>
-            <h2>{props.year}年{props.month + 1}月</h2>
+            <Navigation />
             <Board />
             <CalendarBtn />
         </Fragment>

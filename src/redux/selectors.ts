@@ -2,6 +2,7 @@ import { State } from './types';
 import { weekCnt } from '../constants';
 import dayjs from 'dayjs';
 import { Dayjs } from 'dayjs';
+import { getMonth } from '../services/calendar';
 
 
 export const getCalendarDates = (store: State): Dayjs[] => {
@@ -15,8 +16,5 @@ export const getCalendarDates = (store: State): Dayjs[] => {
     return Array(totalCellCnt).fill(0).map((_, i) => firstDay.add(i - prevMonthDateCnt, "day"));
 }
 
-export const getMonth = (year: number, month: number) => {
-    return dayjs(`${year}-${month}`);
-}
 
 // 日にちから曜日を取得する関数も用意したほうが良いかも
