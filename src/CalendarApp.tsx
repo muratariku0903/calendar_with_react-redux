@@ -3,7 +3,6 @@ import React from 'react';
 import { CalendarState, State } from './redux/types';
 import { connect } from 'react-redux';
 import Board from './components/calendar/Board/Board';
-import CalendarBtn from './components/calendar/CalendarBtn';
 import Navigation from './components/calendar/Navigation/container';
 
 type CalendarAppProps = CalendarState;
@@ -13,7 +12,6 @@ const CalendarApp: React.FC<CalendarAppProps> = (props) => {
         <Fragment>
             <Navigation />
             <Board />
-            <CalendarBtn />
         </Fragment>
     );
 };
