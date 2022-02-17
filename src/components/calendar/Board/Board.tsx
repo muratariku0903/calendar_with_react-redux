@@ -1,12 +1,13 @@
 import React from 'react';
-import { State } from '../../redux/types';
+import { State } from '../../../redux/types';
 import { connect } from 'react-redux';
-import { getCalendarDates } from '../../redux/selectors';
+import { getCalendarDates } from '../../../redux/selectors';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
+import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
-import { Dayjs } from 'dayjs';
+
 
 const useStyles = makeStyles(() => {
     return createStyles({

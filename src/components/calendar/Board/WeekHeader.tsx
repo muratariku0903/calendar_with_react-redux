@@ -1,7 +1,7 @@
 import React from 'react';
-import { State } from '../../redux/types';
+import { State } from '../../../redux/types';
 import { connect } from 'react-redux';
-import { weeks } from '../../constants';
+import { weeks } from '../../../constants';
 import { GridList, Typography } from '@material-ui/core';
 
 
