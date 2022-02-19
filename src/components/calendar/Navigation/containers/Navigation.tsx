@@ -1,8 +1,8 @@
 import Navigation from "../Navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { State } from "../../../../redux/types";
-import { setMonth } from '../../../../redux/actions';
+import { State } from "../../../../redux/stateTypes";
+import { setMonth } from '../../../../redux/actions/calendar';
 
 const mapStateToProps = (store: State) => {
     return {

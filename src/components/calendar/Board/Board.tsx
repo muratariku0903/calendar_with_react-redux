@@ -4,6 +4,7 @@ import { GridList } from '@material-ui/core';
 import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
+import { AddScheduleDialogActions } from '../../../redux/actions/addScheduleDialog';
 
 
 const useStyles = makeStyles(() => {
@@ -18,6 +19,7 @@ const useStyles = makeStyles(() => {
 type BoardProps = {
     month: number,
     dates: Dayjs[],
+    openDialog: (date: Dayjs) => void,
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -27,7 +29,7 @@ const Board: React.FC<BoardProps> = (props) => {
             <WeekHeader />
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
                 {props.dates.map((date, idx) => {
-                    return <li key={idx}><Date date={date} currentMonth={props.month} /></li>;
+                    return <li key={idx} onClick={() => props.openDialog(date)}><Date date={date} currentMonth={props.month} /></li>;
                 })}
             </GridList>
         </div>

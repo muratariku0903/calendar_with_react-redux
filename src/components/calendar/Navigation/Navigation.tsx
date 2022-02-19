@@ -5,7 +5,7 @@ import ArrowForwardIos from "@material-ui/icons/ArrowForwardIos";
 import DehazeIcon from "@material-ui/icons/Dehaze";
 import { DatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { CalendarActions } from '../../../redux/actions';
+import { CalendarActions } from '../../../redux/actions/calendar';
 import { getMonth } from '../../../services/calendar';
 
 

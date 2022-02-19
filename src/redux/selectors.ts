@@ -1,4 +1,4 @@
-import { State } from './types';
+import { State } from './stateTypes';
 import { Dayjs } from 'dayjs';
 import { getMonth } from '../services/calendar';
 

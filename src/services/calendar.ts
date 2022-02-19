@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Dayjs } from 'dayjs';
-import { CalendarState } from "../redux/types";
+import { CalendarState } from "../redux/stateTypes";
 
 export const isSameDay = (d1: Dayjs, d2: Dayjs): boolean => {
     const format = "YYYYMMDD";

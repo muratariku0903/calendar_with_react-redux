@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import React from 'react';
 import Board from './components/calendar/Board/containers/Board';
 import Navigation from './components/calendar/Navigation/containers/Navigation';
+import AddScheduleDialog from './components/AddScheduleDialog/containers/AddScheduleDialog';
 
 
 const CalendarApp: React.FC = () => {
@@ -9,6 +10,7 @@ const CalendarApp: React.FC = () => {
         <Fragment>
             <Navigation />
             <Board />
+            <AddScheduleDialog />
         </Fragment>
     );
 };
