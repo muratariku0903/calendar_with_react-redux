@@ -1,6 +1,4 @@
 import { State } from './types';
-import { weekCnt } from '../constants';
-import dayjs from 'dayjs';
 import { Dayjs } from 'dayjs';
 import { getMonth } from '../services/calendar';
 

@@ -1,13 +1,10 @@
 import { Fragment } from 'react';
 import React from 'react';
-import { CalendarState, State } from './redux/types';
-import { connect } from 'react-redux';
-import Board from './components/calendar/Board/Board';
-import Navigation from './components/calendar/Navigation/container';
+import Board from './components/calendar/Board/containers/Board';
+import Navigation from './components/calendar/Navigation/containers/Navigation';
 
-type CalendarAppProps = CalendarState;
 
-const CalendarApp: React.FC<CalendarAppProps> = (props) => {
+const CalendarApp: React.FC = () => {
     return (
         <Fragment>
             <Navigation />
@@ -16,12 +13,6 @@ const CalendarApp: React.FC<CalendarAppProps> = (props) => {
     );
 };
 
-const mapStateToProps = (state: State) => {
-    return {
-        year: state.calendar.year,
-        month: state.calendar.month,
-    };
-};
 
-export default connect(mapStateToProps)(CalendarApp);
+export default CalendarApp;
 

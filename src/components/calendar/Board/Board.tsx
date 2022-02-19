@@ -1,7 +1,4 @@
 import React from 'react';
-import { State } from '../../../redux/types';
-import { connect } from 'react-redux';
-import { getCalendarDates } from '../../../redux/selectors';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
 import { Dayjs } from 'dayjs';
@@ -19,7 +16,8 @@ const useStyles = makeStyles(() => {
 });
 
 type BoardProps = {
-    dates: Dayjs[]
+    month: number,
+    dates: Dayjs[],
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -29,17 +27,11 @@ const Board: React.FC<BoardProps> = (props) => {
             <WeekHeader />
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
                 {props.dates.map((date, idx) => {
-                    return <li key={idx}><Date date={date} /></li>;
+                    return <li key={idx}><Date date={date} currentMonth={props.month} /></li>;
                 })}
             </GridList>
         </div>
     );
 }
 
-const mapStateToProps = (state: State) => {
-    return {
-        dates: getCalendarDates(state),
-    };
-}
-
-export default connect(mapStateToProps)(Board);
+export default Board;
