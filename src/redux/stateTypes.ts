@@ -7,15 +7,24 @@ export type CalendarState = {
     month: number;
 }
 
+// 予定の型
+export type Schedule = {
+    title: string;
+    date: Dayjs | MaterialUiPickersDate;
+    location: string;
+    description: string;
+}
+
 // 予定を追加するダイアログのstate
 export type AddScheduleDialogState = {
-    form: {
-        title: string,
-        date: Dayjs | MaterialUiPickersDate,
-        location: string,
-        description: string,
-    },
-    isOpenDialog: boolean,
+    form: Schedule;
+    isOpenDialog: boolean;
+}
+
+// 予定のstate
+export type SchedulesState = {
+    schedules: Record<string, Schedule[]>;
+    isLoading: boolean;
 }
 
 
@@ -26,4 +35,5 @@ export type AddScheduleDialogState = {
 export type State = {
     calendar: CalendarState;
     addScheduleDialog: AddScheduleDialogState;
+    schedules: SchedulesState;
 }

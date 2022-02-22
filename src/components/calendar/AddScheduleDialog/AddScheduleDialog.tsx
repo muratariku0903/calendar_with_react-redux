@@ -5,8 +5,10 @@ import {
 import { DatePicker } from '@material-ui/pickers';
 import { LocationOnOutlined, NotesOutlined, AccessTime, Close } from "@material-ui/icons";
 import { withStyles } from '@material-ui/styles';
-import { AddScheduleDialogState } from '../../redux/stateTypes';
-import { AddScheduleDialogActions, SetAddScheduleDialogForm } from '../../redux/actions/addScheduleDialog';
+import { AddScheduleDialogState } from '../../../redux/stateTypes';
+import { AddScheduleDialogActions, SetAddScheduleDialogForm } from '../../../redux/actions/addScheduleDialog';
+import { Schedule } from '../../../redux/stateTypes';
+import { SchedulesActions } from '../../../redux/actions/schedules';
 
 const spacer = { margin: '4px 0' };
 
@@ -21,10 +23,10 @@ type AddScheduleDialogProps = {
     dialog: AddScheduleDialogState,
     closeDialog: () => AddScheduleDialogActions,
     setDialogForm: (form: SetAddScheduleDialogForm) => AddScheduleDialogActions,
+    addSchedules: (schedule: Schedule) => SchedulesActions | void,
 }
 
-const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, closeDialog, setDialogForm }) => {
-    console.log(dialog);
+const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, closeDialog, setDialogForm, addSchedules }) => {
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>
@@ -60,7 +62,7 @@ const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, closeDial
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button color="primary" variant="outlined">
+                <Button onClick={() => addSchedules(dialog.form)} color="primary" variant="outlined">
                     保存
                 </Button>
             </DialogActions>

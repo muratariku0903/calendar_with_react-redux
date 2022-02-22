@@ -4,7 +4,7 @@ import { GridList } from '@material-ui/core';
 import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
-import { AddScheduleDialogActions } from '../../../redux/actions/addScheduleDialog';
+import { Schedule } from '../../../redux/stateTypes';
 
 
 const useStyles = makeStyles(() => {
@@ -19,6 +19,7 @@ const useStyles = makeStyles(() => {
 type BoardProps = {
     month: number,
     dates: Dayjs[],
+    schedules: Record<string, Schedule[]>,
     openDialog: (date: Dayjs) => void,
 }
 

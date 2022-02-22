@@ -10,6 +10,7 @@ const mapStateToProps = (state: State) => {
     return {
         month: state.calendar.month,
         dates: getCalendarDates(state),
+        schedules: state.schedules.schedules,
     };
 }
 
