@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
 import { Dayjs } from 'dayjs';
 import { isFirstDay, isSameDay } from '../../../services/calendar';
+import { Schedule as DateSchedule } from '../../../redux/stateTypes';
+import Schedule from './Schedule';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -18,28 +20,42 @@ const useStyles = makeStyles(() => {
             borderRadius: '50%',
             width: '40',
             height: '40',
-        }
+        },
+        schedules: {
+            overflow: 'scroll',
+            height: 'calc(18vh - 40px)',
+        },
     });
 });
 
 
 type DateProps = {
-    date: Dayjs;
+    date: Dayjs,
+    schedules: DateSchedule[],
     currentMonth: number;
 }
 
-const Date: React.FC<DateProps> = (props) => {
+const Date: React.FC<DateProps> = ({ date, schedules, currentMonth }) => {
     const classes = useStyles();
     const today = dayjs();
-    const isCurrentMonth = props.date.month() === props.currentMonth;
-    const isToday = isSameDay(today, props.date);
+    const isCurrentMonth = date.month() === currentMonth;
+    const isToday = isSameDay(today, date);
     const textColor = isCurrentMonth ? 'textPrimary' : 'textSecondary';
-    const format = isFirstDay(props.date) ? "M月D日" : "D";
+    const format = isFirstDay(date) ? "M月D日" : "D";
 
     return (
-        <Typography className={classes.element} align="center" component="div" variant="caption" color={textColor}>
-            <span className={isToday ? classes.today : ''}>{props.date.format(format)}</span>
-        </Typography>
+        <Fragment>
+            <div className={classes.element}>
+                <Typography align="center" component="div" variant="caption" color={textColor}>
+                    <span className={isToday ? classes.today : ''}>{date.format(format)}</span>
+                </Typography>
+                <div className={classes.schedules}>
+                    {schedules.map((schedule, idx) => {
+                        return <Schedule key={idx} schedule={schedule} />;
+                    })}
+                </div>
+            </div>
+        </Fragment>
     );
 }
 

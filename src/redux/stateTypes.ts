@@ -23,8 +23,14 @@ export type AddScheduleDialogState = {
 
 // 予定のstate
 export type SchedulesState = {
-    schedules: Record<string, Schedule[]>;
+    dateSchedules: Record<string, Schedule[]>;
     isLoading: boolean;
+}
+
+// 予定を表示するダイアログのstate
+export type ShowScheduleDialogState = {
+    schedule: Schedule;
+    isOpenDialog: boolean;
 }
 
 
@@ -36,4 +42,5 @@ export type State = {
     calendar: CalendarState;
     addScheduleDialog: AddScheduleDialogState;
     schedules: SchedulesState;
+    showScheduleDialog: ShowScheduleDialogState;
 }

@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => {
 
 type BoardProps = {
     month: number,
-    dates: Dayjs[],
+    dates: { date: Dayjs, dateSchedules: Schedule[] }[],
     schedules: Record<string, Schedule[]>,
     openDialog: (date: Dayjs) => void,
 }
@@ -29,8 +29,12 @@ const Board: React.FC<BoardProps> = (props) => {
         <div>
             <WeekHeader />
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
-                {props.dates.map((date, idx) => {
-                    return <li key={idx} onClick={() => props.openDialog(date)}><Date date={date} currentMonth={props.month} /></li>;
+                {props.dates.map((val, idx) => {
+                    return (
+                        <li key={idx} onClick={() => props.openDialog(val.date)}>
+                            <Date date={val.date} schedules={val.dateSchedules} currentMonth={props.month} />
+                        </li>
+                    );
                 })}
             </GridList>
         </div>

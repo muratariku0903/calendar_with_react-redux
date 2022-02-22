@@ -3,16 +3,15 @@ import { SchedulesActions } from "../actions/schedules";
 import { ActionTypes } from "../actionTypes";
 
 const initialState: SchedulesState = {
-    schedules: {},
+    dateSchedules: {},
     isLoading: false
 }
 
 const schedules = (state = initialState, action: SchedulesActions) => {
     switch (action.type) {
         case ActionTypes.ADD_SCHEDULES:
-            console.log(state.schedules);
             let newSchedules: Schedule[];
-            let prevSchedules = state.schedules[action.payload.key];
+            let prevSchedules = state.dateSchedules[action.payload.key];
             if (prevSchedules) {
                 newSchedules = prevSchedules.concat(action.payload.schedule);
             } else {
@@ -20,8 +19,8 @@ const schedules = (state = initialState, action: SchedulesActions) => {
             }
             return {
                 ...state,
-                schedules: {
-                    ...state.schedules,
+                dateSchedules: {
+                    ...state.dateSchedules,
                     [action.payload.key]: newSchedules,
                 },
             }
