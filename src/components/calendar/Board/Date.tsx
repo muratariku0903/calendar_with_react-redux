@@ -33,9 +33,10 @@ type DateProps = {
     date: Dayjs,
     schedules: DateSchedule[],
     currentMonth: number;
+    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: DateSchedule) => void;
 }
 
-const Date: React.FC<DateProps> = ({ date, schedules, currentMonth }) => {
+const Date: React.FC<DateProps> = ({ date, schedules, currentMonth, openShowDialog }) => {
     const classes = useStyles();
     const today = dayjs();
     const isCurrentMonth = date.month() === currentMonth;
@@ -51,7 +52,7 @@ const Date: React.FC<DateProps> = ({ date, schedules, currentMonth }) => {
                 </Typography>
                 <div className={classes.schedules}>
                     {schedules.map((schedule, idx) => {
-                        return <Schedule key={idx} schedule={schedule} />;
+                        return <Schedule key={idx} schedule={schedule} openShowDialog={openShowDialog} />;
                     })}
                 </div>
             </div>

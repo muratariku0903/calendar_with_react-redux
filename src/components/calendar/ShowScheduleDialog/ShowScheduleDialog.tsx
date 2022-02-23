@@ -3,10 +3,8 @@ import {
     Dialog, DialogContent, DialogActions, Grid, IconButton, Typography
 } from '@material-ui/core';
 import { LocationOnOutlined, NotesOutlined, Close } from "@material-ui/icons";
-import { withStyles } from '@material-ui/styles';
 import { ShowScheduleDialogState } from '../../../redux/stateTypes';
 import { ShowScheduleDialogActions } from '../../../redux/actions/showScheduleDialog';
-import { Schedule } from '../../../redux/stateTypes';
 
 const spacer = { margin: '4px 0' };
 

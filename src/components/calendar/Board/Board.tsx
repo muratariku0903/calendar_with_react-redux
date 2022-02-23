@@ -20,7 +20,8 @@ type BoardProps = {
     month: number,
     dates: { date: Dayjs, dateSchedules: Schedule[] }[],
     schedules: Record<string, Schedule[]>,
-    openDialog: (date: Dayjs) => void,
+    openAddDialog: (date: Dayjs) => void,
+    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void,
 }
 
 const Board: React.FC<BoardProps> = (props) => {
@@ -31,8 +32,8 @@ const Board: React.FC<BoardProps> = (props) => {
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
                 {props.dates.map((val, idx) => {
                     return (
-                        <li key={idx} onClick={() => props.openDialog(val.date)}>
-                            <Date date={val.date} schedules={val.dateSchedules} currentMonth={props.month} />
+                        <li key={idx} onClick={() => props.openAddDialog(val.date)}>
+                            <Date date={val.date} schedules={val.dateSchedules} currentMonth={props.month} openShowDialog={props.openShowDialog} />
                         </li>
                     );
                 })}

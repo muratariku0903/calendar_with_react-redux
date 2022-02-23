@@ -1,10 +1,12 @@
+import React from 'react';
 import Board from '../Board';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { State } from '../../../../redux/stateTypes';
+import { Schedule, State } from '../../../../redux/stateTypes';
 import { getCalendarDates } from '../../../../redux/selectors';
 import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/addScheduleDialog';
 import { Dayjs } from 'dayjs';
+import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux/actions/showScheduleDialog';
 
 const mapStateToProps = (state: State) => {
     return {
@@ -16,9 +18,14 @@ const mapStateToProps = (state: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        openDialog: (date: Dayjs) => {
+        openAddDialog: (date: Dayjs) => {
             dispatch(setAddScheduleDialog({ date: date }));
             dispatch(openAddScheduleDialog());
+        },
+        openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => {
+            e.stopPropagation();
+            dispatch(setShowScheduleDialog(schedule));
+            dispatch(openShowScheduleDialog());
         },
     }
 }

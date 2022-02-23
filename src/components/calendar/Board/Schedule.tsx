@@ -19,11 +19,12 @@ const useStyles = makeStyles(() => {
 
 type ScheduleProps = {
     schedule: DateSchedule;
+    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: DateSchedule) => void;
 }
 
-const Schedule: React.FC<ScheduleProps> = ({ schedule: { title } }) => {
+const Schedule: React.FC<ScheduleProps> = ({ schedule, openShowDialog }) => {
     const classes = useStyles();
-    return <div className={classes.schedule}>{title}</div>;
+    return <div onClick={e => openShowDialog(e, schedule)} className={classes.schedule}>{schedule.title}</div>;
 }
 
 export default Schedule;
