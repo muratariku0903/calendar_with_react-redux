@@ -15,6 +15,9 @@ export type Schedule = {
     description: string;
 }
 
+// stringはもう少し具体的な型にした方がキーとして何を持つのか分かりにくい 年_月_日
+export type MonthSchedules = Record<string, Schedule[]>;
+
 // 予定を追加するダイアログのstate
 export type AddScheduleDialogState = {
     form: Schedule;
@@ -23,7 +26,8 @@ export type AddScheduleDialogState = {
 
 // 予定のstate
 export type SchedulesState = {
-    dateSchedules: Record<string, Schedule[]>;
+    // monthSchedulesじゃないの？あるいはdateSchedulesOfCurrMonthとか
+    dateSchedules: MonthSchedules;
     isLoading: boolean;
 }
 

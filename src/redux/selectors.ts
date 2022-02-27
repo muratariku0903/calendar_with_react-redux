@@ -1,6 +1,6 @@
 import { State } from './stateTypes';
 import { Dayjs } from 'dayjs';
-import { getMonth } from '../services/calendar';
+import { getMonth, getTotalCalendarCellCnt } from '../services/calendar';
 import { Schedule } from '../redux/stateTypes';
 import { createSchedulesKey } from '../services/schedules';
 
@@ -13,11 +13,9 @@ export type Date = {
 export const getCalendarDates = (store: State): Date[] => {
     const { year, month } = store.calendar;
     const schedules = store.schedules.dateSchedules;
-    const firstDay = getMonth(year, month + 1);
+    const firstDay = getMonth(year, month);
     const prevMonthDateCnt = firstDay.day();
-    const currentMonthDateCnt = firstDay.endOf('month').date();
-    const nextMonthDateCnt = 6 - firstDay.endOf('month').day();
-    const totalCellCnt = prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
+    const totalCellCnt = getTotalCalendarCellCnt(firstDay);
     const dates: Date[] = [];
     for (let i = 0; i < totalCellCnt; i++) {
         const date = firstDay.add(i - prevMonthDateCnt, "day");

@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
-import {
-    Dialog, DialogContent, DialogActions, Grid, IconButton, Typography
-} from '@material-ui/core';
-import { LocationOnOutlined, NotesOutlined, Close } from "@material-ui/icons";
+import { Dialog, DialogContent, DialogActions, IconButton } from '@material-ui/core';
+import { Close } from "@material-ui/icons";
 import { ShowScheduleDialogState } from '../../../redux/stateTypes';
 import { ShowScheduleDialogActions } from '../../../redux/actions/showScheduleDialog';
 import ScheduleTitle from './ScheduleTitle';

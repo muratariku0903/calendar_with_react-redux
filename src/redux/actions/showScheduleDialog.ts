@@ -1,6 +1,7 @@
 import { ActionTypes } from "../actionTypes";
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
+// これstateで管理したやつ使えば
 export type SetShowScheduleDialogForm = {
     title?: string,
     date?: MaterialUiPickersDate,

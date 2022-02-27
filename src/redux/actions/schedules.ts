@@ -1,5 +1,5 @@
 import { ActionTypes } from '../actionTypes';
-import { Schedule } from '../stateTypes';
+import { MonthSchedules, Schedule } from '../stateTypes';
 
 type AddSchedulesAction = {
     type: ActionTypes.ADD_SCHEDULES;
@@ -19,4 +19,26 @@ export const addSchedules = (key: string, schedule: Schedule): AddSchedulesActio
     }
 }
 
-export type SchedulesActions = AddSchedulesAction;
+type FetchSchedulesAction = {
+    type: ActionTypes.FETCH_SCHEDULES;
+    payload: Record<string, Schedule[]>;
+}
+
+export const fetchSchedules = (schedules: MonthSchedules): FetchSchedulesAction => {
+    return {
+        type: ActionTypes.FETCH_SCHEDULES,
+        payload: schedules,
+    }
+}
+
+type SetScheduleLoading = {
+    type: ActionTypes.SET_SCHEDULES_LOADING;
+}
+
+export const setScheduleLoading = (): SetScheduleLoading => {
+    return {
+        type: ActionTypes.SET_SCHEDULES_LOADING
+    }
+}
+
+export type SchedulesActions = AddSchedulesAction | FetchSchedulesAction | SetScheduleLoading;

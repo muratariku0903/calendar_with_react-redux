@@ -7,7 +7,7 @@ const currentTime = dayjs();
 
 const initialState: CalendarState = {
     year: currentTime.year(),
-    month: currentTime.month(),
+    month: currentTime.month() + 1,
 }
 
 const calendar = (state = initialState, action: CalendarActions) => {

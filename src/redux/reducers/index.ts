@@ -4,4 +4,9 @@ import addScheduleDialog from './addScheduleDialog';
 import schedules from "./schedules";
 import showScheduleDialog from "./showScheduleDialog";
 
-export default combineReducers({ calendar, addScheduleDialog, schedules, showScheduleDialog });
+export default combineReducers({
+    calendar,
+    addScheduleDialog,
+    schedules,
+    showScheduleDialog,
+});

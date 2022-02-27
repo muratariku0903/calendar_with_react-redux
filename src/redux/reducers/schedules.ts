@@ -24,6 +24,19 @@ const schedules = (state = initialState, action: SchedulesActions) => {
                     [action.payload.key]: newSchedules,
                 },
             }
+        case ActionTypes.FETCH_SCHEDULES:
+            return {
+                ...state,
+                dateSchedules: action.payload,
+                isLoading: false,
+            }
+
+        case ActionTypes.SET_SCHEDULES_LOADING:
+            return {
+                ...state,
+                isLoading: true,
+            }
+
         default:
             return state;
     }

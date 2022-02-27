@@ -18,6 +18,18 @@ export const getMonth = (year: number, month: number): Dayjs => {
     return dayjs(`${year}-${month}`);
 }
 
+export const getDateCntOfMonth = (year: number, month: number): number => {
+    return getMonth(year, month).endOf('month').date();
+}
+
+export const getTotalCalendarCellCnt = (obj: Dayjs): number => {
+    const prevMonthDateCnt = obj.day();
+    const currentMonthDateCnt = obj.endOf('month').date();
+    const nextMonthDateCnt = 6 - obj.endOf('month').day();
+    const totalCellCnt = prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
+    return totalCellCnt;
+}
+
 export const getYearMonthFromDayjsObj = (obj: Dayjs): CalendarState => {
     return {
         year: obj.year(),

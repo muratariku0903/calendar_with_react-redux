@@ -11,7 +11,7 @@ type SetMonthAction = {
 export const setMonth = (year: number, month: number): SetMonthAction => {
     return {
         type: ActionTypes.SET_MONTH,
-        payload: { year, month }
+        payload: { year, month: month }
     }
 }
 

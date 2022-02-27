@@ -24,16 +24,16 @@ const StyledDatePicker = withStyles({
 type NavigationProps = {
     currentYear: number;
     currentMonth: number;
-    setMonth: (year: number, month: number) => CalendarActions;
+    setMonth: (year: number, month: number) => void;
 }
 
 const Navigation: React.FC<NavigationProps> = (props) => {
     const onClickPrev = () => {
         let newYear = props.currentYear;
         let newMonth = props.currentMonth;
-        if (newMonth === 0) {
+        if (newMonth === 1) {
             newYear--;
-            newMonth = 11;
+            newMonth = 12;
         } else {
             newMonth--;
         }
@@ -43,9 +43,9 @@ const Navigation: React.FC<NavigationProps> = (props) => {
     const onClickNext = () => {
         let newYear = props.currentYear;
         let newMonth = props.currentMonth;
-        if (newMonth === 11) {
+        if (newMonth === 12) {
             newYear++;
-            newMonth = 0;
+            newMonth = 1;
         } else {
             newMonth++;
         }
@@ -56,7 +56,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         if (dateObj === null) {
             alert('正しい日付を入力してください');
         } else {
-            props.setMonth(dateObj.year(), dateObj.month());
+            props.setMonth(dateObj.year(), dateObj.month() + 1);
         }
     }
 
@@ -72,7 +72,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
             <IconButton size="small" onClick={onClickNext}>
                 <ArrowForwardIos />
             </IconButton>
-            <StyledDatePicker value={getMonth(props.currentYear, props.currentMonth + 1)} variant='inline' onChange={onChange} format="YYYY年 M月" animateYearScrolling disableToolbar />
+            <StyledDatePicker value={getMonth(props.currentYear, props.currentMonth)} variant='inline' onChange={onChange} format="YYYY年 M月" animateYearScrolling disableToolbar />
         </StyledToolbar>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
 import { Dayjs } from 'dayjs';
@@ -17,15 +17,19 @@ const useStyles = makeStyles(() => {
 });
 
 type BoardProps = {
+    year: number,
     month: number,
     dates: { date: Dayjs, dateSchedules: Schedule[] }[],
-    schedules: Record<string, Schedule[]>,
     openAddDialog: (date: Dayjs) => void,
     openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void,
+    fetchSchedules: (year: number, month: number) => void,
 }
 
 const Board: React.FC<BoardProps> = (props) => {
     const classes = useStyles();
+    useEffect(() => {
+        props.fetchSchedules(props.year, props.month);
+    }, []);
     return (
         <div>
             <WeekHeader />
