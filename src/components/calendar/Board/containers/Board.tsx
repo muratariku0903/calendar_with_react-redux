@@ -11,6 +11,7 @@ import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
 import { SchedulesActions } from '../../../../redux/actions/schedules';
 
+// 全体のstateが更新されるととりあえず、mapStateToPropsも再度呼び出される。
 const mapStateToProps = (state: State) => {
     console.log(state);
     return {
@@ -28,7 +29,6 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
         },
         openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => {
             e.stopPropagation();
-            console.log(schedule);
             dispatch(setShowScheduleDialog(schedule));
             dispatch(openShowScheduleDialog());
         },
@@ -38,4 +38,15 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+const mergeProps = (stateProps: any, dispatchProps: any) => {
+    return {
+        year: stateProps.year,
+        month: stateProps.month,
+        dates: stateProps.dates,
+        openAddDialog: dispatchProps.openAddDialog,
+        openShowDialog: dispatchProps.openShowDialog,
+        fetchSchedules: () => dispatchProps.fetchSchedules(stateProps.year, stateProps.month),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Board);

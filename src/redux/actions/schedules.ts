@@ -25,6 +25,7 @@ type FetchSchedulesAction = {
 }
 
 export const fetchSchedules = (schedules: MonthSchedules): FetchSchedulesAction => {
+    console.log('set schedules from firestore to schedules state');
     return {
         type: ActionTypes.FETCH_SCHEDULES,
         payload: schedules,

@@ -39,10 +39,11 @@ type DateProps = {
 const Date: React.FC<DateProps> = ({ date, schedules, currentMonth, openShowDialog }) => {
     const classes = useStyles();
     const today = dayjs();
-    const isCurrentMonth = date.month() === currentMonth;
+    const isCurrentMonth = date.month() + 1 === currentMonth;
     const isToday = isSameDay(today, date);
     const textColor = isCurrentMonth ? 'textPrimary' : 'textSecondary';
     const format = isFirstDay(date) ? "M月D日" : "D";
+    // console.log(date.format(format), schedules, schedules.length);
 
     return (
         <Fragment>

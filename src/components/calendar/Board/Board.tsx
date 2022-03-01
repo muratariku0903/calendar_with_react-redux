@@ -22,13 +22,13 @@ type BoardProps = {
     dates: { date: Dayjs, dateSchedules: Schedule[] }[],
     openAddDialog: (date: Dayjs) => void,
     openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void,
-    fetchSchedules: (year: number, month: number) => void,
+    fetchSchedules: () => void,
 }
 
 const Board: React.FC<BoardProps> = (props) => {
     const classes = useStyles();
     useEffect(() => {
-        props.fetchSchedules(props.year, props.month);
+        props.fetchSchedules();
     }, []);
     return (
         <div>

@@ -25,6 +25,7 @@ export const getCalendarDates = (store: State): Date[] => {
             dateSchedules: date_key in schedules ? schedules[date_key] : [],
         });
     }
+
     return dates;
 }
 
