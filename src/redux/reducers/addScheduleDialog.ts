@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 
 const initialState: AddScheduleDialogState = {
-    form: {
+    schedule: {
         title: '',
         date: dayjs(),
         location: '',
@@ -17,7 +17,7 @@ const initialState: AddScheduleDialogState = {
 const addScheduleDialog = (state = initialState, action: AddScheduleDialogActions) => {
     switch (action.type) {
         case ActionTypes.SET_ADD_SCHEDULE_DIALOG:
-            return { ...state, form: { ...state.form, ...action.payload } }
+            return { ...state, schedule: { ...state.schedule, ...action.payload } }
         case ActionTypes.OPEN_ADD_SCHEDULE_DIALOG:
             return { ...state, isOpenDialog: true }
         case ActionTypes.CLOSE_ADD_SCHEDULE_DIALOG:

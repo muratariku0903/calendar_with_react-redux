@@ -7,7 +7,7 @@ const initialState: SchedulesState = {
     isLoading: false
 }
 
-const schedules = (state = initialState, action: SchedulesActions) => {
+const schedules = (state = initialState, action: SchedulesActions): SchedulesState => {
     switch (action.type) {
         case ActionTypes.ADD_SCHEDULES:
             let newSchedules: Schedule[];

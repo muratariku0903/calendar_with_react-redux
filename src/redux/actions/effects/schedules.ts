@@ -1,28 +1,27 @@
-import { collection, getDocs, query, where, addDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, query, where, addDoc, doc, Firestore } from 'firebase/firestore';
 import { fetchSchedules, addSchedules, setScheduleLoading, SchedulesActions } from '../schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { db } from '../../../firebase/firestore';
-import { Schedule, MonthSchedules, State } from '../../stateTypes';
+import { Schedule, MonthSchedules, State, DialogSchedule } from '../../stateTypes';
 import { getDateCntOfMonth } from '../../../services/calendar';
 import { createSchedulesKey } from '../../../services/schedules';
 import dayjs from 'dayjs';
 
 type FirestoreSchedule = {
+    id: number;
     title: string;
     date: string | number;
     location: string;
     description: string;
 }
 
-
-const querySnapshot = async (q: any) => await getDocs(q);
-
 const getMonthSchedulesKey = (year: number, month: number): string => {
     return String(year) + '_' + String(month);
 }
 
 // reducerに伝達する本来のアクションよりも前に処理するアクションってこと。つまり、アクションとreducerの間のeffectということ。
+// 前月の予定とかも表示させたい
 export const asyncFetchSchedules = (year: number, month: number): ThunkAction<void, State, undefined, SchedulesActions> => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
     const dateCnt = getDateCntOfMonth(year, month);
@@ -34,8 +33,8 @@ export const asyncFetchSchedules = (year: number, month: number): ThunkAction<vo
         const dateSchedules: Schedule[] = [];
         try {
             (await getDocs(monthSchedulesQuery)).docs.forEach(dateSchedule => {
-                const firestoreSchedule: FirestoreSchedule = dateSchedule.data() as FirestoreSchedule;
-                const schedule: Schedule = { ...firestoreSchedule, date: dayjs(firestoreSchedule.date) }
+                const firestoreSchedule = dateSchedule.data() as FirestoreSchedule;
+                const schedule = { ...firestoreSchedule, date: dayjs(firestoreSchedule.date) }
                 dateSchedules.push(schedule);
             })
         } catch (e) {
@@ -46,25 +45,23 @@ export const asyncFetchSchedules = (year: number, month: number): ThunkAction<vo
     dispatch(fetchSchedules(schedules));
 }
 
-export const asyncAddSchedule = (schedule: Schedule): ThunkAction<void, State, undefined, SchedulesActions> => async (dispatch: Dispatch<Action>) => {
+export const asyncAddSchedule = (form: DialogSchedule): ThunkAction<void, State, undefined, SchedulesActions> => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
-    const { date } = schedule;
-    const year = date?.year();
-    const month = date?.month();
-    const day = date?.date();
-    if (year && month && day) {
+    const { date } = form;
+    const id = dayjs().unix();
+    if (date) {
         try {
-            const docRef = await addDoc(collection(db, 'schedules', getMonthSchedulesKey(year, month + 1), String(day)), {
-                ...schedule,
-                date: schedule.date?.unix(),
+            const docRef = await addDoc(collection(db, 'schedules', getMonthSchedulesKey(date.year(), date.month() + 1), String(date.date())), {
+                ...form,
+                id: id,
+                date: date.unix(),
             });
             console.log("Document written with ID: ", docRef.id);
+            dispatch(addSchedules(createSchedulesKey(date), form, id));
         } catch (e) {
             console.error("Error adding document: ", e);
         }
     } else {
-        console.log('undefined year and month.');
+        console.log('undefined year and month and day.');
     }
-
-    dispatch(addSchedules(createSchedulesKey(date), schedule));
 }

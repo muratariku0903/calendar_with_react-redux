@@ -13,7 +13,6 @@ import { SchedulesActions } from '../../../../redux/actions/schedules';
 
 // 全体のstateが更新されるととりあえず、mapStateToPropsも再度呼び出される。
 const mapStateToProps = (state: State) => {
-    console.log(state);
     return {
         year: state.calendar.year,
         month: state.calendar.month,

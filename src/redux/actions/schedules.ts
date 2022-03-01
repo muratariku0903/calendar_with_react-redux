@@ -1,5 +1,7 @@
 import { ActionTypes } from '../actionTypes';
-import { MonthSchedules, Schedule } from '../stateTypes';
+import { MonthSchedules, Schedule, DialogSchedule } from '../stateTypes';
+
+let scheduleId = 0;
 
 type AddSchedulesAction = {
     type: ActionTypes.ADD_SCHEDULES;
@@ -9,11 +11,11 @@ type AddSchedulesAction = {
     };
 }
 
-export const addSchedules = (key: string, schedule: Schedule): AddSchedulesAction => {
+export const addSchedules = (key: string, schedule: DialogSchedule, id: number): AddSchedulesAction => {
     return {
         type: ActionTypes.ADD_SCHEDULES,
         payload: {
-            schedule: schedule,
+            schedule: { ...schedule, id: id },
             key: key,
         },
     }

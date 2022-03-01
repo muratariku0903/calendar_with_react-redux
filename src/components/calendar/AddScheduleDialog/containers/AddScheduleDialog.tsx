@@ -1,12 +1,10 @@
 import AddScheduleDialog from "../AddScheduleDialog";
 import { connect } from 'react-redux';
-import { Schedule, State } from "../../../../redux/stateTypes";
+import { DialogSchedule, Schedule, State } from "../../../../redux/stateTypes";
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { closeAddScheduleDialog, openAddScheduleDialog, setAddScheduleDialog } from "../../../../redux/actions/addScheduleDialog";
+import { closeAddScheduleDialog, setAddScheduleDialog } from "../../../../redux/actions/addScheduleDialog";
 import { SetAddScheduleDialogForm } from "../../../../redux/actions/addScheduleDialog";
-import { addSchedules } from '../../../../redux/actions/schedules';
-import { createSchedulesKey } from "../../../../services/schedules";
 import { SchedulesActions } from "../../../../redux/actions/schedules";
 import { asyncAddSchedule } from "../../../../redux/actions/effects/schedules";
 
@@ -19,8 +17,8 @@ const mapStateToProps = (store: State) => {
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>) => {
     return {
         closeDialog: () => dispatch(closeAddScheduleDialog()),
-        setDialogForm: (form: SetAddScheduleDialogForm) => dispatch(setAddScheduleDialog(form)),
-        addSchedules: (schedule: Schedule) => {
+        setDialogForm: (schedule: SetAddScheduleDialogForm) => dispatch(setAddScheduleDialog(schedule)),
+        addSchedules: (schedule: DialogSchedule) => {
             dispatch(asyncAddSchedule(schedule));
             dispatch(closeAddScheduleDialog());
         },
