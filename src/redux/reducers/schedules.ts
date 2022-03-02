@@ -24,6 +24,21 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
                     [action.payload.key]: newSchedules,
                 },
             }
+
+        case ActionTypes.DELETE_SCHEDULE:
+            const { id, key } = action.payload;
+            console.log(key);
+            console.log(state.dateSchedules);
+            return {
+                ...state,
+                dateSchedules: {
+                    ...state.dateSchedules,
+                    [key]: state.dateSchedules[key].filter(schedule => schedule.id != id),
+                },
+                isLoading: false,
+            }
+
+
         case ActionTypes.FETCH_SCHEDULES:
             return {
                 ...state,

@@ -4,6 +4,7 @@ import { ShowScheduleDialogState } from "../stateTypes";
 
 const initialState: ShowScheduleDialogState = {
     schedule: {
+        id: -1,
         title: '',
         date: null,
         description: '',

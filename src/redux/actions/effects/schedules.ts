@@ -1,5 +1,5 @@
-import { collection, getDocs, query, where, addDoc, doc, Firestore } from 'firebase/firestore';
-import { fetchSchedules, addSchedules, setScheduleLoading, SchedulesActions } from '../schedules';
+import { collection, getDocs, query, where, addDoc, setDoc, doc, deleteDoc, getDoc } from 'firebase/firestore';
+import { fetchSchedules, addSchedules, deleteSchedule, setScheduleLoading, SchedulesActions } from '../schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { db } from '../../../firebase/firestore';
@@ -28,6 +28,7 @@ export const asyncFetchSchedules = (year: number, month: number): ThunkAction<vo
     const monthSchedulesKey = getMonthSchedulesKey(year, month);
     const schedules: MonthSchedules = {}; // キーは何年何月何日
     for (let date = 1; date <= dateCnt; date++) {
+        // これさ、その月の日数分クエリを発行するけど、データベースに存在する分だけ発行すれば良い気がするんだけど、
         const monthSchedulesRef = collection(db, 'schedules', monthSchedulesKey, String(date));
         const monthSchedulesQuery = query(monthSchedulesRef);
         const dateSchedules: Schedule[] = [];
@@ -38,7 +39,7 @@ export const asyncFetchSchedules = (year: number, month: number): ThunkAction<vo
                 dateSchedules.push(schedule);
             })
         } catch (e) {
-            console.log(e);
+            console.log('Error fetch documents: ', e);
         }
         if (dateSchedules.length) schedules[monthSchedulesKey + '_' + date] = dateSchedules;
     }
@@ -51,15 +52,30 @@ export const asyncAddSchedule = (form: DialogSchedule): ThunkAction<void, State,
     const id = dayjs().unix();
     if (date) {
         try {
-            const docRef = await addDoc(collection(db, 'schedules', getMonthSchedulesKey(date.year(), date.month() + 1), String(date.date())), {
+            await setDoc(doc(collection(db, 'schedules', getMonthSchedulesKey(date.year(), date.month() + 1), String(date.date())), String(id)), {
                 ...form,
                 id: id,
-                date: date.unix(),
+                date: date.toJSON(),
             });
-            console.log("Document written with ID: ", docRef.id);
+            console.log("Document written with ID: ");
             dispatch(addSchedules(createSchedulesKey(date), form, id));
         } catch (e) {
             console.error("Error adding document: ", e);
+        }
+    } else {
+        console.log('undefined year and month and day.');
+    }
+}
+
+export const asyncDeleteSchedule = (schedule: Schedule): ThunkAction<void, State, undefined, SchedulesActions> => async (dispatch: Dispatch<Action>) => {
+    const { id, date } = schedule;
+    if (date) {
+        try {
+            await deleteDoc(doc(db, 'schedules', getMonthSchedulesKey(date.year(), date.month() + 1), String(date.date()), String(id)))
+            console.log("Document delete.");
+            dispatch(deleteSchedule(createSchedulesKey(date), id));
+        } catch (e) {
+            console.error("Error deleting document: ", e);
         }
     } else {
         console.log('undefined year and month and day.');

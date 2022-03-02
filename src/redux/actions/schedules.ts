@@ -1,8 +1,6 @@
 import { ActionTypes } from '../actionTypes';
 import { MonthSchedules, Schedule, DialogSchedule } from '../stateTypes';
 
-let scheduleId = 0;
-
 type AddSchedulesAction = {
     type: ActionTypes.ADD_SCHEDULES;
     payload: {
@@ -21,11 +19,30 @@ export const addSchedules = (key: string, schedule: DialogSchedule, id: number):
     }
 }
 
+type DeleteScheduleAction = {
+    type: ActionTypes.DELETE_SCHEDULE;
+    payload: {
+        id: number;
+        key: string;
+    }
+}
+
+export const deleteSchedule = (key: string, id: number): DeleteScheduleAction => {
+    return {
+        type: ActionTypes.DELETE_SCHEDULE,
+        payload: {
+            id: id,
+            key: key,
+        }
+    }
+}
+
 type FetchSchedulesAction = {
     type: ActionTypes.FETCH_SCHEDULES;
     payload: Record<string, Schedule[]>;
 }
 
+// fetchというよりsetの方がしっくりくるかも
 export const fetchSchedules = (schedules: MonthSchedules): FetchSchedulesAction => {
     console.log('set schedules from firestore to schedules state');
     return {
@@ -44,4 +61,4 @@ export const setScheduleLoading = (): SetScheduleLoading => {
     }
 }
 
-export type SchedulesActions = AddSchedulesAction | FetchSchedulesAction | SetScheduleLoading;
+export type SchedulesActions = AddSchedulesAction | DeleteScheduleAction | FetchSchedulesAction | SetScheduleLoading;

@@ -12,6 +12,7 @@ export type Schedule = {
     id: number;
     title: string;
     // 根本的にdateをオブジェクトで持っておくことが自体が間違いな気がする。タイムスタンプで良い気がする。そうすれば、いろいろ型が統一化される
+    // だが、フォームからの入力値であるMaterialUiPickersDateをどうタイムスタンプに加工するか
     date: Dayjs | MaterialUiPickersDate;
     location: string;
     description: string;
@@ -45,7 +46,10 @@ export type SchedulesState = {
 }
 
 // 予定を表示するダイアログのstate
-export type ShowScheduleDialogState = DialogState;
+export type ShowScheduleDialogState = {
+    schedule: Schedule;
+    isOpenDialog: boolean;
+}
 
 
 // アプリ全体の表示を切り替えられるstateがあれば便利だね。
