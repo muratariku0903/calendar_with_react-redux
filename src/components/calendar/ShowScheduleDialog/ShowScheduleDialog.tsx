@@ -1,19 +1,19 @@
 import React, { Fragment } from 'react';
 import { Dialog, DialogContent, DialogActions, IconButton } from '@material-ui/core';
-import { Close, DeleteOutlineOutlined } from "@material-ui/icons";
+import { Close, DeleteOutlineOutlined, Edit } from "@material-ui/icons";
 import { Schedule, ShowScheduleDialogState } from '../../../redux/stateTypes';
-import { ShowScheduleDialogActions } from '../../../redux/actions/showScheduleDialog';
 import ScheduleTitle from './ScheduleTitle';
 import ScheduleLocation from './ScheduleLocation';
 import ScheduleDescription from './ScheduleDescription';
 
 type ShowScheduleDialogProps = {
-    dialog: ShowScheduleDialogState,
-    closeDialog: () => void,
-    deleteSchedule: () => void,
+    dialog: ShowScheduleDialogState;
+    closeDialog: () => void;
+    deleteSchedule: () => void;
+    openUpdateScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: Schedule) => void;
 }
 
-const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDialog, deleteSchedule }) => {
+const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDialog, deleteSchedule, openUpdateScheduleDialog }) => {
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>
@@ -24,6 +24,11 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
             <DialogActions>
                 <IconButton onClick={deleteSchedule} size="small">
                     <DeleteOutlineOutlined />
+                </IconButton>
+            </DialogActions>
+            <DialogActions>
+                <IconButton onClick={(e) => openUpdateScheduleDialog(e, dialog.schedule)} size="small">
+                    <Edit />
                 </IconButton>
             </DialogActions>
             <DialogContent>

@@ -11,6 +11,7 @@ import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
 import { SchedulesActions } from '../../../../redux/actions/schedules';
 
+
 // 全体のstateが更新されるととりあえず、mapStateToPropsも再度呼び出される。
 const mapStateToProps = (state: State) => {
     return {

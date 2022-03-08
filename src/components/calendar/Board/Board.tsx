@@ -5,6 +5,7 @@ import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
 import { Schedule } from '../../../redux/stateTypes';
+import { openUpdateScheduleDialog } from '../../../redux/actions/updateScheduleDialog';
 
 
 const useStyles = makeStyles(() => {

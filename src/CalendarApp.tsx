@@ -4,6 +4,7 @@ import Board from './components/calendar/Board/containers/Board';
 import Navigation from './components/calendar/Navigation/containers/Navigation';
 import AddScheduleDialog from './components/calendar/AddScheduleDialog/containers/AddScheduleDialog';
 import ShowScheduleDialog from './components/calendar/ShowScheduleDialog/containers/ShowScheduleDialog';
+import UpdateScheduleDialog from './components/calendar/UpdateScheduleDialog/containers/UpdateScheduleDialog';
 
 
 const CalendarApp: React.FC = () => {
@@ -13,6 +14,7 @@ const CalendarApp: React.FC = () => {
             <Board />
             <AddScheduleDialog />
             <ShowScheduleDialog />
+            <UpdateScheduleDialog />
         </Fragment>
     );
 };

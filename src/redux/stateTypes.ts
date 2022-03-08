@@ -25,8 +25,22 @@ export type DialogSchedule = {
     description: string;
 }
 
-export type DialogState = {
+
+// 予定を追加するダイアログのstate
+export type AddScheduleDialogState = {
     schedule: DialogSchedule;
+    isOpenDialog: boolean;
+};
+
+
+// 予定を表示するダイアログのstate
+export type ShowScheduleDialogState = {
+    schedule: Schedule;
+    isOpenDialog: boolean;
+}
+
+export type UpdateScheduleDialogState = {
+    schedule: Schedule;
     isOpenDialog: boolean;
 }
 
@@ -35,22 +49,12 @@ export type DialogState = {
 // つまり、フロント側でidを生成して、それをfirestoreに保存して編集や削除はそのidを元に行う。
 export type MonthSchedules = Record<string, Schedule[]>;
 
-// 予定を追加するダイアログのstate
-export type AddScheduleDialogState = DialogState;
-
 // 予定のstate
 export type SchedulesState = {
     // monthSchedulesじゃないの？あるいはdateSchedulesOfCurrMonthとか
     dateSchedules: MonthSchedules;
     isLoading: boolean;
 }
-
-// 予定を表示するダイアログのstate
-export type ShowScheduleDialogState = {
-    schedule: Schedule;
-    isOpenDialog: boolean;
-}
-
 
 // アプリ全体の表示を切り替えられるstateがあれば便利だね。
 //  stateは最小限にしたいk
@@ -61,4 +65,5 @@ export type State = {
     addScheduleDialog: AddScheduleDialogState;
     schedules: SchedulesState;
     showScheduleDialog: ShowScheduleDialogState;
+    updateScheduleDialog: UpdateScheduleDialogState;
 }
