@@ -3,10 +3,6 @@ import { Dialog, DialogContent, TextField, DialogActions, Button, Input, Grid, I
 import { DatePicker } from '@material-ui/pickers';
 import { LocationOnOutlined, NotesOutlined, AccessTime, Close } from "@material-ui/icons";
 import { withStyles } from '@material-ui/styles';
-import { AddScheduleDialogState, DialogSchedule } from '../../../redux/stateTypes';
-import { AddScheduleDialogActions, SetAddScheduleDialogForm } from '../../../redux/actions/addScheduleDialog';
-import { Schedule } from '../../../redux/stateTypes';
-import { SchedulesActions } from '../../../redux/actions/schedules';
 import { Props } from './containers/UpdateScheduleDialog';
 
 const spacer = { margin: '4px 0' };
@@ -18,7 +14,7 @@ const Title = withStyles({
     }
 })(Input);
 
-const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDialog, updateSchedule }) => {
+const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDialog, setUpdateScheduleDialog, updateSchedule }) => {
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeUpdateScheduleDialog} maxWidth="xs" fullWidth>
             <DialogActions>
@@ -27,13 +23,13 @@ const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDial
                 </IconButton>
             </DialogActions>
             <DialogContent>
-                <Title value={dialog.schedule.title} autoFocus fullWidth placeholder="タイトル追加" />
+                <Title value={dialog.schedule.title} onChange={(e) => setUpdateScheduleDialog({ ...dialog.schedule, title: e.target.value })} autoFocus fullWidth placeholder="タイトル追加" />
                 <Grid container spacing={1} alignItems="center" justifyContent="space-between">
                     <Grid item>
                         <AccessTime />
                     </Grid>
                     <Grid item xs={10}>
-                        <DatePicker value={dialog.schedule.date} onChange={() => { }} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
+                        <DatePicker value={dialog.schedule.date} onChange={(d) => setUpdateScheduleDialog({ ...dialog.schedule, date: d })} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
                     </Grid>
                 </Grid>
                 <Grid container spacing={1} alignItems="center" justifyContent="space-between">
@@ -41,7 +37,7 @@ const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDial
                         <LocationOnOutlined />
                     </Grid>
                     <Grid item xs={10}>
-                        <TextField value={dialog.schedule.location} style={spacer} fullWidth placeholder="場所を追加" />
+                        <TextField value={dialog.schedule.location} onChange={(e) => setUpdateScheduleDialog({ ...dialog.schedule, location: e.target.value })} style={spacer} fullWidth placeholder="場所を追加" />
                     </Grid>
                 </Grid>
                 <Grid container spacing={1} alignItems="center" justifyContent="space-between">
@@ -49,7 +45,7 @@ const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDial
                         <NotesOutlined />
                     </Grid>
                     <Grid item xs={10}>
-                        <TextField value={dialog.schedule.description} style={spacer} fullWidth placeholder="説明を追加" />
+                        <TextField value={dialog.schedule.description} onChange={(e) => setUpdateScheduleDialog({ ...dialog.schedule, description: e.target.value })} style={spacer} fullWidth placeholder="説明を追加" />
                     </Grid>
                 </Grid>
             </DialogContent>

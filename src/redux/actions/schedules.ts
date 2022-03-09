@@ -19,6 +19,24 @@ export const addSchedules = (key: string, schedule: DialogSchedule, id: number):
     }
 }
 
+
+type UpdateScheduleAction = {
+    type: ActionTypes.UPDATE_SCHEDULE;
+    payload: {
+        id: number;
+        key: string;
+        schedule: Schedule;
+    }
+}
+
+export const updateSchedule = (id: number, key: string, schedule: Schedule): UpdateScheduleAction => {
+    return {
+        type: ActionTypes.UPDATE_SCHEDULE,
+        payload: { id, key, schedule },
+    }
+}
+
+
 type DeleteScheduleAction = {
     type: ActionTypes.DELETE_SCHEDULE;
     payload: {
@@ -30,10 +48,7 @@ type DeleteScheduleAction = {
 export const deleteSchedule = (key: string, id: number): DeleteScheduleAction => {
     return {
         type: ActionTypes.DELETE_SCHEDULE,
-        payload: {
-            id: id,
-            key: key,
-        }
+        payload: { id, key },
     }
 }
 
@@ -61,4 +76,4 @@ export const setScheduleLoading = (): SetScheduleLoading => {
     }
 }
 
-export type SchedulesActions = AddSchedulesAction | DeleteScheduleAction | FetchSchedulesAction | SetScheduleLoading;
+export type SchedulesActions = AddSchedulesAction | DeleteScheduleAction | UpdateScheduleAction | FetchSchedulesAction | SetScheduleLoading;

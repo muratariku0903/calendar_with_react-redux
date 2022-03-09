@@ -23,7 +23,6 @@ export const updateScheduleDialog = (state = initialState, action: UpdateSchedul
             }
 
         case ActionTypes.OPEN_UPDATE_SCHEDULE_DIALOG:
-            console.log('hello');
             return {
                 ...state,
                 isOpenDialog: true,

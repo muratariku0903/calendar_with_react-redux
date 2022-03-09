@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs"
+import { Dayjs } from "dayjs"
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 // カレンダーのstate
@@ -8,12 +8,13 @@ export type CalendarState = {
 }
 
 // 予定の型
+export type ScheduleDate = Dayjs | MaterialUiPickersDate;
 export type Schedule = {
     id: number;
     title: string;
     // 根本的にdateをオブジェクトで持っておくことが自体が間違いな気がする。タイムスタンプで良い気がする。そうすれば、いろいろ型が統一化される
     // だが、フォームからの入力値であるMaterialUiPickersDateをどうタイムスタンプに加工するか
-    date: Dayjs | MaterialUiPickersDate;
+    date: ScheduleDate;
     location: string;
     description: string;
 }
