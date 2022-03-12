@@ -7,6 +7,7 @@ import { Schedule, MonthSchedules, State, DialogSchedule, ScheduleDate } from '.
 import { getDateCntOfMonth } from '../../../services/calendar';
 import { createSchedulesKey } from '../../../services/schedules';
 import dayjs from 'dayjs';
+import { schedulesAPI } from '../../../firebase/api/schedules';
 
 
 type FirestoreSchedule = {
@@ -71,17 +72,11 @@ export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => 
 }
 
 export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
-    const { id, date } = schedule;
-    if (date) {
-        try {
-            await deleteDoc(doc(db, 'schedules', getMonthSchedulesKey(date.year(), date.month() + 1), String(date.date()), String(id)));
-            console.log("Document delete.");
-            dispatch(deleteSchedule(createSchedulesKey(date), id));
-        } catch (e) {
-            console.error("Error deleting document: ", e);
-        }
-    } else {
-        console.log('undefined year and month and day.');
+    try {
+        await schedulesAPI.deleteSchedule(schedule);
+        dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
+    } catch (e) {
+        console.error("Error deleting document: ", e);
     }
 }
 

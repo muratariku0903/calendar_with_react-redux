@@ -6,6 +6,10 @@ export const createSchedulesKey = (dateObj: MaterialUiPickersDate): string => {
     return String(dateObj?.year()) + '_' + String(Number(dateObj?.month()) + 1) + '_' + String(dateObj?.date());
 }
 
+export const getMonthSchedulesKey = (year: number, month: number): string => {
+    return String(year) + '_' + String(month);
+}
+
 export const getScheduleById = (schedules: MonthSchedules, id: number): Schedule | null => {
     for (const [key, dateSchedules] of Object.entries(schedules)) {
         for (const schedule of dateSchedules) {
@@ -18,4 +22,8 @@ export const getScheduleById = (schedules: MonthSchedules, id: number): Schedule
 export const updateDateSchedules = (dateSchedules: Schedule[], newSchedule: Schedule): Schedule[] => {
     for (let i = 0; i < dateSchedules.length; i++) if (dateSchedules[i].id === newSchedule.id) dateSchedules[i] = newSchedule;
     return dateSchedules;
+}
+
+export const addScheduleToDateSchedules = (dateSchedules: Schedule[], newSchedule: Schedule): Schedule[] => {
+    return dateSchedules ? dateSchedules.concat(newSchedule) : [newSchedule];
 }

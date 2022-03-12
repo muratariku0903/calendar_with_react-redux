@@ -1,7 +1,7 @@
 import { Schedule, SchedulesState } from "../stateTypes";
 import { SchedulesActions } from "../actions/schedules";
 import { ActionTypes } from "../actionTypes";
-import { updateDateSchedules } from "../../services/schedules";
+import { addScheduleToDateSchedules, updateDateSchedules } from "../../services/schedules";
 
 const initialState: SchedulesState = {
     dateSchedules: {},
@@ -17,23 +17,17 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
                 isLoading: false,
             }
 
-        case ActionTypes.ADD_SCHEDULES:
-            let newSchedules: Schedule[];
-            let prevSchedules = state.dateSchedules[action.payload.key];
-            if (prevSchedules) {
-                newSchedules = prevSchedules.concat(action.payload.schedule);
-            } else {
-                newSchedules = [action.payload.schedule];
-            }
+        case ActionTypes.ADD_SCHEDULES: {
+            const { key, schedule } = action.payload;
             return {
                 ...state,
                 dateSchedules: {
                     ...state.dateSchedules,
-                    [action.payload.key]: newSchedules,
+                    [key]: addScheduleToDateSchedules(state.dateSchedules[key], schedule),
                 },
             }
+        }
 
-        // これ、更新した予定の日付が変わったらどうなる？keyで特定できない気がするけど、
         case ActionTypes.UPDATE_SCHEDULE: {
             const { key, schedule } = action.payload;
             return {
