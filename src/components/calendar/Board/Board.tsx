@@ -31,6 +31,7 @@ const Board: React.FC<BoardProps> = (props) => {
     useEffect(() => {
         props.fetchSchedules();
     }, []);
+    console.log(props);
     return (
         <div>
             <WeekHeader />

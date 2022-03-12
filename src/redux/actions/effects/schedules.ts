@@ -40,7 +40,7 @@ export const asyncFetchSchedules = (year: number, month: number): SchedulesThunk
                 const firestoreSchedule = dateSchedule.data() as FirestoreSchedule;
                 const schedule = { ...firestoreSchedule, date: dayjs(firestoreSchedule.date) }
                 dateSchedules.push(schedule);
-            })
+            });
         } catch (e) {
             console.log('Error fetch documents: ', e);
         }
@@ -52,7 +52,7 @@ export const asyncFetchSchedules = (year: number, month: number): SchedulesThunk
 export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
     const { date } = form;
-    const id = dayjs().unix();
+    const id = new Date().getTime();
     if (date) {
         try {
             await setDoc(doc(collection(db, 'schedules', getMonthSchedulesKey(date.year(), date.month() + 1), String(date.date())), String(id)), {
@@ -95,7 +95,7 @@ export const asyncUpdateSchedule = (prevDate: ScheduleDate, schedule: Schedule):
                     ...schedule,
                     date: date.toJSON(),
                 });
-                console.log("Document update.");
+                console.log("Document update.", schedule.id);
                 dispatch(updateSchedule(id, createSchedulesKey(date), schedule));
             } catch (e) {
                 console.error("Error updating document: ", e);

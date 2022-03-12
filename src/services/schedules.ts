@@ -15,3 +15,7 @@ export const getScheduleById = (schedules: MonthSchedules, id: number): Schedule
     return null;
 }
 
+export const updateDateSchedules = (dateSchedules: Schedule[], newSchedule: Schedule): Schedule[] => {
+    for (let i = 0; i < dateSchedules.length; i++) if (dateSchedules[i].id === newSchedule.id) dateSchedules[i] = newSchedule;
+    return dateSchedules;
+}

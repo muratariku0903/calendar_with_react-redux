@@ -47,13 +47,7 @@ export type Props = StateProps & DispatchProps & {
 const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Props => {
     // この処理ってコンポーネントがレンダリングされたら実行されるようになってるけど、更新ボタンが押されたら実行されるべきな気がする。
     const prevSchedule = getScheduleById(stateProps.schedules, stateProps.dialog.schedule.id);
-    let prevDate: ScheduleDate = null;
-    if (prevSchedule) {
-        prevDate = prevSchedule.date;
-    } else {
-        console.log('更新前の予定を取得できませんでした。');
-    }
-
+    const prevDate: ScheduleDate = prevSchedule ? prevSchedule.date : null;
     return {
         ...stateProps,
         ...dispatchProps,
