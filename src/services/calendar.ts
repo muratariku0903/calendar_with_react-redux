@@ -1,10 +1,14 @@
 import dayjs from "dayjs";
 import { Dayjs } from 'dayjs';
 import { CalendarState } from "../redux/stateTypes";
+import { ScheduleDate } from '../redux/stateTypes';
 
-export const isSameDay = (d1: Dayjs, d2: Dayjs): boolean => {
-    const format = "YYYYMMDD";
-    return d1.format(format) === d2.format(format);
+export const isSameDay = (d1: ScheduleDate, d2: ScheduleDate): boolean => {
+    if (d1 && d2) {
+        const format = "YYYYMMDD";
+        return d1.format(format) === d2.format(format);
+    }
+    throw ('null date.');
 };
 
 export const isSameMonth = (m1: Dayjs, m2: Dayjs): boolean => {

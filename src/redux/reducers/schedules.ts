@@ -53,6 +53,7 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
         case ActionTypes.SET_SCHEDULES_LOADING:
             return {
                 ...state,
+                // これpayloadで受け取った方がいい気がsる
                 isLoading: true,
             }
 
