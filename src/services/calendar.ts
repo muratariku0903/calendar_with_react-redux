@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { Dayjs } from 'dayjs';
-import { CalendarState } from "../redux/stateTypes";
-import { ScheduleDate } from '../redux/stateTypes';
+import { CalendarState ,ScheduleDate} from "../redux/stateTypes";
 
 export const isSameDay = (d1: ScheduleDate, d2: ScheduleDate): boolean => {
     if (d1 && d2) {
@@ -30,8 +29,7 @@ export const getTotalCalendarCellCnt = (obj: Dayjs): number => {
     const prevMonthDateCnt = obj.day();
     const currentMonthDateCnt = obj.endOf('month').date();
     const nextMonthDateCnt = 6 - obj.endOf('month').day();
-    const totalCellCnt = prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
-    return totalCellCnt;
+    return prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
 }
 
 export const getYearMonthFromDayjsObj = (obj: Dayjs): CalendarState => {

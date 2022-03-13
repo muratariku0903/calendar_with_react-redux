@@ -3,7 +3,7 @@ import Board from '../Board';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Schedule, State } from '../../../../redux/stateTypes';
+import { Schedule, State, initialDialogForm } from '../../../../redux/stateTypes';
 import { getCalendarDates } from '../../../../redux/selectors';
 import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/addScheduleDialog';
 import { Dayjs } from 'dayjs';
@@ -24,7 +24,7 @@ const mapStateToProps = (state: State) => {
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>) => {
     return {
         openAddDialog: (date: Dayjs) => {
-            dispatch(setAddScheduleDialog({ date: date }));
+            dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
             dispatch(openAddScheduleDialog());
         },
         openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => {

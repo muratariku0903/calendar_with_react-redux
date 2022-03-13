@@ -1,20 +1,13 @@
+import { DialogSchedule } from "../stateTypes";
 import { ActionTypes } from "../actionTypes";
-import { Dayjs } from 'dayjs';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
-export type SetAddScheduleDialogForm = {
-    title?: string,
-    date?: Dayjs | MaterialUiPickersDate,
-    location?: string,
-    description?: string,
-};
 
 type SetAddScheduleDialogAction = {
     type: ActionTypes.SET_ADD_SCHEDULE_DIALOG;
-    payload: SetAddScheduleDialogForm;
+    payload: DialogSchedule;
 };
 
-export const setAddScheduleDialog = (form: SetAddScheduleDialogForm): SetAddScheduleDialogAction => {
+export const setAddScheduleDialog = (form: DialogSchedule): SetAddScheduleDialogAction => {
     return {
         type: ActionTypes.SET_ADD_SCHEDULE_DIALOG,
         payload: form,

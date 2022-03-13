@@ -10,6 +10,7 @@ type FirestoreSchedule = {
     id: number;
     title: string;
     date: string | number;
+    time: { start: number, end: number };
     location: string;
     description: string;
 }
@@ -48,7 +49,7 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
 const updateSchedule = async (schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
     if (date) {
-        await updateDoc(doc(db, rootCollection, getMonthSchedulesKey(date.year(), date.month() + 1), monthScheduleCollection, String(id)), {
+        await updateDoc(createDocRef(getMonthSchedulesKey(date.year(), date.month() + 1), String(id)), {
             ...schedule,
             date: date.toJSON(),
         });
@@ -60,7 +61,7 @@ const updateSchedule = async (schedule: Schedule): Promise<void> => {
 const deleteSchedule = async (schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
     if (date) {
-        await deleteDoc(doc(db, rootCollection, getMonthSchedulesKey(date.year(), date.month() + 1), monthScheduleCollection, String(id)));
+        await deleteDoc(createDocRef(getMonthSchedulesKey(date.year(), date.month() + 1), String(id)));
     } else {
         throw ('undefined year and month and day.');
     }
@@ -68,6 +69,10 @@ const deleteSchedule = async (schedule: Schedule): Promise<void> => {
 
 const createCollectionRef = (key: string) => {
     return collection(db, rootCollection, key, monthScheduleCollection);
+}
+
+const createDocRef = (key: string, id: string) => {
+    return doc(db, rootCollection, key, monthScheduleCollection, id);
 }
 
 const getMonthSchedulesKey = (year: number, month: number): string => {

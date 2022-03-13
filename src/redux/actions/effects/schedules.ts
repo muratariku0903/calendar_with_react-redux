@@ -33,6 +33,7 @@ export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => 
 }
 
 export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
+    dispatch(setScheduleLoading());
     try {
         await schedulesAPI.deleteSchedule(schedule);
         dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
@@ -43,6 +44,7 @@ export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction =>
 }
 
 export const asyncUpdateSchedule = (prevDate: ScheduleDate, schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
+    dispatch(setScheduleLoading());
     const { id, date } = schedule;
     try {
         await schedulesAPI.updateSchedule(schedule);

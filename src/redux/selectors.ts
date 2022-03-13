@@ -1,7 +1,6 @@
-import { State } from './stateTypes';
+import { State, Schedule } from './stateTypes';
 import { Dayjs } from 'dayjs';
 import { getMonth, getTotalCalendarCellCnt } from '../services/calendar';
-import { Schedule } from '../redux/stateTypes';
 import { createSchedulesKey } from '../services/schedules';
 
 

@@ -7,6 +7,7 @@ const initialState: UpdateScheduleDialogState = {
         id: -1,
         title: '',
         date: null,
+        time: { start: null, end: null },
         location: '',
         description: '',
     },
