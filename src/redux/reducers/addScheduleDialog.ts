@@ -1,7 +1,6 @@
 import { AddScheduleDialogState, initialDialogForm } from "../stateTypes";
 import { ActionTypes } from "../actionTypes";
 import { AddScheduleDialogActions } from "../actions/addScheduleDialog";
-import dayjs from 'dayjs';
 
 
 const initialState: AddScheduleDialogState = {

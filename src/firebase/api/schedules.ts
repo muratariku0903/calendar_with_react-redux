@@ -1,6 +1,7 @@
-import { collection, getDocs, setDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firestore';
-import { Schedule, DialogSchedule, MonthSchedules } from '../../redux/stateTypes';
+import { collection, getDocs, setDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { Schedule, DialogSchedule, MonthSchedules, ScheduleTime, ScheduleDate } from '../../redux/stateTypes';
+import { isSameMonth } from '../../services/calendar';
 import dayjs from 'dayjs';
 
 const rootCollection = 'schedules';
@@ -10,7 +11,7 @@ type FirestoreSchedule = {
     id: number;
     title: string;
     date: string | number;
-    time: { start: number, end: number };
+    time: ScheduleTime;
     location: string;
     description: string;
 }
@@ -34,6 +35,7 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
     const { date } = form;
     const id = new Date().getTime();
     if (date) {
+        console.log(getMonthSchedulesKey(date?.year(), date?.month() + 1));
         const ref = createCollectionRef(getMonthSchedulesKey(date.year(), date.month() + 1));
         await setDoc(doc(ref, String(id)), {
             ...form,
@@ -46,13 +48,21 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
     }
 }
 
-const updateSchedule = async (schedule: Schedule): Promise<void> => {
+const updateSchedule = async (prevDate: ScheduleDate, schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
-    if (date) {
-        await updateDoc(createDocRef(getMonthSchedulesKey(date.year(), date.month() + 1), String(id)), {
-            ...schedule,
-            date: date.toJSON(),
-        });
+    if (date && prevDate) {
+        if (isSameMonth(date, prevDate)) {
+            await updateDoc(createDocRef(getMonthSchedulesKey(date.year(), date.month() + 1), String(id)), {
+                ...schedule,
+                date: date.toJSON(),
+            });
+        } else {
+            await deleteDoc(createDocRef(getMonthSchedulesKey(prevDate.year(), prevDate.month() + 1), String(id)));
+            await setDoc(doc(createCollectionRef(getMonthSchedulesKey(date.year(), date.month() + 1)), String(id)), {
+                ...schedule,
+                date: date.toJSON(),
+            });
+        }
     } else {
         throw ('undefined date.');
     }

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Dialog, DialogContent, TextField, DialogActions, Button, Input, Grid, IconButton } from '@material-ui/core';
-import { DatePicker } from '@material-ui/pickers';
+import { DatePicker, TimePicker } from '@material-ui/pickers';
 import { LocationOnOutlined, NotesOutlined, AccessTime, Close } from "@material-ui/icons";
 import { withStyles } from '@material-ui/styles';
 import { Props } from './containers/UpdateScheduleDialog';
+import dayjs from 'dayjs';
 
 const spacer = { margin: '4px 0' };
 
@@ -34,6 +35,21 @@ const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDial
                 </Grid>
                 <Grid container spacing={1} alignItems="center" justifyContent="space-between">
                     <Grid item>
+                        <AccessTime />
+                    </Grid>
+                    <Grid item xs={10}>
+                        <Grid container>
+                            <Grid item xs={5}>
+                                <TimePicker label="開始" value={dialog.schedule.time.start ? dayjs.unix(dialog.schedule.time.start) : null} onChange={d => setUpdateScheduleDialog({ ...dialog.schedule, time: { ...dialog.schedule.time, start: d ? d.unix() : null } })} />
+                            </Grid>
+                            <Grid item xs={5}>
+                                <TimePicker label="終了" value={dialog.schedule.time.end ? dayjs.unix(dialog.schedule.time.end) : null} onChange={d => setUpdateScheduleDialog({ ...dialog.schedule, time: { ...dialog.schedule.time, end: d ? d.unix() : null } })} />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={1} alignItems="center" justifyContent="space-between">
+                    <Grid item>
                         <LocationOnOutlined />
                     </Grid>
                     <Grid item xs={10}>
@@ -50,9 +66,7 @@ const UpdateScheduleDialog: React.FC<Props> = ({ dialog, closeUpdateScheduleDial
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button onClick={updateSchedule} color="primary" variant="outlined">
-                    更新
-                </Button>
+                <Button onClick={updateSchedule} color="primary" variant="outlined">更新</Button>
             </DialogActions>
         </Dialog >
     );

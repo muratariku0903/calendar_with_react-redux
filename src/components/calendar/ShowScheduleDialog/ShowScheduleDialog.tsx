@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogActions, IconButton } from '@material-ui/c
 import { Close, DeleteOutlineOutlined, Edit } from "@material-ui/icons";
 import { Schedule, ShowScheduleDialogState } from '../../../redux/stateTypes';
 import ScheduleTitle from './ScheduleTitle';
+import ScheduleTime from './ScheduleTime';
 import ScheduleLocation from './ScheduleLocation';
 import ScheduleDescription from './ScheduleDescription';
 
@@ -35,6 +36,9 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
                 {dialog.schedule && (
                     <Fragment>
                         <ScheduleTitle title={dialog.schedule.title} date={dialog.schedule.date} />
+                        {(dialog.schedule.time.start || dialog.schedule.time.end) && (
+                            <ScheduleTime start={dialog.schedule.time.start} end={dialog.schedule.time.end} />
+                        )}
                         {dialog.schedule.location && (
                             <ScheduleLocation location={dialog.schedule.location} />
                         )}
