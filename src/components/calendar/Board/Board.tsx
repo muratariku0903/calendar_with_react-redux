@@ -40,7 +40,6 @@ const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, openShowDial
         fetchSchedules();
         fetchHolidays();
     }, []);
-    console.log(dates);
     return (
         <div>
             <WeekHeader />

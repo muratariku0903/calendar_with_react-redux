@@ -1,10 +1,15 @@
 import { fetchSchedules, addSchedules, deleteSchedule, setScheduleLoading, updateSchedule, SchedulesActions } from '../schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Schedule, State, DialogSchedule, ScheduleDate } from '../../stateTypes';
+import { Schedule, State, DialogSchedule, ScheduleDate, Holidays } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
+import GoogleCalendarApi from '../../../api/GoogleCalendarApi/GoogleCalendarApi';
+
+import dayjs from 'dayjs';
+import { setHolidays } from '../../actions/holidays';
+import { createHolidaysKey } from '../../../services/holidays';
 
 
 type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions>;
@@ -13,6 +18,7 @@ type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions
 // 前月の予定とかも表示させたい
 export const asyncFetchSchedules = (year: number, month: number): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
+    console.log('try fetching schedules', 'redux/actions/effects/schedules');
     try {
         const schedules = await schedulesAPI.fetchSchedules(year, month);
         dispatch(fetchSchedules(schedules));

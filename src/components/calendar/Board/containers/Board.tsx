@@ -5,6 +5,7 @@ import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Schedule, State, initialDialogForm } from '../../../../redux/stateTypes';
 import { SchedulesActions } from '../../../../redux/actions/schedules';
+import { HolidaysActions } from '../../../../redux/actions/holidays';
 import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/addScheduleDialog';
 import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux/actions/showScheduleDialog';
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
@@ -22,7 +23,7 @@ const mapStateToProps = (state: State): StateProps => {
     };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions & HolidaysActions>): DispatchProps => {
     return {
         openAddDialog: (date: Dayjs) => {
             dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
@@ -34,6 +35,7 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(setShowScheduleDialog(schedule));
             dispatch(openShowScheduleDialog());
         },
+        // この関数は初回だけしか実行sれない
         fetchSchedules: (year: number, month: number) => {
             dispatch(asyncFetchSchedules(year, month));
         },

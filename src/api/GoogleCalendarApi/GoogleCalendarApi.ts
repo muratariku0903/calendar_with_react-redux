@@ -11,7 +11,7 @@ class GoogleCalendarApi {
     private GOOGLE_CALENDAR_ID = GOOGLE_CALENDAR_ID;
     private REQUEST_PATH = '';
 
-    public fetchHolidays(year: number, month: number): Promise<JapaneseHoliday[]> {
+    public async fetchHolidays(year: number, month: number): Promise<JapaneseHoliday[]> {
         this.setRequestPath(year, month);
         return new Promise((resolve, reject) => {
             if (gapi) {
@@ -26,7 +26,7 @@ class GoogleCalendarApi {
                                 resolve(res.result.items);
                             })
                             .catch(() => {
-                                reject('Failed request for' + this.REQUEST_PATH);
+                                reject('Failed request for' + this.getRequestPath());
                             });
                     }).catch(() => {
                         reject('Failed to connected Google Calendar API');
@@ -45,6 +45,10 @@ class GoogleCalendarApi {
         this.REQUEST_PATH = `${this.DISCOVERY_DOC}${encode}/events?${param}`;
     }
 
+    private getRequestPath(): string {
+        return this.REQUEST_PATH;
+    }
+
     private getParam(start: string, end: string): string {
         return `timeMin=${start}&timeMax=${end}&singleEvents=true`;
     }
@@ -56,7 +60,7 @@ class GoogleCalendarApi {
         }
     }
 
-    private getTimeText(date: Dayjs | number): string {
+    public getTimeText(date: Dayjs | number): string {
         const pad = (t: number) => ('00' + t).slice(-2);
         return `${dayjs(date).year()}-${pad(dayjs(date).month() + 1)}-${pad(dayjs(date).date())}T00:00:00Z`;
     }
