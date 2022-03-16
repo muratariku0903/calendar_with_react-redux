@@ -19,6 +19,7 @@
     "@types/react-redux": "^7.1.22",
     "dayjs": "^1.10.7",
     "firebase": "^9.6.7",
+    "gapi": "^0.0.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^5.0.3",
@@ -50,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/gapi": "^0.0.41",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2"
   }

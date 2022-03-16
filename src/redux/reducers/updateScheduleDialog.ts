@@ -15,7 +15,7 @@ const initialState: UpdateScheduleDialogState = {
 }
 
 
-export const updateScheduleDialog = (state = initialState, action: UpdateScheduleDialogActions): UpdateScheduleDialogState => {
+const updateScheduleDialog = (state = initialState, action: UpdateScheduleDialogActions): UpdateScheduleDialogState => {
     switch (action.type) {
         case ActionTypes.SET_UPDATE_SCHEDULE_DIALOG:
             return {
@@ -36,3 +36,5 @@ export const updateScheduleDialog = (state = initialState, action: UpdateSchedul
             return state;
     }
 }
+
+export default updateScheduleDialog;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogContent, TextField, DialogActions, Button, Input, Grid, IconButton } from '@material-ui/core';
 import { DatePicker, TimePicker } from '@material-ui/pickers';
-import { LocationOnOutlined, NotesOutlined, AccessTime, Close, TimeToLeaveOutlined } from "@material-ui/icons";
+import { LocationOnOutlined, NotesOutlined, AccessTime, Close } from "@material-ui/icons";
 import { withStyles } from '@material-ui/styles';
 import { AddScheduleDialogState, DialogSchedule } from '../../../redux/stateTypes';
 import { AddScheduleDialogActions } from '../../../redux/actions/addScheduleDialog';

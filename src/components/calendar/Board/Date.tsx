@@ -4,8 +4,9 @@ import { Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
 import { Dayjs } from 'dayjs';
 import { isFirstDay, isSameDay } from '../../../services/calendar';
-import { Schedule as DateSchedule } from '../../../redux/stateTypes';
+import { Schedule as DateSchedule, Holiday as HolidayType } from '../../../redux/stateTypes';
 import Schedule from './Schedule';
+import Holiday from './Holiday';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -32,18 +33,18 @@ const useStyles = makeStyles(() => {
 type DateProps = {
     date: Dayjs,
     schedules: DateSchedule[],
+    holiday: HolidayType;
     currentMonth: number;
     openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: DateSchedule) => void;
 }
 
-const Date: React.FC<DateProps> = ({ date, schedules, currentMonth, openShowDialog }) => {
+const Date: React.FC<DateProps> = ({ date, schedules, holiday, currentMonth, openShowDialog }) => {
     const classes = useStyles();
     const today = dayjs();
     const isCurrentMonth = date.month() + 1 === currentMonth;
     const isToday = isSameDay(today, date);
     const textColor = isCurrentMonth ? 'textPrimary' : 'textSecondary';
     const format = isFirstDay(date) ? "M月D日" : "D";
-    // console.log(date.format(format), schedules, schedules.length);
 
     return (
         <Fragment>
@@ -55,6 +56,7 @@ const Date: React.FC<DateProps> = ({ date, schedules, currentMonth, openShowDial
                     {schedules.map((schedule, idx) => {
                         return <Schedule key={idx} schedule={schedule} openShowDialog={openShowDialog} />;
                     })}
+                    {holiday && (<Holiday name={holiday.name} />)}
                 </div>
             </div>
         </Fragment>

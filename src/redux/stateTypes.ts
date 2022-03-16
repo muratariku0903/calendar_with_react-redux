@@ -23,7 +23,7 @@ export type Schedule = {
 
 export type DialogSchedule = {
     title: string;
-    date: Dayjs | MaterialUiPickersDate;
+    date: ScheduleDate;
     time: ScheduleTime;
     location: string;
     description: string;
@@ -67,11 +67,24 @@ export type SchedulesState = {
     isLoading: boolean;
 };
 
+export type Holiday = {
+    date: ScheduleDate;
+    name: string;
+} | null;
+
+export type Holidays = Record<string, Holiday>;
+
+export type HolidaysState = {
+    holidays: Holidays;
+    isLoading: boolean;
+}
+
 // 全体のstate
 export type State = {
     calendar: CalendarState;
-    addScheduleDialog: AddScheduleDialogState;
     schedules: SchedulesState;
+    holidays: HolidaysState;
+    addScheduleDialog: AddScheduleDialogState;
     showScheduleDialog: ShowScheduleDialogState;
     updateScheduleDialog: UpdateScheduleDialogState;
 };

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
+import { Schedule, Holiday } from '../../../redux/stateTypes';
 import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
-import { Schedule } from '../../../redux/stateTypes';
-import { openUpdateScheduleDialog } from '../../../redux/actions/updateScheduleDialog';
 
 
 const useStyles = makeStyles(() => {
@@ -17,29 +16,39 @@ const useStyles = makeStyles(() => {
     });
 });
 
-type BoardProps = {
-    year: number,
-    month: number,
-    dates: { date: Dayjs, dateSchedules: Schedule[] }[],
-    openAddDialog: (date: Dayjs) => void,
-    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void,
-    fetchSchedules: () => void,
+export type StateProps = {
+    year: number;
+    month: number;
+    dates: { date: Dayjs, dateSchedules: Schedule[], holiday: Holiday }[];
 }
 
-const Board: React.FC<BoardProps> = (props) => {
+export type DispatchProps = {
+    openAddDialog: (date: Dayjs) => void;
+    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void;
+    fetchSchedules: (year: number, month: number) => void;
+    fetchHolidays: (year: number, month: number) => void;
+}
+
+export type BoardProps = StateProps & DispatchProps & {
+    fetchSchedules: () => void;
+    fetchHolidays: () => void;
+}
+
+const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, openShowDialog, fetchHolidays, fetchSchedules }) => {
     const classes = useStyles();
     useEffect(() => {
-        props.fetchSchedules();
+        fetchSchedules();
+        fetchHolidays();
     }, []);
-    console.log(props);
+    console.log(dates);
     return (
         <div>
             <WeekHeader />
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
-                {props.dates.map((val, idx) => {
+                {dates.map((val, idx) => {
                     return (
-                        <li key={idx} onClick={() => props.openAddDialog(val.date)}>
-                            <Date date={val.date} schedules={val.dateSchedules} currentMonth={props.month} openShowDialog={props.openShowDialog} />
+                        <li key={idx} onClick={() => openAddDialog(val.date)}>
+                            <Date date={val.date} schedules={val.dateSchedules} holiday={val.holiday} currentMonth={month} openShowDialog={openShowDialog} />
                         </li>
                     );
                 })}

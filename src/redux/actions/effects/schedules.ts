@@ -3,7 +3,7 @@ import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Schedule, State, DialogSchedule, ScheduleDate } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
-import { isSameDay, isSameMonth } from '../../../services/calendar';
+import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
 
 

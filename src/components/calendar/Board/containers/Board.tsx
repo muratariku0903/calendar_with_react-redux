@@ -1,19 +1,20 @@
 import React from 'react';
-import Board from '../Board';
+import Board, { StateProps, DispatchProps, BoardProps } from '../Board';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Schedule, State, initialDialogForm } from '../../../../redux/stateTypes';
-import { getCalendarDates } from '../../../../redux/selectors';
+import { SchedulesActions } from '../../../../redux/actions/schedules';
 import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/addScheduleDialog';
-import { Dayjs } from 'dayjs';
 import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux/actions/showScheduleDialog';
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
-import { SchedulesActions } from '../../../../redux/actions/schedules';
+import { asyncFetchHolidays } from '../../../../redux/actions/effects/holidays';
+import { getCalendarDates } from '../../../../redux/selectors';
+import { Dayjs } from 'dayjs';
 
 
 // 全体のstateが更新されるととりあえず、mapStateToPropsも再度呼び出される。
-const mapStateToProps = (state: State) => {
+const mapStateToProps = (state: State): StateProps => {
     return {
         year: state.calendar.year,
         month: state.calendar.month,
@@ -21,7 +22,7 @@ const mapStateToProps = (state: State) => {
     };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>) => {
+const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>): DispatchProps => {
     return {
         openAddDialog: (date: Dayjs) => {
             dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
@@ -36,17 +37,18 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
         fetchSchedules: (year: number, month: number) => {
             dispatch(asyncFetchSchedules(year, month));
         },
+        fetchHolidays: (year: number, month: number) => {
+            dispatch(asyncFetchHolidays(year, month));
+        },
     }
 }
 
-const mergeProps = (stateProps: any, dispatchProps: any) => {
+const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): BoardProps => {
     return {
-        year: stateProps.year,
-        month: stateProps.month,
-        dates: stateProps.dates,
-        openAddDialog: dispatchProps.openAddDialog,
-        openShowDialog: dispatchProps.openShowDialog,
+        ...stateProps,
+        ...dispatchProps,
         fetchSchedules: () => dispatchProps.fetchSchedules(stateProps.year, stateProps.month),
+        fetchHolidays: () => dispatchProps.fetchHolidays(stateProps.year, stateProps.month),
     }
 }
 
