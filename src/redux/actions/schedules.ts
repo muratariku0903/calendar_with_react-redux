@@ -57,8 +57,7 @@ type FetchSchedulesAction = {
     payload: Record<string, Schedule[]>;
 }
 
-// fetchというよりsetの方がしっくりくるかも
-export const fetchSchedules = (schedules: MonthSchedules): FetchSchedulesAction => {
+export const setSchedules = (schedules: MonthSchedules): FetchSchedulesAction => {
     console.log('set schedules state from firestore.', 'redux/actions/schedules');
     return {
         type: ActionTypes.FETCH_SCHEDULES,

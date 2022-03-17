@@ -7,11 +7,18 @@ import ScheduleTime from './ScheduleTime';
 import ScheduleLocation from './ScheduleLocation';
 import ScheduleDescription from './ScheduleDescription';
 
-type ShowScheduleDialogProps = {
+export type StateProps = {
     dialog: ShowScheduleDialogState;
+}
+
+export type DispatchProps = {
     closeDialog: () => void;
-    deleteSchedule: () => void;
+    deleteSchedule: (schedule: Schedule) => void;
     openUpdateScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: Schedule) => void;
+}
+
+export type ShowScheduleDialogProps = StateProps & DispatchProps & {
+    deleteSchedule: () => void;
 }
 
 const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDialog, deleteSchedule, openUpdateScheduleDialog }) => {

@@ -1,9 +1,12 @@
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { MonthSchedules, Schedule } from '../redux/stateTypes';
+import { MonthSchedules, Schedule, ScheduleDate } from '../redux/stateTypes';
+import dayjs from 'dayjs';
 
 // これ返り値さ独自の型を定義できないかな。キーがどういうフォーマットなのかを明示的にしたい。
-export const createSchedulesKey = (dateObj: MaterialUiPickersDate): string => {
-    return String(dateObj?.year()) + '_' + String(Number(dateObj?.month()) + 1) + '_' + String(dateObj?.date());
+export const createSchedulesKey = (date: ScheduleDate): string => {
+    if (date) {
+        return String(dayjs(date).year()) + '_' + String(Number(dayjs(date).month()) + 1) + '_' + String(dayjs(date).date());
+    }
+    throw ('undefined date.');
 }
 
 export const getScheduleById = (schedules: MonthSchedules, id: number): Schedule | null => {
@@ -16,10 +19,12 @@ export const getScheduleById = (schedules: MonthSchedules, id: number): Schedule
 }
 
 export const updateDateSchedules = (dateSchedules: Schedule[], newSchedule: Schedule): Schedule[] => {
-    for (let i = 0; i < dateSchedules.length; i++) if (dateSchedules[i].id === newSchedule.id) dateSchedules[i] = newSchedule;
+    for (let i = 0; i < dateSchedules.length; i++)
+        if (dateSchedules[i].id === newSchedule.id)
+            dateSchedules[i] = newSchedule;
     return dateSchedules;
 }
 
-export const addScheduleToDateSchedules = (dateSchedules: Schedule[], newSchedule: Schedule): Schedule[] => {
-    return dateSchedules ? dateSchedules.concat(newSchedule) : [newSchedule];
+export const addScheduleToDateSchedules = (key: string, monthSchedules: MonthSchedules, newSchedule: Schedule): Schedule[] => {
+    return monthSchedules[key] ? monthSchedules[key].concat(newSchedule) : [newSchedule];
 }

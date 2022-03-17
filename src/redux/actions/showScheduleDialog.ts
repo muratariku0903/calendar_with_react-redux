@@ -1,20 +1,13 @@
+import { Schedule } from "../stateTypes";
 import { ActionTypes } from "../actionTypes";
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
-// これstateで管理したやつ使えば
-export type SetShowScheduleDialogForm = {
-    title?: string,
-    date?: MaterialUiPickersDate,
-    location?: string,
-    description?: string,
-};
 
 type SetShowScheduleDialogAction = {
     type: ActionTypes.SET_SHOW_SCHEDULE_DIALOG;
-    payload: SetShowScheduleDialogForm;
+    payload: Schedule;
 };
 
-export const setShowScheduleDialog = (schedule: SetShowScheduleDialogForm): SetShowScheduleDialogAction => {
+export const setShowScheduleDialog = (schedule: Schedule): SetShowScheduleDialogAction => {
     return {
         type: ActionTypes.SET_SHOW_SCHEDULE_DIALOG,
         payload: schedule,

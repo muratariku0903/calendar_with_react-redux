@@ -2,11 +2,10 @@ import React, { Fragment } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
-import { Dayjs } from 'dayjs';
+import { CalendarDate } from '../../../redux/selectors';
+import ScheduleLabel from './containers/ScheduleLabel';
+import HolidayLabel from './HolidayLabel';
 import { isFirstDay, isSameDay } from '../../../services/calendar';
-import { Schedule as DateSchedule, Holiday as HolidayType } from '../../../redux/stateTypes';
-import Schedule from './Schedule';
-import Holiday from './Holiday';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -30,18 +29,12 @@ const useStyles = makeStyles(() => {
 });
 
 
-type DateProps = {
-    date: Dayjs,
-    schedules: DateSchedule[],
-    holiday: HolidayType;
-    currentMonth: number;
-    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: DateSchedule) => void;
-}
+type DateProps = CalendarDate & { month: number; }
 
-const Date: React.FC<DateProps> = ({ date, schedules, holiday, currentMonth, openShowDialog }) => {
+const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month }) => {
     const classes = useStyles();
     const today = dayjs();
-    const isCurrentMonth = date.month() + 1 === currentMonth;
+    const isCurrentMonth = date.month() + 1 === month;
     const isToday = isSameDay(today, date);
     const textColor = isCurrentMonth ? 'textPrimary' : 'textSecondary';
     const format = isFirstDay(date) ? "M月D日" : "D";
@@ -53,10 +46,10 @@ const Date: React.FC<DateProps> = ({ date, schedules, holiday, currentMonth, ope
                     <span className={isToday ? classes.today : ''}>{date.format(format)}</span>
                 </Typography>
                 <div className={classes.schedules}>
-                    {schedules.map((schedule, idx) => {
-                        return <Schedule key={idx} schedule={schedule} openShowDialog={openShowDialog} />;
+                    {dateSchedules.map((schedule, idx) => {
+                        return <ScheduleLabel key={idx} schedule={schedule} />;
                     })}
-                    {holiday && (<Holiday name={holiday.name} />)}
+                    {holiday && (<HolidayLabel name={holiday.name} />)}
                 </div>
             </div>
         </Fragment>

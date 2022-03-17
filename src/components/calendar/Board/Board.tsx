@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
-import { Schedule, Holiday } from '../../../redux/stateTypes';
+import { CalendarDate } from '../../../redux/selectors';
 import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
@@ -19,12 +19,11 @@ const useStyles = makeStyles(() => {
 export type StateProps = {
     year: number;
     month: number;
-    dates: { date: Dayjs, dateSchedules: Schedule[], holiday: Holiday }[];
+    dates: CalendarDate[];
 }
 
 export type DispatchProps = {
     openAddDialog: (date: Dayjs) => void;
-    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void;
     fetchSchedules: (year: number, month: number) => void;
     fetchHolidays: (year: number, month: number) => void;
 }
@@ -34,7 +33,7 @@ export type BoardProps = StateProps & DispatchProps & {
     fetchHolidays: () => void;
 }
 
-const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, openShowDialog, fetchHolidays, fetchSchedules }) => {
+const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, fetchHolidays, fetchSchedules }) => {
     const classes = useStyles();
     useEffect(() => {
         fetchSchedules();
@@ -47,7 +46,7 @@ const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, openShowDial
                 {dates.map((val, idx) => {
                     return (
                         <li key={idx} onClick={() => openAddDialog(val.date)}>
-                            <Date date={val.date} schedules={val.dateSchedules} holiday={val.holiday} currentMonth={month} openShowDialog={openShowDialog} />
+                            <Date date={val.date} dateSchedules={val.dateSchedules} holiday={val.holiday} month={month} />
                         </li>
                     );
                 })}

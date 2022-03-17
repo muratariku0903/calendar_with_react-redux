@@ -1,15 +1,11 @@
 import { ShowScheduleDialogActions } from "../actions/showScheduleDialog";
 import { ActionTypes } from "../actionTypes";
-import { ShowScheduleDialogState } from "../stateTypes";
+import { ShowScheduleDialogState, initialDialogForm } from "../stateTypes";
 
 const initialState: ShowScheduleDialogState = {
     schedule: {
         id: -1,
-        title: '',
-        date: null,
-        time: { start: null, end: null },
-        description: '',
-        location: '',
+        ...initialDialogForm,
     },
     isOpenDialog: false,
 }

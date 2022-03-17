@@ -23,7 +23,7 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
                 ...state,
                 dateSchedules: {
                     ...state.dateSchedules,
-                    [key]: addScheduleToDateSchedules(state.dateSchedules[key], schedule),
+                    [key]: addScheduleToDateSchedules(key, state.dateSchedules, schedule),
                 },
                 isLoading: false,
             }
@@ -35,7 +35,7 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
                 ...state,
                 dateSchedules: {
                     ...state.dateSchedules,
-                    [key]: updateDateSchedules([...state.dateSchedules[key]], schedule),
+                    [key]: updateDateSchedules(state.dateSchedules[key], schedule),
                 },
                 isLoading: false,
             }

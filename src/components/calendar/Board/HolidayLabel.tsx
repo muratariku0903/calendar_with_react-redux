@@ -20,9 +20,9 @@ type HolidayProps = {
     name: string;
 }
 
-const Holiday: React.FC<HolidayProps> = ({ name }) => {
+const HolidayLabel: React.FC<HolidayProps> = ({ name }) => {
     const classes = useStyles();
     return <div className={classes.schedule}>{name}</div>;
 }
 
-export default Holiday;
+export default HolidayLabel;

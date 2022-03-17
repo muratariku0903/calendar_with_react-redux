@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Schedule as DateSchedule } from '../../../redux/stateTypes';
+import { Schedule } from '../../../redux/stateTypes';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -17,14 +17,19 @@ const useStyles = makeStyles(() => {
     });
 });
 
-type ScheduleProps = {
-    schedule: DateSchedule;
-    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: DateSchedule) => void;
+export type OutterProps = {
+    schedule: Schedule;
 }
 
-const Schedule: React.FC<ScheduleProps> = ({ schedule, openShowDialog }) => {
+export type DispatchProps = {
+    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void;
+}
+
+export type ScheduleLabelProps = DispatchProps & OutterProps;
+
+const ScheduleLabel: React.FC<ScheduleLabelProps> = ({ schedule, openShowDialog }) => {
     const classes = useStyles();
     return <div onClick={e => openShowDialog(e, schedule)} className={classes.schedule}>{schedule.title}</div>;
 }
 
-export default Schedule;
+export default ScheduleLabel;

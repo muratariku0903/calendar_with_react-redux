@@ -1,13 +1,11 @@
-import React from 'react';
 import Board, { StateProps, DispatchProps, BoardProps } from '../Board';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Schedule, State, initialDialogForm } from '../../../../redux/stateTypes';
+import { State, initialDialogForm } from '../../../../redux/stateTypes';
 import { SchedulesActions } from '../../../../redux/actions/schedules';
 import { HolidaysActions } from '../../../../redux/actions/holidays';
 import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/addScheduleDialog';
-import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux/actions/showScheduleDialog';
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
 import { asyncFetchHolidays } from '../../../../redux/actions/effects/holidays';
 import { getCalendarDates } from '../../../../redux/selectors';
@@ -29,13 +27,6 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
             dispatch(openAddScheduleDialog());
         },
-        openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => {
-            e.stopPropagation();
-            console.log(schedule);
-            dispatch(setShowScheduleDialog(schedule));
-            dispatch(openShowScheduleDialog());
-        },
-        // この関数は初回だけしか実行sれない
         fetchSchedules: (year: number, month: number) => {
             dispatch(asyncFetchSchedules(year, month));
         },

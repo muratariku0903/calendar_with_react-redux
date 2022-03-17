@@ -1,5 +1,4 @@
 import { Dayjs } from "dayjs"
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 // カレンダーのstate
 export type CalendarState = {
@@ -8,7 +7,7 @@ export type CalendarState = {
 };
 
 // 予定の型
-export type ScheduleDate = Dayjs | MaterialUiPickersDate;
+export type ScheduleDate = Dayjs | number | null;
 export type ScheduleTime = { start: number | null, end: number | null };
 export type Schedule = {
     id: number;
@@ -21,13 +20,8 @@ export type Schedule = {
     description: string;
 };
 
-export type DialogSchedule = {
-    title: string;
-    date: ScheduleDate;
-    time: ScheduleTime;
-    location: string;
-    description: string;
-};
+// AddDialogScheduleの方がわかりやすい
+export type DialogSchedule = Omit<Schedule, 'id'>;
 export const initialDialogForm: DialogSchedule = {
     title: '',
     date: null,
@@ -37,14 +31,12 @@ export const initialDialogForm: DialogSchedule = {
 };
 
 
-// 予定を追加するダイアログのstate
 export type AddScheduleDialogState = {
     schedule: DialogSchedule;
     isOpenDialog: boolean;
 };
 
 
-// 予定を表示するダイアログのstate
 export type ShowScheduleDialogState = {
     schedule: Schedule;
     isOpenDialog: boolean;

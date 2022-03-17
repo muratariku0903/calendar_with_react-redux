@@ -1,6 +1,6 @@
 import AddScheduleDialog, { AddScheduleDialogProps, DispatchProps, StateProps } from "../AddScheduleDialog";
 import { connect } from 'react-redux';
-import { DialogSchedule, State } from "../../../../redux/stateTypes";
+import { DialogSchedule, State, Schedule } from "../../../../redux/stateTypes";
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { closeAddScheduleDialog, setAddScheduleDialog } from "../../../../redux/actions/addScheduleDialog";
@@ -29,6 +29,7 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): AddSc
         ...stateProps,
         ...dispatchProps,
         addSchedule: () => dispatchProps.addSchedule(stateProps.dialog.schedule),
+        setDialogForm: (scheduleItem: Partial<DialogSchedule>) => dispatchProps.setDialogForm({ ...stateProps.dialog.schedule, ...scheduleItem })
     }
 }
 

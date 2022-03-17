@@ -4,20 +4,20 @@ import { getMonth, getTotalCalendarCellCnt } from '../services/calendar';
 import { createSchedulesKey } from '../services/schedules';
 
 
-export type Date = {
+export type CalendarDate = {
     date: Dayjs;
+    holiday: Holiday,
     dateSchedules: Schedule[],
-    holiday: Holiday | null,
 }
 
-export const getCalendarDates = (store: State): Date[] => {
+export const getCalendarDates = (store: State): CalendarDate[] => {
     const { year, month } = store.calendar;
     const holidays = store.holidays.holidays;
     const schedules = store.schedules.dateSchedules;
     const firstDay = getMonth(year, month);
     const prevMonthDateCnt = firstDay.day();
     const totalCellCnt = getTotalCalendarCellCnt(firstDay);
-    const dates: Date[] = [];
+    const dates: CalendarDate[] = [];
     for (let i = 0; i < totalCellCnt; i++) {
         const date = firstDay.add(i - prevMonthDateCnt, "day");
         const dateKey = createSchedulesKey(date);

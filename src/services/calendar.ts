@@ -5,7 +5,7 @@ import { CalendarState, ScheduleDate } from "../redux/stateTypes";
 export const isSameDay = (d1: ScheduleDate, d2: ScheduleDate): boolean => {
     if (d1 && d2) {
         const format = "YYYYMMDD";
-        return d1.format(format) === d2.format(format);
+        return dayjs(d1).format(format) === dayjs(d2).format(format);
     }
     throw ('null date.');
 };
@@ -13,12 +13,22 @@ export const isSameDay = (d1: ScheduleDate, d2: ScheduleDate): boolean => {
 export const isSameMonth = (m1: ScheduleDate, m2: ScheduleDate): boolean => {
     if (m1 && m2) {
         const format = "YYYYMM";
-        return m1.format(format) === m2.format(format);
+        return dayjs(m1).format(format) === dayjs(m2).format(format);
     }
     throw ('null date.');
 };
 
 export const isFirstDay = (day: Dayjs): boolean => day.date() === 1;
+
+export const isSaturday = (date: ScheduleDate): boolean => {
+    if (date) return dayjs(date).day() === 6;
+    throw ('null date.');
+}
+
+export const isSunday = (date: ScheduleDate): boolean => {
+    if (date) return dayjs(date).day() === 0;
+    throw ('null date.');
+}
 
 export const getMonth = (year: number, month: number): Dayjs => {
     return dayjs(`${year}-${month}`);

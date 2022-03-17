@@ -23,9 +23,8 @@ const fetchSchedules = async (year: number, month: number): Promise<MonthSchedul
     const monthScheduleRef = createCollectionRef(monthSchedulesKey);
     const schedules: MonthSchedules = {};
     (await getDocs(monthScheduleRef)).docs.forEach(doc => {
-        const firestoreSchedule = doc.data() as FirestoreSchedule;
-        const schedule = { ...firestoreSchedule, date: dayjs(firestoreSchedule.date) };
-        const key = monthSchedulesKey + '_' + schedule.date.date();
+        const schedule = doc.data() as Schedule;
+        const key = monthSchedulesKey + '_' + dayjs(schedule.date).date();
         schedules[key] = schedules[key] ? schedules[key].concat(schedule) : [schedule];
     });
     return schedules;
@@ -35,12 +34,13 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
     const { date } = form;
     const id = new Date().getTime();
     if (date) {
-        console.log(getMonthSchedulesKey(date?.year(), date?.month() + 1));
-        const ref = createCollectionRef(getMonthSchedulesKey(date.year(), date.month() + 1));
+        const d = dayjs(date);
+        console.log(getMonthSchedulesKey(d.year(), dayjs(d).month() + 1));
+        const ref = createCollectionRef(getMonthSchedulesKey(d.year(), d.month() + 1));
         await setDoc(doc(ref, String(id)), {
             ...form,
             id: id,
-            date: date.toJSON(),
+            date: d.toJSON(),
         });
         return id;
     } else {
@@ -51,16 +51,18 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
 const updateSchedule = async (prevDate: ScheduleDate, schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
     if (date && prevDate) {
+        const d = dayjs(date);
+        const prevD = dayjs(prevDate);
         if (isSameMonth(date, prevDate)) {
-            await updateDoc(createDocRef(getMonthSchedulesKey(date.year(), date.month() + 1), String(id)), {
+            await updateDoc(createDocRef(getMonthSchedulesKey(d.year(), d.month() + 1), String(id)), {
                 ...schedule,
-                date: date.toJSON(),
+                date: d.toJSON(),
             });
         } else {
-            await deleteDoc(createDocRef(getMonthSchedulesKey(prevDate.year(), prevDate.month() + 1), String(id)));
-            await setDoc(doc(createCollectionRef(getMonthSchedulesKey(date.year(), date.month() + 1)), String(id)), {
+            await deleteDoc(createDocRef(getMonthSchedulesKey(prevD.year(), prevD.month() + 1), String(id)));
+            await setDoc(doc(createCollectionRef(getMonthSchedulesKey(d.year(), d.month() + 1)), String(id)), {
                 ...schedule,
-                date: date.toJSON(),
+                date: d.toJSON(),
             });
         }
     } else {
@@ -71,7 +73,8 @@ const updateSchedule = async (prevDate: ScheduleDate, schedule: Schedule): Promi
 const deleteSchedule = async (schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
     if (date) {
-        await deleteDoc(createDocRef(getMonthSchedulesKey(date.year(), date.month() + 1), String(id)));
+        const d = dayjs(date);
+        await deleteDoc(createDocRef(getMonthSchedulesKey(d.year(), d.month() + 1), String(id)));
     } else {
         throw ('undefined year and month and day.');
     }
