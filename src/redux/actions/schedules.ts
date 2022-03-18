@@ -50,11 +50,10 @@ export const deleteSchedule = (key: SchedulesKey, id: number): DeleteScheduleAct
 
 type FetchSchedulesAction = {
     type: ActionTypes.FETCH_SCHEDULES;
-    payload: Record<string, Schedule[]>;
+    payload: Record<SchedulesKey, Schedule[]>;
 }
 
 export const setSchedules = (schedules: SchedulesState['monthSchedules']): FetchSchedulesAction => {
-    console.log('set schedules to state from firestore.');
     return {
         type: ActionTypes.FETCH_SCHEDULES,
         payload: schedules,

@@ -3,7 +3,6 @@ import { JapaneseHoliday } from "./types";
 import dayjs, { Dayjs } from 'dayjs';
 
 
-
 class GoogleCalendarApi {
     private API_KEY = API_KEY;
     private CLIENT_ID = CLIENT_ID;

@@ -11,7 +11,6 @@ type HolidaysThunkAction = ThunkAction<void, State, undefined, HolidaysActions>;
 
 export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setHolidaysLoading());
-    console.log('try fetching holidays', 'redux/actions/effects/holidays');
     await GoogleCalendarApi.fetchHolidays(year, month)
         .then(items => {
             const holidays: HolidaysState['holidays'] = {};
@@ -20,6 +19,7 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
                 const name = item.summary;
                 holidays[createHolidaysKey(date)] = { date, name };
             });
+            console.log('set holidays from google calendar api.');
             dispatch(setHolidays(holidays));
         }).catch(err => {
             console.log('Error fetching docs', err);

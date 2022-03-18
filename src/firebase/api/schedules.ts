@@ -1,6 +1,6 @@
 import { db } from '../firestore';
 import { collection, getDocs, setDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
-import { Schedule, DialogSchedule, SchedulesState, SchedulesKey } from '../../redux/stateTypes';
+import { Schedule, DialogSchedule, SchedulesState } from '../../redux/stateTypes';
 import { createSchedulesKey } from '../../services/schedules';
 import { isSameMonth } from '../../services/calendar';
 import dayjs from 'dayjs';
@@ -9,18 +9,25 @@ const rootCollection = 'schedules';
 const monthScheduleCollection = 'monthSchedule';
 
 // 取得する制限などをパラメーターがで管理できるようにする
-// Promiseオブジェクトを返して、呼び出し側からその結果に応じて処理を変更できるようにする
 const fetchSchedules = async (year: number, month: number): Promise<SchedulesState['monthSchedules']> => {
-    const monthSchedulesKey = getMonthSchedulesKey(year, month);
-    const monthScheduleRef = createCollectionRef(monthSchedulesKey);
+    const prevMonthScheduleKey = getMonthSchedulesKey(year, month - 1);
+    const currMonthScheduleKey = getMonthSchedulesKey(year, month);
+    const nextMonthScheduleKey = getMonthSchedulesKey(year, month + 1);
+    const monthScheduleRefs = createCollectionRefs([prevMonthScheduleKey, currMonthScheduleKey, nextMonthScheduleKey]);
     const schedules: SchedulesState['monthSchedules'] = {};
-    (await getDocs(monthScheduleRef)).docs.forEach(doc => {
-        const schedule = doc.data() as Schedule;
-        console.log(schedule);
-        const key = createSchedulesKey(dayjs.unix(schedule.date).unix());
-
-        schedules[key] = schedules[key] ? schedules[key].concat(schedule) : [schedule];
-    });
+    for (const ref of monthScheduleRefs) {
+        try {
+            (await getDocs(ref)).docs.forEach(doc => {
+                const schedule = doc.data() as Schedule;
+                const key = createSchedulesKey(schedule.date);
+                schedules[key] = schedules[key] ? schedules[key].concat(schedule) : [schedule];
+            });
+            console.log('Fetch schedules from firestore.');
+        } catch (e) {
+            console.log('Error fetching schedules from firestore.', e);
+        }
+    }
+    console.log(schedules);
 
     return schedules;
 }
@@ -71,12 +78,26 @@ const createCollectionRef = (key: string) => {
     return collection(db, rootCollection, key, monthScheduleCollection);
 }
 
+const createCollectionRefs = (keys: string[]) => {
+    const refs = [];
+    for (const key of keys) {
+        refs.push(createCollectionRef(key));
+    }
+    return refs;
+}
+
 const createDocRef = (key: string, id: string) => {
     return doc(db, rootCollection, key, monthScheduleCollection, id);
 }
 
 const getMonthSchedulesKey = (year: number, month: number): string => {
-    return String(year) + '_' + String(month);
+    if (month > 12) {
+        return `${year + 1}_${1}`;
+    }
+    if (month < 1) {
+        return `${year - 1}_${12}`;
+    }
+    return `${year}_${month}`;
 }
 
 export const schedulesAPI = { fetchSchedules, addSchedule, updateSchedule, deleteSchedule };

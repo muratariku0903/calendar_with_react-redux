@@ -10,17 +10,10 @@ const initialState: CalendarState = {
     month: currentTime.month() + 1,
 }
 
-const calendar = (state = initialState, action: CalendarActions) => {
+const calendar = (state = initialState, action: CalendarActions): CalendarState => {
     switch (action.type) {
-        case ActionTypes.SET_MONTH: {
-            const { year, month } = action.payload;
-            // これpayloadを返却すれば良い気がするけど。
-            return {
-                ...state,
-                year: year,
-                month: month,
-            }
-        }
+        case ActionTypes.SET_MONTH:
+            return action.payload;
 
         default:
             return state;

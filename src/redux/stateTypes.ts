@@ -43,10 +43,9 @@ export type UpdateScheduleDialogState = {
     isOpenDialog: boolean;
 };
 
-// stringはもう少し具体的な型にした方がキーとして何を持つのか分かりにくい 年_月_日
-export type SchedulesKey = `${number}_${number}_${number}` | string;
 
 // 予定のstate
+export type SchedulesKey = `${number}_${number}_${number}` | string;
 export type SchedulesState = {
     monthSchedules: Record<SchedulesKey, Schedule[]>;
     isLoading: boolean;
@@ -62,6 +61,7 @@ export type HolidaysState = {
     holidays: Record<string, Holiday | null>;
     isLoading: boolean;
 }
+
 
 // 全体のstate
 export type State = {

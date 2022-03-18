@@ -9,7 +9,6 @@ type SetHolidaysAction = {
 
 // fetchというよりsetの方がしっくりくるかも
 export const setHolidays = (holidays: HolidaysState['holidays']): SetHolidaysAction => {
-    console.log('set holidays from google calendar api.');
     return {
         type: ActionTypes.SET_HOLIDAYS,
         payload: holidays,
