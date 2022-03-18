@@ -7,6 +7,7 @@ import { SchedulesActions } from "../../../../redux/actions/schedules";
 import { closeShowScheduleDialog } from "../../../../redux/actions/showScheduleDialog";
 import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../redux/actions/updateScheduleDialog';
 import { asyncDeleteSchedule } from "../../../../redux/actions/effects/schedules";
+import dayjs from 'dayjs';
 
 const mapStateToProps = (state: State): StateProps => {
     return {
@@ -22,9 +23,9 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(closeShowScheduleDialog());
         },
         openUpdateScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: Schedule) => {
-            dispatch(closeShowScheduleDialog());
             e.stopPropagation();
-            console.log(schedule);
+            console.log(schedule, dayjs.unix(schedule.date));
+            dispatch(closeShowScheduleDialog());
             dispatch(setUpdateScheduleDialog(schedule));
             dispatch(openUpdateScheduleDialog());
         },

@@ -1,30 +1,21 @@
 import { db } from '../firestore';
 import { collection, getDocs, setDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
-import { Schedule, DialogSchedule, MonthSchedules, ScheduleTime, ScheduleDate } from '../../redux/stateTypes';
+import { Schedule, DialogSchedule, MonthSchedules, SchedulesState } from '../../redux/stateTypes';
 import { isSameMonth } from '../../services/calendar';
 import dayjs from 'dayjs';
 
 const rootCollection = 'schedules';
 const monthScheduleCollection = 'monthSchedule';
 
-type FirestoreSchedule = {
-    id: number;
-    title: string;
-    date: string | number;
-    time: ScheduleTime;
-    location: string;
-    description: string;
-}
-
 // 取得する制限などをパラメーターがで管理できるようにする
 // Promiseオブジェクトを返して、呼び出し側からその結果に応じて処理を変更できるようにする
-const fetchSchedules = async (year: number, month: number): Promise<MonthSchedules> => {
+const fetchSchedules = async (year: number, month: number): Promise<SchedulesState['monthSchedules']> => {
     const monthSchedulesKey = getMonthSchedulesKey(year, month);
     const monthScheduleRef = createCollectionRef(monthSchedulesKey);
-    const schedules: MonthSchedules = {};
+    const schedules: SchedulesState['monthSchedules'] = {};
     (await getDocs(monthScheduleRef)).docs.forEach(doc => {
         const schedule = doc.data() as Schedule;
-        const key = monthSchedulesKey + '_' + dayjs(schedule.date).date();
+        const key = monthSchedulesKey + '_' + dayjs.unix(schedule.date).date();
         schedules[key] = schedules[key] ? schedules[key].concat(schedule) : [schedule];
     });
     return schedules;
@@ -33,50 +24,43 @@ const fetchSchedules = async (year: number, month: number): Promise<MonthSchedul
 const addSchedule = async (form: DialogSchedule): Promise<number> => {
     const { date } = form;
     const id = new Date().getTime();
-    if (date) {
-        const d = dayjs(date);
-        console.log(getMonthSchedulesKey(d.year(), dayjs(d).month() + 1));
+    const d = dayjs.unix(date);
+    try {
         const ref = createCollectionRef(getMonthSchedulesKey(d.year(), d.month() + 1));
-        await setDoc(doc(ref, String(id)), {
-            ...form,
-            id: id,
-            date: d.toJSON(),
-        });
-        return id;
-    } else {
-        throw ('undefined year and month and day.');
+        await setDoc(doc(ref, String(id)), { ...form, id });
+        console.log('Add schedule to firestore.');
+    } catch (e) {
+        console.log('Error adding schedule to firestore.', e);
     }
+    return id;
 }
 
-const updateSchedule = async (prevDate: ScheduleDate, schedule: Schedule): Promise<void> => {
+const updateSchedule = async (prevDate: Schedule['date'], schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
-    if (date && prevDate) {
-        const d = dayjs(date);
-        const prevD = dayjs(prevDate);
+    const d = dayjs.unix(date);
+    const prevD = dayjs.unix(prevDate);
+    try {
         if (isSameMonth(date, prevDate)) {
-            await updateDoc(createDocRef(getMonthSchedulesKey(d.year(), d.month() + 1), String(id)), {
-                ...schedule,
-                date: d.toJSON(),
-            });
+            await updateDoc(createDocRef(getMonthSchedulesKey(d.year(), d.month() + 1), String(id)), schedule);
         } else {
             await deleteDoc(createDocRef(getMonthSchedulesKey(prevD.year(), prevD.month() + 1), String(id)));
-            await setDoc(doc(createCollectionRef(getMonthSchedulesKey(d.year(), d.month() + 1)), String(id)), {
-                ...schedule,
-                date: d.toJSON(),
-            });
+            console.log('hello');
+            await setDoc(doc(createCollectionRef(getMonthSchedulesKey(d.year(), d.month() + 1)), String(id)), schedule);
         }
-    } else {
-        throw ('undefined date.');
+        console.log('Update schedule of firestore.');
+    } catch (e) {
+        console.log('Error updating schedule of firestore', e);
     }
 }
 
 const deleteSchedule = async (schedule: Schedule): Promise<void> => {
-    const { id, date } = schedule;
-    if (date) {
-        const d = dayjs(date);
+    try {
+        const { id, date } = schedule;
+        const d = dayjs.unix(date);
         await deleteDoc(createDocRef(getMonthSchedulesKey(d.year(), d.month() + 1), String(id)));
-    } else {
-        throw ('undefined year and month and day.');
+        console.log('Delete schedule of firestore')
+    } catch (e) {
+        console.log('Error deleting schedule of firestore', e)
     }
 }
 

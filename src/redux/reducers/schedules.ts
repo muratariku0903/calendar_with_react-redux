@@ -1,10 +1,10 @@
-import { Schedule, SchedulesState } from "../stateTypes";
+import { SchedulesState } from "../stateTypes";
 import { SchedulesActions } from "../actions/schedules";
 import { ActionTypes } from "../actionTypes";
 import { addScheduleToDateSchedules, updateDateSchedules } from "../../services/schedules";
 
 const initialState: SchedulesState = {
-    dateSchedules: {},
+    monthSchedules: {},
     isLoading: false
 }
 
@@ -13,7 +13,7 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
         case ActionTypes.FETCH_SCHEDULES:
             return {
                 ...state,
-                dateSchedules: action.payload,
+                monthSchedules: action.payload,
                 isLoading: false,
             }
 
@@ -21,9 +21,9 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
             const { key, schedule } = action.payload;
             return {
                 ...state,
-                dateSchedules: {
-                    ...state.dateSchedules,
-                    [key]: addScheduleToDateSchedules(key, state.dateSchedules, schedule),
+                monthSchedules: {
+                    ...state.monthSchedules,
+                    [key]: addScheduleToDateSchedules(key, state.monthSchedules, schedule),
                 },
                 isLoading: false,
             }
@@ -33,9 +33,9 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
             const { key, schedule } = action.payload;
             return {
                 ...state,
-                dateSchedules: {
-                    ...state.dateSchedules,
-                    [key]: updateDateSchedules(state.dateSchedules[key], schedule),
+                monthSchedules: {
+                    ...state.monthSchedules,
+                    [key]: updateDateSchedules(state.monthSchedules[key], schedule),
                 },
                 isLoading: false,
             }
@@ -45,9 +45,9 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
             const { id, key } = action.payload;
             return {
                 ...state,
-                dateSchedules: {
-                    ...state.dateSchedules,
-                    [key]: state.dateSchedules[key].filter(schedule => schedule.id != id),
+                monthSchedules: {
+                    ...state.monthSchedules,
+                    [key]: state.monthSchedules[key].filter(schedule => schedule.id != id),
                 },
                 isLoading: false,
             }

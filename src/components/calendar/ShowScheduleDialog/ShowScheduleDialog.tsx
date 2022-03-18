@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { Dialog, DialogContent, DialogActions, IconButton } from '@material-ui/core';
 import { Close, DeleteOutlineOutlined, Edit } from "@material-ui/icons";
 import { Schedule, ShowScheduleDialogState } from '../../../redux/stateTypes';
-import ScheduleTitle from './ScheduleTitle';
-import ScheduleTime from './ScheduleTime';
-import ScheduleLocation from './ScheduleLocation';
-import ScheduleDescription from './ScheduleDescription';
+import ScheduleTitle from './parts/ScheduleTitle';
+import ScheduleTime from './parts/ScheduleTime';
+import ScheduleLocation from './parts/ScheduleLocation';
+import ScheduleDescription from './parts/ScheduleDescription';
 
 export type StateProps = {
     dialog: ShowScheduleDialogState;
@@ -44,7 +44,7 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
                     <Fragment>
                         <ScheduleTitle title={dialog.schedule.title} date={dialog.schedule.date} />
                         {(dialog.schedule.time.start || dialog.schedule.time.end) && (
-                            <ScheduleTime start={dialog.schedule.time.start} end={dialog.schedule.time.end} />
+                            <ScheduleTime time={dialog.schedule.time} />
                         )}
                         {dialog.schedule.location && (
                             <ScheduleLocation location={dialog.schedule.location} />

@@ -1,16 +1,9 @@
-import { UpdateScheduleDialogState } from '../stateTypes';
-import { UpdateScheduleDialogActions } from '../actions/updateScheduleDialog';
+import { UpdateScheduleDialogState, initialDialogForm } from '../stateTypes';
 import { ActionTypes } from '../actionTypes';
+import { UpdateScheduleDialogActions } from '../actions/updateScheduleDialog';
 
 const initialState: UpdateScheduleDialogState = {
-    schedule: {
-        id: -1,
-        title: '',
-        date: null,
-        time: { start: null, end: null },
-        location: '',
-        description: '',
-    },
+    schedule: { id: -1, ...initialDialogForm },
     isOpenDialog: false,
 }
 

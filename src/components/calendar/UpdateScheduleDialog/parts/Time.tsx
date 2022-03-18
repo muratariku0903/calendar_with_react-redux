@@ -2,22 +2,22 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { TimePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
-import { DialogSchedule } from '../../../../redux/stateTypes';
+import { Schedule } from '../../../../redux/stateTypes';
 import dayjs, { Dayjs } from 'dayjs';
 
-type AddScheduleDialogDateProps = {
-    time: DialogSchedule['time'];
-    setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
+type UpdateScheduleDialogDateProps = {
+    time: Schedule['time'];
+    setUpdateDialog: (scheduleItem: Partial<Schedule>) => void;
 }
 
-const AddScheduleDialogTime: React.FC<AddScheduleDialogDateProps> = ({ time, setDialogForm }) => {
+const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, setUpdateDialog }) => {
     const startDate = time.start ? dayjs.unix(time.start) : null;
     const endDate = time.end ? dayjs.unix(time.end) : null;
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (flag === 'start') {
-            setDialogForm({ time: { ...time, start: d ? d.unix() : null } });
+            setUpdateDialog({ time: { ...time, start: d ? d.unix() : null } });
         } else if (flag === 'end') {
-            setDialogForm({ time: { ...time, end: d ? d.unix() : null } });
+            setUpdateDialog({ time: { ...time, end: d ? d.unix() : null } });
         }
     }
 
@@ -40,4 +40,4 @@ const AddScheduleDialogTime: React.FC<AddScheduleDialogDateProps> = ({ time, set
     );
 }
 
-export default AddScheduleDialogTime;
+export default UpdateScheduleDialogTime;

@@ -2,13 +2,13 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
-import { DialogSchedule, ScheduleDate } from '../../../../redux/stateTypes';
+import { DialogSchedule, Schedule, ScheduleDate } from '../../../../redux/stateTypes';
 import dayjs from 'dayjs';
 
 const spacer = { margin: '4px 0' };
 
 type AddScheduleDialogDateProps = {
-    date: ScheduleDate;
+    date: Schedule['date'];
     setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
 }
 
@@ -19,7 +19,7 @@ const AddScheduleDialogDate: React.FC<AddScheduleDialogDateProps> = ({ date, set
                 <AccessTime />
             </Grid>
             <Grid item xs={10}>
-                <DatePicker value={dayjs(date)} onChange={d => setDialogForm({ date: d?.unix() })} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
+                <DatePicker value={dayjs.unix(date ? date : dayjs().unix())} onChange={d => setDialogForm({ date: d?.unix() })} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
             </Grid>
         </Grid>
     );

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
+import { Schedule } from '../../../redux/stateTypes';
 import { CalendarDate } from '../../../redux/selectors';
-import { Dayjs } from 'dayjs';
 import WeekHeader from './WeekHeader';
 import Date from './Date';
 
@@ -23,7 +23,7 @@ export type StateProps = {
 }
 
 export type DispatchProps = {
-    openAddDialog: (date: Dayjs) => void;
+    openAddDialog: (date: Schedule['date']) => void;
     fetchSchedules: (year: number, month: number) => void;
     fetchHolidays: (year: number, month: number) => void;
 }
@@ -45,7 +45,7 @@ const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, fetchHoliday
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
                 {dates.map((val, idx) => {
                     return (
-                        <li key={idx} onClick={() => openAddDialog(val.date)}>
+                        <li key={idx} onClick={() => openAddDialog(val.date.unix())}>
                             <Date date={val.date} dateSchedules={val.dateSchedules} holiday={val.holiday} month={month} />
                         </li>
                     );

@@ -16,7 +16,7 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
         .then(items => {
             const holidays: Holidays = {};
             items.forEach(item => {
-                const date = dayjs(item.start.date);
+                const date = dayjs(item.start.date).unix();
                 const name = item.summary;
                 holidays[createHolidaysKey(date)] = { date, name };
             });

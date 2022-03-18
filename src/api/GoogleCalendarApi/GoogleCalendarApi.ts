@@ -1,7 +1,7 @@
 import { API_KEY, CLIENT_ID, GOOGLE_CALENDAR_ID, DISCOVERY_DOC } from "./config";
 import { JapaneseHoliday } from "./types";
-import dayjs from 'dayjs';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+
 
 
 class GoogleCalendarApi {

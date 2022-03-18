@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 
 // カレンダーのstate
 export type CalendarState = {
@@ -12,10 +12,8 @@ export type ScheduleTime = { start: number | null, end: number | null };
 export type Schedule = {
     id: number;
     title: string;
-    // 根本的にdateをオブジェクトで持っておくことが自体が間違いな気がする。タイムスタンプで良い気がする。そうすれば、いろいろ型が統一化される
-    // だが、フォームからの入力値であるMaterialUiPickersDateをどうタイムスタンプに加工するか
-    date: ScheduleDate;
-    time: ScheduleTime;
+    date: number;
+    time: { start: number | null, end: number | null };
     location: string;
     description: string;
 };
@@ -24,7 +22,7 @@ export type Schedule = {
 export type DialogSchedule = Omit<Schedule, 'id'>;
 export const initialDialogForm: DialogSchedule = {
     title: '',
-    date: null,
+    date: dayjs().unix(),
     time: { start: null, end: null },
     location: '',
     description: '',
@@ -54,20 +52,19 @@ export type MonthSchedules = Record<string, Schedule[]>;
 
 // 予定のstate
 export type SchedulesState = {
-    // monthSchedulesじゃないの？あるいはdateSchedulesOfCurrMonthとか
-    dateSchedules: MonthSchedules;
+    monthSchedules: Record<string, Schedule[]>;
     isLoading: boolean;
 };
 
 export type Holiday = {
-    date: ScheduleDate;
+    date: number;
     name: string;
-} | null;
+};
 
-export type Holidays = Record<string, Holiday>;
+export type Holidays = Record<string, Holiday | null>;
 
 export type HolidaysState = {
-    holidays: Holidays;
+    holidays: Record<string, Holiday | null>;
     isLoading: boolean;
 }
 

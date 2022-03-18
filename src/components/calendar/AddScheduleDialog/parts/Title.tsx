@@ -2,7 +2,6 @@ import React from 'react';
 import { Input } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { DialogSchedule } from '../../../../redux/stateTypes';
-import { AddScheduleDialogActions } from '../../../../redux/actions/addScheduleDialog';
 
 
 const Title = withStyles({
@@ -14,7 +13,7 @@ const Title = withStyles({
 
 
 type AddScheduleDialogTitleProps = {
-    title: string;
+    title: DialogSchedule['title'];
     setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
 }
 

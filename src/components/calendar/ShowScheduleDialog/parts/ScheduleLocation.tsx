@@ -1,11 +1,10 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { LocationOnOutlined } from "@material-ui/icons";
+import { Schedule } from '../../../../redux/stateTypes';
 
 
-type ScheduleLocationProps = {
-    location: string;
-}
+type ScheduleLocationProps = Pick<Schedule, 'location'>;
 
 const ScheduleLocation: React.FC<ScheduleLocationProps> = ({ location }) => {
     return (

@@ -1,8 +1,7 @@
-import { Dayjs } from 'dayjs';
+import { Holiday } from '../redux/stateTypes';
+import dayjs from 'dayjs';
 
-export const createHolidaysKey = (date: Dayjs | null): string => {
-    if (date) {
-        return String(date.year()) + '_' + String(Number(date.month()) + 1) + '_' + String(date.date());
-    }
-    throw ('undefined date.');
+export const createHolidaysKey = (date: Holiday['date']): string => {
+    const d = dayjs.unix(date);
+    return String(d.year()) + '_' + String(Number(d.month()) + 1) + '_' + String(d.date());
 }

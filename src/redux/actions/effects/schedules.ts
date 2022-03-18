@@ -1,7 +1,7 @@
 import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, updateSchedule, SchedulesActions } from '../schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Schedule, State, DialogSchedule, ScheduleDate, Holidays } from '../../stateTypes';
+import { Schedule, State, DialogSchedule } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
@@ -13,12 +13,12 @@ type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions
 // 前月の予定とかも表示させたい
 export const asyncFetchSchedules = (year: number, month: number): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
-    console.log('try fetching schedules', 'redux/actions/effects/schedules');
+    console.log('try fetching schedules');
     try {
         const schedules = await schedulesAPI.fetchSchedules(year, month);
         dispatch(setSchedules(schedules));
     } catch (e) {
-        console.log('Error fetching docs', e);
+        console.log('Error fetching schedules', e);
     }
 }
 
@@ -26,10 +26,10 @@ export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => 
     dispatch(setScheduleLoading());
     try {
         const id = await schedulesAPI.addSchedule(form);
-        console.log('Document written.', id);
+        console.log('Schedule add to state.', id);
         dispatch(addSchedules(createSchedulesKey(form.date), form, id));
     } catch (e) {
-        console.error("Error adding document: ", e);
+        console.error("Error adding schedule of state.: ", e);
     }
 }
 
@@ -38,25 +38,25 @@ export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction =>
     try {
         await schedulesAPI.deleteSchedule(schedule);
         dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
-        console.log('Success delete.');
+        console.log('Schedule delete of state.');
     } catch (e) {
-        console.error("Error deleting document: ", e);
+        console.error("Error deleting schedule of state.: ", e);
     }
 }
 
-export const asyncUpdateSchedule = (prevDate: ScheduleDate, schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
+export const asyncUpdateSchedule = (prevDate: Schedule['date'], schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
     const { id, date } = schedule;
     try {
-        schedulesAPI.updateSchedule(prevDate, schedule);
+        await schedulesAPI.updateSchedule(prevDate, schedule);
         if (isSameDay(date, prevDate)) {
             dispatch(updateSchedule(id, createSchedulesKey(date), schedule));
         } else {
             dispatch(deleteSchedule(createSchedulesKey(prevDate), id));
             dispatch(addSchedules(createSchedulesKey(date), schedule, id));
         }
-        console.log('Success update.');
+        console.log('Update schedule of state.');
     } catch (e) {
-        console.error("Error updating document.", e);
+        console.error("Error updating schedule of state.", e);
     }
 }

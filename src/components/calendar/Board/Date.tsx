@@ -28,14 +28,15 @@ const useStyles = makeStyles(() => {
     });
 });
 
+type OutterProps = CalendarDate & { month: number; }
 
-type DateProps = CalendarDate & { month: number; }
+type DateProps = OutterProps;
 
 const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month }) => {
     const classes = useStyles();
     const today = dayjs();
     const isCurrentMonth = date.month() + 1 === month;
-    const isToday = isSameDay(today, date);
+    const isToday = isSameDay(today.unix(), date.unix());
     const textColor = isCurrentMonth ? 'textPrimary' : 'textSecondary';
     const format = isFirstDay(date) ? "M月D日" : "D";
 
