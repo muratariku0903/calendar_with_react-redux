@@ -1,35 +1,31 @@
 import { ActionTypes } from '../actionTypes';
-import { MonthSchedules, Schedule, DialogSchedule } from '../stateTypes';
+import { SchedulesState, Schedule, DialogSchedule, SchedulesKey } from '../stateTypes';
 
 type AddSchedulesAction = {
     type: ActionTypes.ADD_SCHEDULES;
     payload: {
         schedule: Schedule,
-        key: string,
+        key: SchedulesKey,
     };
 }
 
-export const addSchedules = (key: string, schedule: DialogSchedule, id: number): AddSchedulesAction => {
+export const addSchedules = (key: SchedulesKey, schedule: DialogSchedule, id: number): AddSchedulesAction => {
     return {
         type: ActionTypes.ADD_SCHEDULES,
-        payload: {
-            schedule: { ...schedule, id: id },
-            key: key,
-        },
+        payload: { schedule: { ...schedule, id }, key }
     }
 }
-
 
 type UpdateScheduleAction = {
     type: ActionTypes.UPDATE_SCHEDULE;
     payload: {
         id: number;
-        key: string;
+        key: SchedulesKey;
         schedule: Schedule;
     }
 }
 
-export const updateSchedule = (id: number, key: string, schedule: Schedule): UpdateScheduleAction => {
+export const updateSchedule = (id: number, key: SchedulesKey, schedule: Schedule): UpdateScheduleAction => {
     return {
         type: ActionTypes.UPDATE_SCHEDULE,
         payload: { id, key, schedule },
@@ -41,11 +37,11 @@ type DeleteScheduleAction = {
     type: ActionTypes.DELETE_SCHEDULE;
     payload: {
         id: number;
-        key: string;
+        key: SchedulesKey;
     }
 }
 
-export const deleteSchedule = (key: string, id: number): DeleteScheduleAction => {
+export const deleteSchedule = (key: SchedulesKey, id: number): DeleteScheduleAction => {
     return {
         type: ActionTypes.DELETE_SCHEDULE,
         payload: { id, key },
@@ -57,8 +53,8 @@ type FetchSchedulesAction = {
     payload: Record<string, Schedule[]>;
 }
 
-export const setSchedules = (schedules: MonthSchedules): FetchSchedulesAction => {
-    console.log('set schedules state from firestore.', 'redux/actions/schedules');
+export const setSchedules = (schedules: SchedulesState['monthSchedules']): FetchSchedulesAction => {
+    console.log('set schedules to state from firestore.');
     return {
         type: ActionTypes.FETCH_SCHEDULES,
         payload: schedules,

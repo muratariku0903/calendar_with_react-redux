@@ -1,7 +1,7 @@
 import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, updateSchedule, SchedulesActions } from '../schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { Schedule, State, DialogSchedule } from '../../stateTypes';
+import { Schedule, State, DialogSchedule, SchedulesState } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
@@ -13,13 +13,13 @@ type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions
 // 前月の予定とかも表示させたい
 export const asyncFetchSchedules = (year: number, month: number): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
-    console.log('try fetching schedules');
-    try {
-        const schedules = await schedulesAPI.fetchSchedules(year, month);
-        dispatch(setSchedules(schedules));
-    } catch (e) {
-        console.log('Error fetching schedules', e);
-    }
+    await schedulesAPI.fetchSchedules(year, month)
+        .then(schedules => {
+            dispatch(setSchedules(schedules));
+            console.log('Set schedules to state');
+        }).catch(e => {
+            console.log('Error setting schedules state', e);
+        });
 }
 
 export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {

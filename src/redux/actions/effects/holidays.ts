@@ -1,7 +1,7 @@
 import { HolidaysActions, setHolidays, setHolidaysLoading } from '../holidays';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { State, Holidays } from '../../stateTypes';
+import { State, HolidaysState } from '../../stateTypes';
 import GoogleCalendarApi from '../../../api/GoogleCalendarApi/GoogleCalendarApi';
 import { createHolidaysKey } from '../../../services/holidays';
 import dayjs from 'dayjs';
@@ -14,7 +14,7 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
     console.log('try fetching holidays', 'redux/actions/effects/holidays');
     await GoogleCalendarApi.fetchHolidays(year, month)
         .then(items => {
-            const holidays: Holidays = {};
+            const holidays: HolidaysState['holidays'] = {};
             items.forEach(item => {
                 const date = dayjs(item.start.date).unix();
                 const name = item.summary;

@@ -1,14 +1,14 @@
 import { ActionTypes } from '../actionTypes';
-import { Holidays } from '../stateTypes';
+import { HolidaysState } from '../stateTypes';
 
 
 type SetHolidaysAction = {
     type: ActionTypes.SET_HOLIDAYS;
-    payload: Holidays;
+    payload: HolidaysState['holidays'];
 }
 
 // fetchというよりsetの方がしっくりくるかも
-export const setHolidays = (holidays: Holidays): SetHolidaysAction => {
+export const setHolidays = (holidays: HolidaysState['holidays']): SetHolidaysAction => {
     console.log('set holidays from google calendar api.');
     return {
         type: ActionTypes.SET_HOLIDAYS,

@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
-import { DialogSchedule, Schedule, ScheduleDate } from '../../../../redux/stateTypes';
+import { DialogSchedule, Schedule } from '../../../../redux/stateTypes';
 import dayjs from 'dayjs';
 
 const spacer = { margin: '4px 0' };

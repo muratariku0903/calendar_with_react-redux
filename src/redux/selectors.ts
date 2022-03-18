@@ -14,6 +14,7 @@ export const getCalendarDates = (store: State): CalendarDate[] => {
     const { year, month } = store.calendar;
     const holidays = store.holidays.holidays;
     const schedules = store.schedules.monthSchedules;
+    console.log(schedules);
     const firstDay = getMonth(year, month);
     const prevMonthDateCnt = firstDay.day();
     const totalCellCnt = getTotalCalendarCellCnt(firstDay);

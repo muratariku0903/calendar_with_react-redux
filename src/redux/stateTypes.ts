@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs"
+import dayjs from "dayjs"
 
 // カレンダーのstate
 export type CalendarState = {
@@ -7,8 +7,6 @@ export type CalendarState = {
 };
 
 // 予定の型
-export type ScheduleDate = Dayjs | number | null;
-export type ScheduleTime = { start: number | null, end: number | null };
 export type Schedule = {
     id: number;
     title: string;
@@ -46,22 +44,19 @@ export type UpdateScheduleDialogState = {
 };
 
 // stringはもう少し具体的な型にした方がキーとして何を持つのか分かりにくい 年_月_日
-// フロント側で設定するscheduleとfirestoreから取得するデータ型は一致してないといけない。
-// つまり、フロント側でidを生成して、それをfirestoreに保存して編集や削除はそのidを元に行う。
-export type MonthSchedules = Record<string, Schedule[]>;
+export type SchedulesKey = `${number}_${number}_${number}` | string;
 
 // 予定のstate
 export type SchedulesState = {
-    monthSchedules: Record<string, Schedule[]>;
+    monthSchedules: Record<SchedulesKey, Schedule[]>;
     isLoading: boolean;
 };
+
 
 export type Holiday = {
     date: number;
     name: string;
 };
-
-export type Holidays = Record<string, Holiday | null>;
 
 export type HolidaysState = {
     holidays: Record<string, Holiday | null>;

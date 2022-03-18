@@ -1,13 +1,13 @@
-import { MonthSchedules, Schedule } from '../redux/stateTypes';
+import { SchedulesState, Schedule, SchedulesKey } from '../redux/stateTypes';
 import dayjs from 'dayjs';
 
 // これ返り値さ独自の型を定義できないかな。キーがどういうフォーマットなのかを明示的にしたい。
-export const createSchedulesKey = (stamp: Schedule['date']): string => {
+export const createSchedulesKey = (stamp: Schedule['date']): SchedulesKey => {
     const date = dayjs.unix(stamp);
-    return String(date.year()) + '_' + String(Number(date.month()) + 1) + '_' + String(date.date());
+    return `${date.year()}_${date.month() + 1}_${date.date()}`;
 }
 
-export const getScheduleById = (schedules: MonthSchedules, id: number): Schedule => {
+export const getScheduleById = (schedules: SchedulesState['monthSchedules'], id: number): Schedule => {
     for (const [key, dateSchedules] of Object.entries(schedules)) {
         for (const schedule of dateSchedules) {
             if (schedule.id === id) return schedule;
@@ -23,6 +23,6 @@ export const updateDateSchedules = (dateSchedules: Schedule[], newSchedule: Sche
     return dateSchedules;
 }
 
-export const addScheduleToDateSchedules = (key: string, monthSchedules: MonthSchedules, newSchedule: Schedule): Schedule[] => {
+export const addScheduleToDateSchedules = (key: SchedulesKey, monthSchedules: SchedulesState['monthSchedules'], newSchedule: Schedule): Schedule[] => {
     return monthSchedules[key] ? monthSchedules[key].concat(newSchedule) : [newSchedule];
 }

@@ -1,6 +1,7 @@
 import { db } from '../firestore';
 import { collection, getDocs, setDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
-import { Schedule, DialogSchedule, MonthSchedules, SchedulesState } from '../../redux/stateTypes';
+import { Schedule, DialogSchedule, SchedulesState, SchedulesKey } from '../../redux/stateTypes';
+import { createSchedulesKey } from '../../services/schedules';
 import { isSameMonth } from '../../services/calendar';
 import dayjs from 'dayjs';
 
@@ -15,9 +16,12 @@ const fetchSchedules = async (year: number, month: number): Promise<SchedulesSta
     const schedules: SchedulesState['monthSchedules'] = {};
     (await getDocs(monthScheduleRef)).docs.forEach(doc => {
         const schedule = doc.data() as Schedule;
-        const key = monthSchedulesKey + '_' + dayjs.unix(schedule.date).date();
+        console.log(schedule);
+        const key = createSchedulesKey(dayjs.unix(schedule.date).unix());
+
         schedules[key] = schedules[key] ? schedules[key].concat(schedule) : [schedule];
     });
+
     return schedules;
 }
 
@@ -44,7 +48,6 @@ const updateSchedule = async (prevDate: Schedule['date'], schedule: Schedule): P
             await updateDoc(createDocRef(getMonthSchedulesKey(d.year(), d.month() + 1), String(id)), schedule);
         } else {
             await deleteDoc(createDocRef(getMonthSchedulesKey(prevD.year(), prevD.month() + 1), String(id)));
-            console.log('hello');
             await setDoc(doc(createCollectionRef(getMonthSchedulesKey(d.year(), d.month() + 1)), String(id)), schedule);
         }
         console.log('Update schedule of firestore.');
