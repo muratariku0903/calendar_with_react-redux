@@ -5,12 +5,12 @@ import { AccessTime } from "@material-ui/icons";
 import { DialogSchedule } from '../../../../redux/stateTypes';
 import dayjs, { Dayjs } from 'dayjs';
 
-type AddScheduleDialogDateProps = {
+type AddScheduleDialogTimeProps = {
     time: DialogSchedule['time'];
     setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
 }
 
-const AddScheduleDialogTime: React.FC<AddScheduleDialogDateProps> = ({ time, setDialogForm }) => {
+const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, setDialogForm }) => {
     const startDate = time.start ? dayjs.unix(time.start) : null;
     const endDate = time.end ? dayjs.unix(time.end) : null;
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {

@@ -4,6 +4,7 @@ import { UpdateScheduleDialogActions } from '../actions/updateScheduleDialog';
 
 const initialState: UpdateScheduleDialogState = {
     schedule: { id: -1, ...initialDialogForm },
+    isStartEdit: false,
     isOpenDialog: false,
 }
 
@@ -11,16 +12,13 @@ const initialState: UpdateScheduleDialogState = {
 const updateScheduleDialog = (state = initialState, action: UpdateScheduleDialogActions): UpdateScheduleDialogState => {
     switch (action.type) {
         case ActionTypes.SET_UPDATE_SCHEDULE_DIALOG:
-            return {
-                ...state,
-                schedule: action.payload,
-            }
+            return { ...state, schedule: action.payload, };
+
+        case ActionTypes.START_EDIT_UPDATE_SCHEDULE_DIALOG:
+            return { ...state, isStartEdit: true };
 
         case ActionTypes.OPEN_UPDATE_SCHEDULE_DIALOG:
-            return {
-                ...state,
-                isOpenDialog: true,
-            }
+            return { ...state, isOpenDialog: true, };
 
         case ActionTypes.CLOSE_UPDATE_SCHEDULE_DIALOG:
             return initialState;

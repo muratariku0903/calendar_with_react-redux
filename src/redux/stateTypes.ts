@@ -29,6 +29,7 @@ export const initialDialogForm: DialogSchedule = {
 
 export type AddScheduleDialogState = {
     schedule: DialogSchedule;
+    isStartEdit: boolean;
     isOpenDialog: boolean;
 };
 
@@ -40,6 +41,7 @@ export type ShowScheduleDialogState = {
 
 export type UpdateScheduleDialogState = {
     schedule: Schedule;
+    isStartEdit: boolean;
     isOpenDialog: boolean;
 };
 
@@ -63,7 +65,6 @@ export type HolidaysState = {
 }
 
 
-// 全体のstate
 export type State = {
     calendar: CalendarState;
     schedules: SchedulesState;

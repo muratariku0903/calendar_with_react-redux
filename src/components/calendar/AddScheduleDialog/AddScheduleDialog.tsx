@@ -33,7 +33,7 @@ const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, closeDial
                 <AddScheduleDialogForm schedule={dialog.schedule} setDialogForm={setDialogForm} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={addSchedule} color="primary" variant="outlined">保存</Button>
+                <Button onClick={addSchedule} color="primary" disabled={!dialog.schedule.title} variant="outlined">保存</Button>
             </DialogActions>
         </Dialog>
     );

@@ -13,6 +13,14 @@ export const setUpdateScheduleDialog = (schedule: Schedule): SetUpdateScheduleDi
     }
 }
 
+type StartEditUpdateScheduleDialogAction = {
+    type: ActionTypes.START_EDIT_UPDATE_SCHEDULE_DIALOG;
+}
+
+export const startEditUpdateScheduleDialog = (): StartEditUpdateScheduleDialogAction => {
+    return { type: ActionTypes.START_EDIT_UPDATE_SCHEDULE_DIALOG };
+}
+
 type OpenUpdateScheduleDialogAction = {
     type: ActionTypes.OPEN_UPDATE_SCHEDULE_DIALOG;
 }
@@ -33,4 +41,5 @@ export const closeUpdateScheduleDialog = (): CloseUpdateScheduleDialogAction => 
     }
 }
 
-export type UpdateScheduleDialogActions = SetUpdateScheduleDialogAction | OpenUpdateScheduleDialogAction | CloseUpdateScheduleDialogAction;
+export type UpdateScheduleDialogActions =
+    SetUpdateScheduleDialogAction | StartEditUpdateScheduleDialogAction | OpenUpdateScheduleDialogAction | CloseUpdateScheduleDialogAction;

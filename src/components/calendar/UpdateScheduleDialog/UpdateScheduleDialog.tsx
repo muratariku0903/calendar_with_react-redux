@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogActions, Button, IconButton } from '@material-ui/core';
 import { Close } from "@material-ui/icons";
 import { Schedule, UpdateScheduleDialogState, SchedulesState } from '../../../redux/stateTypes';
-import UpdateScheduleDialogTitle from './parts/Title';
+import UpdateScheduleDialogTitle from './containers/Title';
 import UpdateScheduleDialogDate from './parts/Date';
 import UpdateScheduleDialogTime from './parts/Time';
 import UpdateScheduleDialogLocation from './parts/Location';
@@ -40,7 +40,7 @@ const UpdateScheduleDialog: React.FC<UpdateScheduleDialogProps> = ({ dialog, clo
                 <UpdateScheduleDialogDescription description={dialog.schedule.description} setUpdateDialog={setUpdateDialog} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={updateSchedule} color="primary" variant="outlined">更新</Button>
+                <Button onClick={updateSchedule} disabled={!dialog.schedule.title} color="primary" variant="outlined">更新</Button>
             </DialogActions>
         </Dialog >
     );

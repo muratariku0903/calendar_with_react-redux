@@ -14,6 +14,14 @@ export const setAddScheduleDialog = (form: DialogSchedule): SetAddScheduleDialog
     }
 };
 
+type StartEditAddScheduleDialogAction = {
+    type: ActionTypes.START_EDIT_ADD_SCHEDULE_DIALOG;
+}
+
+export const startEditAddScheduleDialog = (): StartEditAddScheduleDialogAction => {
+    return { type: ActionTypes.START_EDIT_ADD_SCHEDULE_DIALOG };
+}
+
 type OpenAddScheduleDialogAction = {
     type: ActionTypes.OPEN_ADD_SCHEDULE_DIALOG;
 };
@@ -30,4 +38,5 @@ export const closeAddScheduleDialog = (): CloseAddScheduleDialogAction => {
     return { type: ActionTypes.CLOSE_ADD_SCHEDULE_DIALOG };
 };
 
-export type AddScheduleDialogActions = SetAddScheduleDialogAction | OpenAddScheduleDialogAction | CloseAddScheduleDialogAction;
+export type AddScheduleDialogActions =
+    SetAddScheduleDialogAction | StartEditAddScheduleDialogAction | OpenAddScheduleDialogAction | CloseAddScheduleDialogAction;
