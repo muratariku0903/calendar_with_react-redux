@@ -9,6 +9,7 @@ class GoogleCalendarApi {
     private DISCOVERY_DOC = DISCOVERY_DOC;
     private GOOGLE_CALENDAR_ID = GOOGLE_CALENDAR_ID;
 
+    // 引数としてはpathで良い気がする
     public async fetchMonthHolidays(year: number, month: number): Promise<JapaneseHoliday[]> {
         return new Promise((resolve, reject) => {
             if (gapi) {
@@ -39,28 +40,34 @@ class GoogleCalendarApi {
         const yearMonthObjs = this.getYearMonthObjs(year, month);
         let holidays: JapaneseHoliday[] = [];
         for (const { year, month } of yearMonthObjs) {
-            const monthHolidays = await this.fetchMonthHolidays(year, month);
-            holidays = holidays.concat(monthHolidays);
+            try {
+                const monthHolidays = await this.fetchMonthHolidays(year, month);
+                holidays = holidays.concat(monthHolidays);
+            } catch (e) {
+                console.log('Error fetching holiday from api.');
+            }
         }
+        console.log('Fetch holidays from api.');
         return holidays;
     }
 
     private getYearMonthObjs(year: number, month: number): { year: number, month: number }[] {
-        let prevMonth = month - 1, nextMonth = month + 1;
-        let nextYear = year, prevYear = year;
-        if (month === 1) {
-            prevMonth = 12;
-            prevYear--;
-        }
-        if (month === 12) {
-            nextMonth = 1;
-            nextYear++;
-        }
         return [
-            { year: prevYear, month: prevMonth },
-            { year: year, month: month },
-            { year: nextYear, month: nextMonth },
-        ];
+            this.getYearMonthObj(year, month - 1),
+            this.getYearMonthObj(year, month),
+            this.getYearMonthObj(year, month + 1),
+        ]
+    }
+
+    private getYearMonthObj(year: number, month: number): { year: number, month: number } {
+        if (month < 1) {
+            year--;
+            month = 12;
+        } else if (month > 12) {
+            year++;
+            month = 1;
+        }
+        return { year, month };
     }
 
     private createRequestPath(year: number, month: number): string {

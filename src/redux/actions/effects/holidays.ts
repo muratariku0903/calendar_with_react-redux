@@ -19,11 +19,10 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
                 const name = item.summary;
                 holidays[createHolidaysKey(date)] = { date, name };
             });
-            console.log(holidays);
-            console.log('set holidays from google calendar api.');
+            console.log('Set holidays to state.');
             dispatch(setHolidays(holidays));
         }).catch(err => {
-            console.log('Error fetching docs', err);
+            console.log('Error Setting holidays to state.', err);
         });
 }
 

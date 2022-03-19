@@ -9,14 +9,12 @@ import { schedulesAPI } from '../../../firebase/api/schedules';
 
 type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions>;
 
-// reducerに伝達する本来のアクションよりも前に処理するアクションってこと。つまり、アクションとreducerの間のeffectということ。
-// 前月の予定とかも表示させたい
 export const asyncFetchSchedules = (year: number, month: number): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
     await schedulesAPI.fetchSchedules(year, month)
         .then(schedules => {
             dispatch(setSchedules(schedules));
-            console.log('set schedules to state.');
+            console.log('Set schedules to state.');
         }).catch(e => {
             console.log('Error setting schedules state', e);
         });
@@ -26,7 +24,7 @@ export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => 
     dispatch(setScheduleLoading());
     try {
         const id = await schedulesAPI.addSchedule(form);
-        console.log('Schedule add to state.', id);
+        console.log('Add schedule to state.', id);
         dispatch(addSchedules(createSchedulesKey(form.date), form, id));
     } catch (e) {
         console.error("Error adding schedule of state.: ", e);
@@ -38,7 +36,7 @@ export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction =>
     try {
         await schedulesAPI.deleteSchedule(schedule);
         dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
-        console.log('Schedule delete of state.');
+        console.log('Delete schedule of state.');
     } catch (e) {
         console.error("Error deleting schedule of state.: ", e);
     }
