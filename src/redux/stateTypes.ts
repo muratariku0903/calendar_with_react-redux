@@ -1,12 +1,12 @@
 import dayjs from "dayjs"
 
-// カレンダーのstate
+
 export type CalendarState = {
     year: number;
     month: number;
 };
 
-// 予定の型
+
 export type Schedule = {
     id: number;
     title: string;
@@ -15,6 +15,7 @@ export type Schedule = {
     location: string;
     description: string;
 };
+
 
 // AddDialogScheduleの方がわかりやすい
 export type DialogSchedule = Omit<Schedule, 'id'>;
@@ -39,6 +40,7 @@ export type ShowScheduleDialogState = {
     isOpenDialog: boolean;
 };
 
+
 export type UpdateScheduleDialogState = {
     schedule: Schedule;
     isStartEdit: boolean;
@@ -59,7 +61,6 @@ export type Holiday = {
     date: number;
     name: string;
 };
-
 export type HolidaysState = {
     holidays: Record<string, Holiday | null>;
     isLoading: boolean;

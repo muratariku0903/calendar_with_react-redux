@@ -5,6 +5,7 @@ import Navigation from './components/calendar/Navigation/containers/Navigation';
 import AddScheduleDialog from './components/calendar/AddScheduleDialog/containers/AddScheduleDialog';
 import ShowScheduleDialog from './components/calendar/ShowScheduleDialog/containers/ShowScheduleDialog';
 import UpdateScheduleDialog from './components/calendar/UpdateScheduleDialog/containers/UpdateScheduleDialog';
+import ErrorSnackbar from './components/calendar/ErrorSnackbar/containers/ErrorSnackbar';
 
 
 const CalendarApp: React.FC = () => {
@@ -15,6 +16,7 @@ const CalendarApp: React.FC = () => {
             <AddScheduleDialog />
             <ShowScheduleDialog />
             <UpdateScheduleDialog />
+            <ErrorSnackbar />
         </Fragment>
     );
 };
