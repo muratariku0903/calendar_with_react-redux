@@ -69,5 +69,17 @@ export const setScheduleLoading = (): SetScheduleLoading => {
         type: ActionTypes.SET_SCHEDULES_LOADING
     }
 }
+type SetScheduleError = {
+    type: ActionTypes.SET_SCHEDULES_ERROR;
+    payload: SchedulesState['error'];
+}
 
-export type SchedulesActions = AddSchedulesAction | DeleteScheduleAction | UpdateScheduleAction | FetchSchedulesAction | SetScheduleLoading;
+export const setScheduleError = (error: SchedulesState['error']): SetScheduleError => {
+    return {
+        type: ActionTypes.SET_SCHEDULES_ERROR,
+        payload: error,
+    }
+}
+
+export type SchedulesActions =
+    AddSchedulesAction | DeleteScheduleAction | UpdateScheduleAction | FetchSchedulesAction | SetScheduleLoading | SetScheduleError;

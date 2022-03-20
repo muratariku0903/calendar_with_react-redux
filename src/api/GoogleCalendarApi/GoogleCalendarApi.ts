@@ -1,5 +1,6 @@
-import { API_KEY, CLIENT_ID, GOOGLE_CALENDAR_ID, DISCOVERY_DOC } from "./config";
+import { API_KEY, CLIENT_ID, GOOGLE_CALENDAR_ID, DISCOVERY_DOC, SCOPE } from "./config";
 import { JapaneseHoliday } from "./types";
+import { getMonth } from '../../services/calendar';
 import dayjs, { Dayjs } from 'dayjs';
 
 
@@ -8,8 +9,8 @@ class GoogleCalendarApi {
     private CLIENT_ID = CLIENT_ID;
     private DISCOVERY_DOC = DISCOVERY_DOC;
     private GOOGLE_CALENDAR_ID = GOOGLE_CALENDAR_ID;
+    private SCOPE = SCOPE;
 
-    // 引数としてはpathで良い気がする
     public async fetchMonthHolidays(year: number, month: number): Promise<JapaneseHoliday[]> {
         return new Promise((resolve, reject) => {
             if (gapi) {
@@ -17,17 +18,19 @@ class GoogleCalendarApi {
                     gapi.client.init({
                         apiKey: this.API_KEY,
                         clientId: this.CLIENT_ID,
+                        // scope: this.SCOPE,
                     }).then(() => {
                         const requestPath = this.createRequestPath(year, month);
                         gapi.client.request({ path: requestPath })
                             .then(res => {
+                                console.log(`Fetch holidays of ${year}:${month} from api.`);
                                 resolve(res.result.items);
                             })
-                            .catch(() => {
-                                reject('Failed request for' + requestPath);
+                            .catch(e => {
+                                reject(`Failed request of ${requestPath} because: ${e}`);
                             });
                     }).catch(() => {
-                        reject('Failed to connected Google Calendar API');
+                        reject('Failed to connected Google Calendar API.');
                     });
                 });
             } else {
@@ -44,10 +47,10 @@ class GoogleCalendarApi {
                 const monthHolidays = await this.fetchMonthHolidays(year, month);
                 holidays = holidays.concat(monthHolidays);
             } catch (e) {
-                console.log('Error fetching holiday from api.');
+                throw (`Error fetching prev and next month holiday from api because ${e}`);
             }
         }
-        console.log('Fetch holidays from api.');
+        console.log('Fetch prev and next month holidays from api.');
         return holidays;
     }
 
@@ -72,7 +75,7 @@ class GoogleCalendarApi {
 
     private createRequestPath(year: number, month: number): string {
         const encode = encodeURIComponent(this.GOOGLE_CALENDAR_ID);
-        const { start, end } = this.getTimeZone(dayjs(`${year}-${month}`));
+        const { start, end } = this.getTimeZone(getMonth(year, month));
         const param = this.getParam(start, end);
         return `${this.DISCOVERY_DOC}${encode}/events?${param}`;
     }
@@ -88,10 +91,10 @@ class GoogleCalendarApi {
         }
     }
 
-    public getTimeText(date: Dayjs | number): string {
+    private getTimeText(date: Dayjs | number): string {
         const pad = (t: number) => ('00' + t).slice(-2);
         return `${dayjs(date).year()}-${pad(dayjs(date).month() + 1)}-${pad(dayjs(date).date())}T00:00:00Z`;
     }
 }
 
-export default new GoogleCalendarApi;
+export default GoogleCalendarApi;

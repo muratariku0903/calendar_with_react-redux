@@ -13,6 +13,7 @@ import { getCalendarDates } from '../../../../redux/selectors';
 
 // 全体のstateが更新されるととりあえず、mapStateToPropsも再度呼び出される。
 const mapStateToProps = (state: State): StateProps => {
+    console.log(state.schedules);
     return {
         year: state.calendar.year,
         month: state.calendar.month,

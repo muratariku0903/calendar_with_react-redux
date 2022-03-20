@@ -51,6 +51,7 @@ export type SchedulesKey = `${number}_${number}_${number}` | string;
 export type SchedulesState = {
     monthSchedules: Record<SchedulesKey, Schedule[]>;
     isLoading: boolean;
+    error: null | string;
 };
 
 
@@ -62,6 +63,7 @@ export type Holiday = {
 export type HolidaysState = {
     holidays: Record<string, Holiday | null>;
     isLoading: boolean;
+    error: null | string;
 }
 
 

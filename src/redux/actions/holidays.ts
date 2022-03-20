@@ -25,4 +25,16 @@ export const setHolidaysLoading = (): SetHolidaysLoading => {
     }
 }
 
-export type HolidaysActions = SetHolidaysAction | SetHolidaysLoading;
+type SetHolidaysError = {
+    type: ActionTypes.SET_HOLIDAYS_ERROR;
+    payload: HolidaysState['error'];
+}
+
+export const setHolidaysError = (error: HolidaysState['error']): SetHolidaysError => {
+    return {
+        type: ActionTypes.SET_HOLIDAYS_ERROR,
+        payload: error,
+    }
+}
+
+export type HolidaysActions = SetHolidaysAction | SetHolidaysLoading | SetHolidaysError;

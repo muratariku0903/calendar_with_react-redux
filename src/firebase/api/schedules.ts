@@ -9,20 +9,20 @@ const rootCollection = 'schedules';
 const monthScheduleCollection = 'monthSchedule';
 
 const fetchSchedules = async (year: number, month: number): Promise<SchedulesState['monthSchedules']> => {
-    const monthScheduleKeys = getPrevNextMonthSchedulesKeys(getMonth(year, month).unix());
-    const monthScheduleRefs = createCollectionRefs(monthScheduleKeys);
     const schedules: SchedulesState['monthSchedules'] = {};
-    for (const ref of monthScheduleRefs) {
-        try {
+    try {
+        const monthScheduleKeys = getPrevNextMonthSchedulesKeys(getMonth(year, month).unix());
+        const monthScheduleRefs = createCollectionRefs(monthScheduleKeys);
+        for (const ref of monthScheduleRefs) {
             (await getDocs(ref)).docs.forEach(doc => {
                 const schedule = doc.data() as Schedule;
                 const key = createSchedulesKey(schedule.date);
                 schedules[key] = schedules[key] ? schedules[key].concat(schedule) : [schedule];
             });
             console.log('Fetch schedules from firestore.');
-        } catch (e) {
-            console.log('Error fetching schedules from firestore.', e);
         }
+    } catch (e) {
+        throw (`Error fetching schedules from firestore because:${e}`);
     }
     return schedules;
 }
@@ -34,7 +34,7 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
         await setDoc(doc(ref, String(id)), { ...form, id });
         console.log('Add schedule to firestore.');
     } catch (e) {
-        console.log('Error adding schedule to firestore.', e);
+        throw (`Error adding schedule to firestore because:${e}`);
     }
     return id;
 }
@@ -50,7 +50,7 @@ const updateSchedule = async (prevDate: Schedule['date'], schedule: Schedule): P
         }
         console.log('Update schedule of firestore.');
     } catch (e) {
-        console.log('Error updating schedule of firestore', e);
+        throw (`Error updating schedule of firestore because:${e}`);
     }
 }
 
@@ -59,7 +59,7 @@ const deleteSchedule = async (schedule: Schedule): Promise<void> => {
         await deleteDoc(createDocRef(getMonthSchedulesKey(schedule.date), String(schedule.id)));
         console.log('Delete schedule of firestore')
     } catch (e) {
-        console.log('Error deleting schedule of firestore', e)
+        throw (`Error deleting schedule of firestore because:${e}`);
     }
 }
 

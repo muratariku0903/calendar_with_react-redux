@@ -6,6 +6,7 @@ import { ActionTypes } from "../actionTypes";
 const initialState: HolidaysState = {
     holidays: {},
     isLoading: false,
+    error: null,
 }
 
 const holidays = (state = initialState, action: HolidaysActions): HolidaysState => {
@@ -21,6 +22,12 @@ const holidays = (state = initialState, action: HolidaysActions): HolidaysState 
             return {
                 ...state,
                 isLoading: true,
+            }
+
+        case ActionTypes.SET_HOLIDAYS_ERROR:
+            return {
+                ...state,
+                error: action.payload
             }
 
         default:

@@ -1,4 +1,4 @@
-import { HolidaysActions, setHolidays, setHolidaysLoading } from '../holidays';
+import { HolidaysActions, setHolidays, setHolidaysLoading, setHolidaysError } from '../holidays';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { State, HolidaysState } from '../../stateTypes';
@@ -11,19 +11,21 @@ type HolidaysThunkAction = ThunkAction<void, State, undefined, HolidaysActions>;
 
 export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setHolidaysLoading());
-    await GoogleCalendarApi.fetchHolidays(year, month)
-        .then(items => {
-            const holidays: HolidaysState['holidays'] = {};
-            items.forEach(item => {
-                const date = dayjs(item.start.date).unix();
-                const name = item.summary;
-                holidays[createHolidaysKey(date)] = { date, name };
-            });
-            console.log('Set holidays to state.');
-            dispatch(setHolidays(holidays));
-        }).catch(err => {
-            console.log('Error Setting holidays to state.', err);
+    const gapi = new GoogleCalendarApi();
+    try {
+        const schedulesFromGapi = await gapi.fetchHolidays(year, month);
+        const holidays: HolidaysState['holidays'] = {};
+        schedulesFromGapi.forEach(s => {
+            const date = dayjs(s.start.date).unix();
+            const name = s.summary;
+            holidays[createHolidaysKey(date)] = { date, name };
         });
+        console.log('Set holidays to state.');
+        dispatch(setHolidays(holidays));
+    } catch (e) {
+        console.error('Error Setting holidays to state because:', e);
+        dispatch(setHolidaysError(String(e)));
+    }
 }
 
 

@@ -5,7 +5,8 @@ import { addScheduleToDateSchedules, updateDateSchedules } from "../../services/
 
 const initialState: SchedulesState = {
     monthSchedules: {},
-    isLoading: false
+    isLoading: false,
+    error: null,
 }
 
 const schedules = (state = initialState, action: SchedulesActions): SchedulesState => {
@@ -57,6 +58,12 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
                 ...state,
                 // これpayloadで受け取った方がいい気がsる
                 isLoading: true,
+            }
+
+        case ActionTypes.SET_SCHEDULES_ERROR:
+            return {
+                ...state,
+                error: action.payload
             }
 
         default:

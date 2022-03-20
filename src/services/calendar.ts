@@ -14,7 +14,9 @@ export const isSameMonth = (m1: number, m2: number): boolean => {
 export const isFirstDay = (day: Dayjs): boolean => day.date() === 1;
 
 export const getMonth = (year: number, month: number): Dayjs => {
-    return dayjs(`${year}-${month}`);
+    const date = dayjs(`${year}-${month}`);
+    if (date.isValid() && validateYearMonth(year, month)) return date;
+    throw (`Invalid date from year(${year}) and month(${month}).`);
 }
 
 export const getDateCntOfMonth = (year: number, month: number): number => {
@@ -26,4 +28,16 @@ export const getTotalCalendarCellCnt = (date: Dayjs): number => {
     const currentMonthDateCnt = date.endOf('month').date();
     const nextMonthDateCnt = 6 - date.endOf('month').day();
     return prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
+}
+
+const validateYearMonth = (year: number, month: number): boolean => {
+    return validateYear(year) && validateMonth(month);
+}
+
+const validateYear = (year: number): boolean => {
+    return String(year).length === 4;
+}
+
+const validateMonth = (month: number): boolean => {
+    return 1 <= month && month <= 12;
 }

@@ -1,4 +1,4 @@
-import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, updateSchedule, SchedulesActions } from '../schedules';
+import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, setScheduleError, updateSchedule, SchedulesActions } from '../schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Schedule, State, DialogSchedule } from '../../stateTypes';
@@ -16,7 +16,8 @@ export const asyncFetchSchedules = (year: number, month: number): SchedulesThunk
             dispatch(setSchedules(schedules));
             console.log('Set schedules to state.');
         }).catch(e => {
-            console.log('Error setting schedules state', e);
+            console.error('Error setting schedules to state because:', e);
+            dispatch(setScheduleError(String(e)));
         });
 }
 
@@ -27,7 +28,8 @@ export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => 
         console.log('Add schedule to state.', id);
         dispatch(addSchedules(createSchedulesKey(form.date), form, id));
     } catch (e) {
-        console.error("Error adding schedule of state.: ", e);
+        console.error("Error adding schedule to state because: ", e);
+        dispatch(setScheduleError(String(e)));
     }
 }
 
@@ -38,7 +40,8 @@ export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction =>
         dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
         console.log('Delete schedule of state.');
     } catch (e) {
-        console.error("Error deleting schedule of state.: ", e);
+        console.error("Error deleting schedule of state because: ", e);
+        dispatch(setScheduleError(String(e)));
     }
 }
 
@@ -55,6 +58,7 @@ export const asyncUpdateSchedule = (prevDate: Schedule['date'], schedule: Schedu
         }
         console.log('Update schedule of state.');
     } catch (e) {
-        console.error("Error updating schedule of state.", e);
+        console.error("Error updating schedule of state because:", e);
+        dispatch(setScheduleError(String(e)));
     }
 }
