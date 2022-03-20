@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dialog, DialogContent, DialogActions, IconButton } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions, IconButton, Tooltip } from '@material-ui/core';
 import { Close, DeleteOutlineOutlined, Edit } from "@material-ui/icons";
 import { Schedule, ShowScheduleDialogState } from '../../../redux/stateTypes';
 import ScheduleTitle from './parts/ScheduleTitle';
@@ -25,19 +25,25 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>
-                <IconButton onClick={closeDialog} size="small">
-                    <Close />
-                </IconButton>
+                <Tooltip title='閉じる' placement='bottom'>
+                    <IconButton onClick={closeDialog} size="small">
+                        <Close />
+                    </IconButton>
+                </Tooltip>
             </DialogActions>
             <DialogActions>
-                <IconButton onClick={deleteSchedule} size="small">
-                    <DeleteOutlineOutlined />
-                </IconButton>
+                <Tooltip title='削除' placement='bottom'>
+                    <IconButton onClick={deleteSchedule} size="small">
+                        <DeleteOutlineOutlined />
+                    </IconButton>
+                </Tooltip>
             </DialogActions>
             <DialogActions>
-                <IconButton onClick={(e) => openUpdateScheduleDialog(e, dialog.schedule)} size="small">
-                    <Edit />
-                </IconButton>
+                <Tooltip title='編集' placement='bottom'>
+                    <IconButton onClick={(e) => openUpdateScheduleDialog(e, dialog.schedule)} size="small">
+                        <Edit />
+                    </IconButton>
+                </Tooltip>
             </DialogActions>
             <DialogContent>
                 {dialog.schedule && (

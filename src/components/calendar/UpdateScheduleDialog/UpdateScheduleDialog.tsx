@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogActions, Button, IconButton } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions, Button, IconButton, Tooltip } from '@material-ui/core';
 import { Close } from "@material-ui/icons";
 import { Schedule, UpdateScheduleDialogState, SchedulesState } from '../../../redux/stateTypes';
 import UpdateScheduleDialogTitle from './containers/Title';
@@ -28,9 +28,11 @@ const UpdateScheduleDialog: React.FC<UpdateScheduleDialogProps> = ({ dialog, clo
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeUpdateScheduleDialog} maxWidth="xs" fullWidth>
             <DialogActions>
-                <IconButton onClick={closeUpdateScheduleDialog} size="small">
-                    <Close />
-                </IconButton>
+                <Tooltip title='閉じる' placement='bottom'>
+                    <IconButton onClick={closeUpdateScheduleDialog} size="small">
+                        <Close />
+                    </IconButton>
+                </Tooltip>
             </DialogActions>
             <DialogContent>
                 <UpdateScheduleDialogTitle title={dialog.schedule.title} setUpdateDialog={setUpdateDialog} />

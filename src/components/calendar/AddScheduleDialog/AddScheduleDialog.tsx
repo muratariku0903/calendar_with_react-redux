@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogActions, Button, IconButton } from '@material-ui/core';
+import { Dialog, DialogContent, DialogActions, Button, IconButton, Tooltip } from '@material-ui/core';
 import { Close } from "@material-ui/icons";
 import { AddScheduleDialogState, DialogSchedule } from '../../../redux/stateTypes';
 import { AddScheduleDialogActions } from '../../../redux/actions/addScheduleDialog';
@@ -25,9 +25,11 @@ const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, closeDial
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>
-                <IconButton onClick={closeDialog} size="small">
-                    <Close />
-                </IconButton>
+                <Tooltip title='閉じる' placement='bottom'>
+                    <IconButton onClick={closeDialog} size="small">
+                        <Close />
+                    </IconButton>
+                </Tooltip>
             </DialogActions>
             <DialogContent>
                 <AddScheduleDialogForm schedule={dialog.schedule} setDialogForm={setDialogForm} />

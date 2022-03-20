@@ -1,11 +1,10 @@
 import React from 'react';
-import { IconButton, Toolbar, Typography, withStyles } from '@material-ui/core';
+import { IconButton, Toolbar, Typography, withStyles, Tooltip } from '@material-ui/core';
 import ArrowBackIos from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIos from "@material-ui/icons/ArrowForwardIos";
 import DehazeIcon from "@material-ui/icons/Dehaze";
 import { DatePicker } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { CalendarActions } from '../../../redux/actions/calendar';
 import { getMonth } from '../../../services/calendar';
 
 
@@ -66,12 +65,16 @@ const Navigation: React.FC<NavigationProps> = (props) => {
                 <DehazeIcon />
             </IconButton>
             <StyledTypography color="textSecondary" variant="h5">カレンダー</StyledTypography>
-            <IconButton size="small" onClick={onClickPrev}>
-                <ArrowBackIos />
-            </IconButton>
-            <IconButton size="small" onClick={onClickNext}>
-                <ArrowForwardIos />
-            </IconButton>
+            <Tooltip title='前月' placement='bottom'>
+                <IconButton size="small" onClick={onClickPrev}>
+                    <ArrowBackIos />
+                </IconButton>
+            </Tooltip>
+            <Tooltip title='次月' placement='bottom'>
+                <IconButton size="small" onClick={onClickNext}>
+                    <ArrowForwardIos />
+                </IconButton>
+            </Tooltip>
             <StyledDatePicker value={getMonth(props.currentYear, props.currentMonth)} variant='inline' onChange={onChange} format="YYYY年 M月" animateYearScrolling disableToolbar />
         </StyledToolbar>
     );
