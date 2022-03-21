@@ -32,6 +32,7 @@ export type AddScheduleDialogState = {
     schedule: DialogSchedule;
     isStartEdit: boolean;
     isOpenDialog: boolean;
+    isShowAlert: boolean;
 };
 
 

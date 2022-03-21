@@ -7,6 +7,7 @@ const initialState: AddScheduleDialogState = {
     schedule: initialDialogForm,
     isStartEdit: false,
     isOpenDialog: false,
+    isShowAlert: false,
 }
 
 const addScheduleDialog = (state = initialState, action: AddScheduleDialogActions): AddScheduleDialogState => {
@@ -22,6 +23,9 @@ const addScheduleDialog = (state = initialState, action: AddScheduleDialogAction
 
         case ActionTypes.CLOSE_ADD_SCHEDULE_DIALOG:
             return initialState;
+
+        case ActionTypes.SHOW_ADD_SCHEDULE_DIALOG_ALERT:
+            return { ...state, isShowAlert: action.payload };
 
         default:
             return state;

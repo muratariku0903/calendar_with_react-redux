@@ -38,5 +38,21 @@ export const closeAddScheduleDialog = (): CloseAddScheduleDialogAction => {
     return { type: ActionTypes.CLOSE_ADD_SCHEDULE_DIALOG };
 };
 
-export type AddScheduleDialogActions =
-    SetAddScheduleDialogAction | StartEditAddScheduleDialogAction | OpenAddScheduleDialogAction | CloseAddScheduleDialogAction;
+type ShowAddScheduleDialogAlertAction = {
+    type: ActionTypes.SHOW_ADD_SCHEDULE_DIALOG_ALERT;
+    payload: boolean;
+};
+
+export const showAddScheduleDialogAlert = (isShow: boolean): ShowAddScheduleDialogAlertAction => {
+    return {
+        type: ActionTypes.SHOW_ADD_SCHEDULE_DIALOG_ALERT,
+        payload: isShow,
+    };
+};
+
+export type AddScheduleDialogActions
+    = SetAddScheduleDialogAction
+    | StartEditAddScheduleDialogAction
+    | OpenAddScheduleDialogAction
+    | CloseAddScheduleDialogAction
+    | ShowAddScheduleDialogAlertAction;
