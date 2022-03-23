@@ -19,6 +19,26 @@ export const getMonth = (year: number, month: number): Dayjs => {
     throw (`Invalid date from year(${year}) and month(${month}).`);
 }
 
+export const getPrevMonth = (year: number, month: number): Dayjs => {
+    if (month === 1) {
+        year--;
+        month = 12;
+    } else {
+        month--;
+    }
+    return getMonth(year, month);
+}
+
+export const getNextMonth = (year: number, month: number): Dayjs => {
+    if (month === 12) {
+        year++;
+        month = 1;
+    } else {
+        month++;
+    }
+    return getMonth(year, month);
+}
+
 export const getDateCntOfMonth = (year: number, month: number): number => {
     return getMonth(year, month).endOf('month').date();
 }

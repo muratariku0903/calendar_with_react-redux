@@ -7,6 +7,7 @@ import { setScheduleError } from "../../../../redux/actions/schedules";
 
 const mapStateToProps = (state: State): StateProps => {
     return {
+        // これってスケジュールのみにおけるエラーバーナの？アプリ全体の方が良くない？
         error: state.schedules.error
     };
 };

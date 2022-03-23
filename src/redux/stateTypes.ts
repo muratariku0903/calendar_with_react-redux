@@ -7,6 +7,7 @@ export type CalendarState = {
 };
 
 
+export type SchedulesKey = `${number}_${number}_${number}` | string;
 export type Schedule = {
     id: number;
     title: string;
@@ -15,7 +16,11 @@ export type Schedule = {
     location: string;
     description: string;
 };
-
+export type SchedulesState = {
+    monthSchedules: Record<SchedulesKey, Schedule[]>;
+    isLoading: boolean;
+    error: null | string;
+};
 
 // AddDialogScheduleの方がわかりやすい
 export type DialogSchedule = Omit<Schedule, 'id'>;
@@ -46,15 +51,6 @@ export type UpdateScheduleDialogState = {
     schedule: Schedule;
     isStartEdit: boolean;
     isOpenDialog: boolean;
-};
-
-
-// 予定のstate
-export type SchedulesKey = `${number}_${number}_${number}` | string;
-export type SchedulesState = {
-    monthSchedules: Record<SchedulesKey, Schedule[]>;
-    isLoading: boolean;
-    error: null | string;
 };
 
 
