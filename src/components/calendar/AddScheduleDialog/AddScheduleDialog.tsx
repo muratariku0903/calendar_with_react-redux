@@ -50,7 +50,6 @@ const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, closeDial
                 </DialogActions>
             </Dialog>
         </Fragment>
-
     );
 }
 

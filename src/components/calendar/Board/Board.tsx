@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
 import { Schedule } from '../../../redux/stateTypes';
 import { CalendarDate } from '../../../redux/selectors';
 import WeekHeader from './WeekHeader';
-import Date from './Date';
+import Date from './containers/Date';
 
 
 const useStyles = makeStyles(() => {
@@ -40,18 +42,20 @@ const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, fetchHoliday
         fetchHolidays();
     }, []);
     return (
-        <div>
-            <WeekHeader />
-            <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
-                {dates.map((val, idx) => {
-                    return (
-                        <li key={idx} onClick={() => openAddDialog(val.date.unix())}>
-                            <Date date={val.date} dateSchedules={val.dateSchedules} holiday={val.holiday} month={month} />
-                        </li>
-                    );
-                })}
-            </GridList>
-        </div>
+        <DndProvider backend={HTML5Backend}>
+            <div>
+                <WeekHeader />
+                <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
+                    {dates.map((val, idx) => {
+                        return (
+                            <li key={idx} onClick={() => openAddDialog(val.date.unix())}>
+                                <Date date={val.date} dateSchedules={val.dateSchedules} holiday={val.holiday} month={month} />
+                            </li>
+                        );
+                    })}
+                </GridList>
+            </div>
+        </DndProvider>
     );
 }
 
