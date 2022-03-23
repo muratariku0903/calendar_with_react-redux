@@ -2,11 +2,12 @@ import UpdateScheduleDialog, { StateProps, DispatchProps, UpdateScheduleDialogPr
 import { connect } from "react-redux";
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { Schedule, State } from '../../../../redux/stateTypes';
+import { DialogSchedule, Schedule, State } from '../../../../redux/stateTypes';
 import { SchedulesActions } from '../../../../redux/actions/schedules';
 import { asyncUpdateSchedule } from '../../../../redux/actions/effects/schedules';
-import { closeUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../redux/actions/updateScheduleDialog';
+import { closeUpdateScheduleDialog, setUpdateScheduleDialog, showUpdateScheduleDialogAlert } from '../../../../redux/actions/updateScheduleDialog';
 import { getScheduleById } from '../../../../services/schedules';
+import { isEmptyDialog } from '../../../../services/dialog';
 
 
 const mapStateToProps = (state: State): StateProps => {
@@ -24,6 +25,8 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(asyncUpdateSchedule(prevDate, schedule));
             dispatch(closeUpdateScheduleDialog());
         },
+        showAlert: () => dispatch(showUpdateScheduleDialogAlert(true)),
+        closeAlert: () => dispatch(showUpdateScheduleDialogAlert(false)),
     }
 }
 
@@ -31,6 +34,7 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Updat
     return {
         ...stateProps,
         ...dispatchProps,
+        isEmptyDialog: () => isEmptyDialog<DialogSchedule>(stateProps.dialog.schedule, ['date']),
         setUpdateDialog: (updateItem: Partial<Schedule>) => dispatchProps.setUpdateScheduleDialog({ ...stateProps.dialog.schedule, ...updateItem }),
         updateSchedule: () => {
             const prevSchedule = getScheduleById(stateProps.schedules, stateProps.dialog.schedule.id);

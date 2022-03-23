@@ -6,6 +6,7 @@ const initialState: UpdateScheduleDialogState = {
     schedule: { id: -1, ...initialDialogForm },
     isStartEdit: false,
     isOpenDialog: false,
+    isShowAlert: false,
 }
 
 
@@ -22,6 +23,9 @@ const updateScheduleDialog = (state = initialState, action: UpdateScheduleDialog
 
         case ActionTypes.CLOSE_UPDATE_SCHEDULE_DIALOG:
             return initialState;
+
+        case ActionTypes.SHOW_UPDATE_SCHEDULE_DIALOG_ALERT:
+            return { ...state, isShowAlert: action.payload };
 
         default:
             return state;

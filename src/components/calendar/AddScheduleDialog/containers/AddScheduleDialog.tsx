@@ -22,7 +22,6 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(asyncAddSchedule(schedule));
             dispatch(closeAddScheduleDialog());
         },
-        // ダイアログの共通化コンポーネントを作るとしたらこれはadd独自の機能になる
         showAlert: () => dispatch(showAddScheduleDialogAlert(true)),
         closeAlert: () => dispatch(showAddScheduleDialogAlert(false)),
     }

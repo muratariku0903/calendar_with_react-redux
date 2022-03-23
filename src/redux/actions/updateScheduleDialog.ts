@@ -41,5 +41,21 @@ export const closeUpdateScheduleDialog = (): CloseUpdateScheduleDialogAction => 
     }
 }
 
+type ShowUpdateScheduleDialogAlertAction = {
+    type: ActionTypes.SHOW_UPDATE_SCHEDULE_DIALOG_ALERT;
+    payload: boolean;
+};
+
+export const showUpdateScheduleDialogAlert = (isShow: boolean): ShowUpdateScheduleDialogAlertAction => {
+    return {
+        type: ActionTypes.SHOW_UPDATE_SCHEDULE_DIALOG_ALERT,
+        payload: isShow,
+    };
+};
+
 export type UpdateScheduleDialogActions =
-    SetUpdateScheduleDialogAction | StartEditUpdateScheduleDialogAction | OpenUpdateScheduleDialogAction | CloseUpdateScheduleDialogAction;
+    SetUpdateScheduleDialogAction
+    | StartEditUpdateScheduleDialogAction
+    | OpenUpdateScheduleDialogAction
+    | CloseUpdateScheduleDialogAction
+    | ShowUpdateScheduleDialogAlertAction;

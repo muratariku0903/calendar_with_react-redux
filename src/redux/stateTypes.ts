@@ -51,6 +51,7 @@ export type UpdateScheduleDialogState = {
     schedule: Schedule;
     isStartEdit: boolean;
     isOpenDialog: boolean;
+    isShowAlert: boolean;
 };
 
 
