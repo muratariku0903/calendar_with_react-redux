@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import calendar from "./calendar";
-import sideMenu from './SideMenu';
+import sideMenu from './sideMenu';
 import addScheduleDialog from './addScheduleDialog';
 import schedules from "./schedules";
 import showScheduleDialog from "./showScheduleDialog";

@@ -4,7 +4,7 @@ import { ActionTypes } from '../actionTypes';
 
 
 const initialState :SideMenuState= {
-    isOpen: true
+    isOpen: false
 }
 
 const sideMenu = (state = initialState, action: SideMenuActions) => {

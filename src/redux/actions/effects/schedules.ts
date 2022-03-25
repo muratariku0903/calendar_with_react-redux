@@ -5,6 +5,7 @@ import { Schedule, State, DialogSchedule } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
+import dayjs from 'dayjs';
 
 
 type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions>;

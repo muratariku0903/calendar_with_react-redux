@@ -50,7 +50,7 @@ const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month, update
         accept: DndItems.Schedule,
         drop: (collected: Schedule) => updateSchedule(collected.date, { ...collected, date: date.unix() }),
         collect: (monitor) => ({ schedule: monitor.getItem() }),
-    }));
+    }), [date]);
 
     return (
         <Fragment>

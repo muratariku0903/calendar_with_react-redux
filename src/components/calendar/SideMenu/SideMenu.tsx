@@ -60,7 +60,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
             setSelectedDate(getMonth(year, month))
         }
     }, [year, month]);
-    console.log(year, month);
     return (
         <Drawer
             className={classes.drawer}
