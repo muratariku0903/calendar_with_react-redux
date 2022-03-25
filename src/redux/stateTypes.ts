@@ -66,10 +66,16 @@ export type HolidaysState = {
 }
 
 
+export type SideMenuState = {
+    isOpen: boolean;
+}
+
+
 export type State = {
     calendar: CalendarState;
     schedules: SchedulesState;
     holidays: HolidaysState;
+    sideMenu: SideMenuState;
     addScheduleDialog: AddScheduleDialogState;
     showScheduleDialog: ShowScheduleDialogState;
     updateScheduleDialog: UpdateScheduleDialogState;

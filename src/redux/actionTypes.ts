@@ -2,6 +2,9 @@
 export enum ActionTypes {
     //calendar
     SET_MONTH = 'SET_MONTH',
+    //sideMenu
+    OPEN_SIDE_MENU='OPEN_SIDE_MENU',
+    CLOSE_SIDE_MENU='CLOSE_SIDE_MENU',
     //add dialog
     SET_ADD_SCHEDULE_DIALOG = "SET_ADD_SCHEDULE_DIALOG",
     START_EDIT_ADD_SCHEDULE_DIALOG = "START_EDIT_ADD_SCHEDULE_DIALOG",

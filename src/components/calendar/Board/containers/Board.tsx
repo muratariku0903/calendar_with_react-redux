@@ -16,6 +16,7 @@ const mapStateToProps = (state: State): StateProps => {
         year: state.calendar.year,
         month: state.calendar.month,
         dates: getCalendarDates(state),
+        isSideMenuOpen:state.sideMenu.isOpen,
     };
 }
 
