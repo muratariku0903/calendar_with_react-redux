@@ -44,9 +44,7 @@ export type DispatchProps = {
     openAddDialog: (date: Schedule['date']) => void;
 }
 
-export type SideMenuProps = StateProps & DispatchProps & {
-
-}
+export type SideMenuProps = StateProps & DispatchProps;
 
 const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAddDialog }) => {
     const classes = useStyles();

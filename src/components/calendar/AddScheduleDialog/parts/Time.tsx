@@ -11,8 +11,8 @@ type AddScheduleDialogTimeProps = {
 }
 
 const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, setDialogForm }) => {
-    const startDate = time.start ? dayjs.unix(time.start) : null;
-    const endDate = time.end ? dayjs.unix(time.end) : null;
+    const startTime = time.start ? dayjs.unix(time.start) : dayjs();
+    const endTime = time.end ? dayjs.unix(time.end) : dayjs().add(1, 'hour');
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (flag === 'start') {
             setDialogForm({ time: { ...time, start: d ? d.unix() : null } });
@@ -29,10 +29,10 @@ const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, set
             <Grid item xs={10}>
                 <Grid container>
                     <Grid item xs={5}>
-                        <TimePicker label="開始" value={startDate} onChange={d => setTime(d, 'start')} />
+                        <TimePicker label="開始" value={startTime} onChange={d => setTime(d, 'start')} />
                     </Grid>
                     <Grid item xs={5}>
-                        <TimePicker label="終了" value={endDate} onChange={d => setTime(d, 'end')} />
+                        <TimePicker label="終了" value={endTime} onChange={d => setTime(d, 'end')} />
                     </Grid>
                 </Grid>
             </Grid>

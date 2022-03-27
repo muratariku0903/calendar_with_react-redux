@@ -1,18 +1,22 @@
 import { db } from '../firestore';
 import { collection, getDocs, setDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import { Schedule, DialogSchedule, SchedulesState } from '../../redux/stateTypes';
 import { createSchedulesKey } from '../../services/schedules';
 import { isSameMonth, getMonth } from '../../services/calendar';
 import dayjs from 'dayjs';
 
 const rootCollection = 'schedules';
+const userScheduleCollection = 'userSchedule';
 const monthScheduleCollection = 'monthSchedule';
 
 const fetchSchedules = async (year: number, month: number): Promise<SchedulesState['monthSchedules']> => {
     const schedules: SchedulesState['monthSchedules'] = {};
     try {
-        const monthScheduleKeys = getPrevNextMonthSchedulesKeys(getMonth(year, month).unix());
-        const monthScheduleRefs = createCollectionRefs(monthScheduleKeys);
+        const uid = getAuthUid();
+        const stamp = getMonth(year, month).unix();
+        const monthScheduleKeys = getPrevNextMonthSchedulesKeys(stamp);
+        const monthScheduleRefs = createCollectionRefs(uid, monthScheduleKeys);
         for (const ref of monthScheduleRefs) {
             (await getDocs(ref)).docs.forEach(doc => {
                 const schedule = doc.data() as Schedule;
@@ -30,8 +34,10 @@ const fetchSchedules = async (year: number, month: number): Promise<SchedulesSta
 const addSchedule = async (form: DialogSchedule): Promise<number> => {
     const id = new Date().getTime();
     try {
-        const ref = createCollectionRef(getMonthSchedulesKey(form.date));
-        await setDoc(doc(ref, String(id)), { ...form, id });
+        const uid = getAuthUid();
+        const key = getMonthSchedulesKey(form.date);
+        const docRef = createDocRef(uid, key, String(id));
+        await setDoc(docRef, { ...form, id });
         console.log('Add schedule to firestore.');
     } catch (e) {
         throw (`Error adding schedule to firestore because:${e}`);
@@ -42,11 +48,16 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
 const updateSchedule = async (prevDate: Schedule['date'], schedule: Schedule): Promise<void> => {
     const { id, date } = schedule;
     try {
+        const uid = getAuthUid();
+        const prevKey = getMonthSchedulesKey(prevDate);
+        const prevDocRef = createDocRef(uid, prevKey, String(id));
+        const key = getMonthSchedulesKey(date);
+        const docRef = createDocRef(uid, key, String(id));
         if (isSameMonth(date, prevDate)) {
-            await updateDoc(createDocRef(getMonthSchedulesKey(date), String(id)), schedule);
+            await updateDoc(docRef, schedule);
         } else {
-            await deleteDoc(createDocRef(getMonthSchedulesKey(prevDate), String(id)));
-            await setDoc(doc(createCollectionRef(getMonthSchedulesKey(date)), String(id)), schedule);
+            await deleteDoc(prevDocRef);
+            await setDoc(docRef, schedule);
         }
         console.log('Update schedule of firestore.');
     } catch (e) {
@@ -55,28 +66,38 @@ const updateSchedule = async (prevDate: Schedule['date'], schedule: Schedule): P
 }
 
 const deleteSchedule = async (schedule: Schedule): Promise<void> => {
+    const { id, date } = schedule;
     try {
-        await deleteDoc(createDocRef(getMonthSchedulesKey(schedule.date), String(schedule.id)));
+        const uid = getAuthUid();
+        const key = getMonthSchedulesKey(date);
+        const docRef = createDocRef(uid, key, String(id));
+        await deleteDoc(docRef);
         console.log('Delete schedule of firestore')
     } catch (e) {
         throw (`Error deleting schedule of firestore because:${e}`);
     }
 }
 
-const createCollectionRef = (key: string) => {
-    return collection(db, rootCollection, key, monthScheduleCollection);
+const getAuthUid = (): string => {
+    const auth = getAuth().currentUser;
+    if (auth) return auth.uid;
+    throw ('Can not get auth uid because not logged in.');
 }
 
-const createCollectionRefs = (keys: string[]) => {
+const createCollectionRef = (uid: string, key: string) => {
+    return collection(db, rootCollection, uid, userScheduleCollection, key, monthScheduleCollection);
+}
+
+const createCollectionRefs = (uid: string, keys: string[]) => {
     const refs = [];
     for (const key of keys) {
-        refs.push(createCollectionRef(key));
+        refs.push(createCollectionRef(uid, key));
     }
     return refs;
 }
 
-const createDocRef = (key: string, id: string) => {
-    return doc(db, rootCollection, key, monthScheduleCollection, id);
+const createDocRef = (uid: string, key: string, id: string) => {
+    return doc(db, rootCollection, uid, userScheduleCollection, key, monthScheduleCollection, id);
 }
 
 const getPrevNextMonthSchedulesKeys = (stamp: number): string[] => {
@@ -90,12 +111,8 @@ const getMonthSchedulesKey = (stamp: number): string => {
     const date = dayjs.unix(stamp);
     const year = date.year();
     const month = date.month() + 1;
-    if (month > 12) {
-        return `${year + 1}_${1}`;
-    }
-    if (month < 1) {
-        return `${year - 1}_${12}`;
-    }
+    if (month > 12) return `${year + 1}_${1}`;
+    if (month < 1) return `${year - 1}_${12}`;
     return `${year}_${month}`;
 }
 

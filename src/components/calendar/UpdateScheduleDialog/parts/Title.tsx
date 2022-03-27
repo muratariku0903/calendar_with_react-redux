@@ -27,7 +27,6 @@ type UpdateScheduleDialogTitleProps = StateProps & DispatchProps & OutterProps;
 
 const UpdateScheduleDialogTitle: React.FC<UpdateScheduleDialogTitleProps> = ({ title, isStartEdit, setStartEdit, setUpdateDialog }) => {
     const isError = isStartEdit && !title;
-    console.log(isError, isStartEdit, !title);
     return (
         <Fragment>
             <Title

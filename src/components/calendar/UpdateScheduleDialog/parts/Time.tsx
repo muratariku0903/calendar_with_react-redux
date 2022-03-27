@@ -11,8 +11,8 @@ type UpdateScheduleDialogDateProps = {
 }
 
 const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, setUpdateDialog }) => {
-    const startDate = time.start ? dayjs.unix(time.start) : null;
-    const endDate = time.end ? dayjs.unix(time.end) : null;
+    const startTime = time.start ? dayjs.unix(time.start) : null;
+    const endTime = time.end ? dayjs.unix(time.end) : null;
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (flag === 'start') {
             setUpdateDialog({ time: { ...time, start: d ? d.unix() : null } });
@@ -29,10 +29,10 @@ const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ tim
             <Grid item xs={10}>
                 <Grid container>
                     <Grid item xs={5}>
-                        <TimePicker label="開始" value={startDate} onChange={d => setTime(d, 'start')} />
+                        <TimePicker label="開始" value={startTime} onChange={d => setTime(d, 'start')} />
                     </Grid>
                     <Grid item xs={5}>
-                        <TimePicker label="終了" value={endDate} onChange={d => setTime(d, 'end')} />
+                        <TimePicker label="終了" value={endTime} onChange={d => setTime(d, 'end')} />
                     </Grid>
                 </Grid>
             </Grid>

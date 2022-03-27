@@ -1,10 +1,11 @@
 import React from 'react';
-import { IconButton, Toolbar, Typography, withStyles, Tooltip } from '@material-ui/core';
+import { IconButton, AppBar, Toolbar, Typography, withStyles, Tooltip, Button, TextField, TextFieldProps } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
-import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { customPickerTheme } from './customPickerTheme';
+import { ArrowBackIos, ArrowForwardIos, AccountCircle } from "@material-ui/icons";
+import { makeStyles, createStyles, Theme, ThemeProvider } from '@material-ui/core/styles';
 import DehazeIcon from '@material-ui/icons/Dehaze';
-import { CalendarState, SideMenuState } from '../../../redux/stateTypes';
+import { CalendarState, SideMenuState, UserState } from '../../../redux/stateTypes';
 import { getMonth } from '../../../services/calendar';
 import { sideMenuWidth } from '../../../constants';
 
@@ -25,25 +26,33 @@ const useStyles = makeStyles((theme: Theme) => {
                 duration: theme.transitions.duration.enteringScreen,
             }),
         },
-    })
-})
+        grow: {
+            flexGrow: 1,
+        },
+        desktop: {
+            marginRight: '10px',
+            display: 'flex',
+            alignItems: 'center',
+        },
+    });
+});
 
 const StyledToolbar = withStyles({
     root: { padding: '0' }
 })(Toolbar);
 
 const StyledTypography = withStyles({
-    root: { margin: '0 30px 0 10px' }
+    root: {
+        margin: '0 30px 0 10px',
+        color: 'white',
+    }
 })(Typography);
-
-const StyledDatePicker = withStyles({
-    root: { marginLeft: '60' }
-})(DatePicker);
 
 export type StateProps = {
     year: CalendarState['year'];
     month: CalendarState['month'];
     isSideMenuOpen: SideMenuState['isOpen'];
+    user: UserState;
 }
 
 export type DispatchProps = {
@@ -56,33 +65,57 @@ export type NavigationProps = StateProps & DispatchProps & {
     setNextMonth: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth, isSideMenuOpen, sideMenuOpen }) => {
+const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth, isSideMenuOpen, sideMenuOpen, user }) => {
     const classes = useStyles();
+    const renderText = (props: TextFieldProps): any => {
+        return (
+            <TextField
+                type='text'
+                onClick={props.onClick}
+                value={props.value}
+                onChange={props.onChange}
+                variant={props.variant}
+            />
+        );
+    };
     return (
-        <StyledToolbar className={isSideMenuOpen ? classes.navigationShift : classes.navigation}>
-            <Tooltip title='メニュー' placement='bottom'>
-                <IconButton disabled={isSideMenuOpen} onClick={sideMenuOpen}>
-                    <DehazeIcon />
-                </IconButton>
-            </Tooltip>
-            <StyledTypography color="textSecondary" variant="h5">カレンダー</StyledTypography>
-            <Tooltip title='前月' placement='bottom'>
-                <IconButton size="small" onClick={setPrevMonth}>
-                    <ArrowBackIos />
-                </IconButton>
-            </Tooltip>
-            <Tooltip title='次月' placement='bottom'>
-                <IconButton size="small" onClick={setNextMonth}>
-                    <ArrowForwardIos />
-                </IconButton>
-            </Tooltip>
-            <StyledDatePicker
-                value={getMonth(year, month)}
-                onChange={d => d ? setMonth(d.year(), d.month() + 1) : alert('正しい日付を入力してください')}
-                format="YYYY年 M月"
-                variant='inline'
-                animateYearScrolling disableToolbar />
-        </StyledToolbar>
+        <AppBar position='static'>
+            <StyledToolbar className={isSideMenuOpen ? classes.navigationShift : classes.navigation}>
+                <Tooltip title='メニュー' placement='bottom'>
+                    <IconButton disabled={isSideMenuOpen} onClick={sideMenuOpen}>
+                        <DehazeIcon style={{ color: 'white' }} />
+                    </IconButton>
+                </Tooltip>
+                <StyledTypography variant="h6">カレンダー</StyledTypography>
+                <Tooltip title='前月' placement='bottom'>
+                    <IconButton size="small" onClick={setPrevMonth}>
+                        <ArrowBackIos style={{ color: 'white' }} />
+                    </IconButton>
+                </Tooltip>
+                <ThemeProvider theme={customPickerTheme}>
+                    <DatePicker
+                        value={getMonth(year, month)}
+                        onChange={d => d ? setMonth(d.year(), d.month() + 1) : alert('正しい日付を入力してください')}
+                        format="YYYY年 M月"
+                        variant='inline'
+                        animateYearScrolling disableToolbar
+                        // TextFieldComponent={renderText}
+                    />
+                </ThemeProvider>
+                <Tooltip title='次月' placement='bottom'>
+                    <IconButton size="small" onClick={setNextMonth}>
+                        <ArrowForwardIos style={{ color: 'white' }} />
+                    </IconButton>
+                </Tooltip>
+                <div className={classes.grow} />
+                {user.isLogin && (
+                    <div className={classes.desktop}>
+                        <AccountCircle style={{ marginRight: '5px' }} />
+                        <Button color="inherit">ログアウト</Button>
+                    </div>
+                )}
+            </StyledToolbar>
+        </AppBar>
     );
 }
 

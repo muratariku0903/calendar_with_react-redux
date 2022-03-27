@@ -14,8 +14,8 @@ import loginDialog from './auth/loginDialog';
 export default combineReducers({
     calendar,
     sideMenu,
-    addScheduleDialog,
     schedules,
+    addScheduleDialog,
     showScheduleDialog,
     updateScheduleDialog,
     holidays,

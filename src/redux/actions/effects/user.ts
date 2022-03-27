@@ -1,7 +1,7 @@
 import { UserActions } from '../auth/user';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { State, User, SignupDialogState, LoginDialogState } from '../../stateTypes';
+import { State, SignupDialogState, LoginDialogState } from '../../stateTypes';
 import { setUser } from '../auth/user';
 import { userAPI } from '../../../firebase/api/user';
 

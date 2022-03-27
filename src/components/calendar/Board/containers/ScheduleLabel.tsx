@@ -10,7 +10,6 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     return {
         openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => {
             e.stopPropagation();
-            console.log(schedule);
             dispatch(setShowScheduleDialog(schedule));
             dispatch(openShowScheduleDialog());
         },

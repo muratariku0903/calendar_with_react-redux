@@ -16,6 +16,7 @@ const mapStateToProps = (store: State): StateProps => {
         year: store.calendar.year,
         month: store.calendar.month,
         isSideMenuOpen: store.sideMenu.isOpen,
+        user: store.user,
     }
 }
 

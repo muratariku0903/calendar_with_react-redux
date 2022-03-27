@@ -6,7 +6,6 @@ import { startEditUpdateScheduleDialog } from "../../../../redux/actions/calenda
 
 
 const mapStateToProps = (state: State): StateProps => {
-    console.log(state.updateScheduleDialog);
     return {
         isStartEdit: state.updateScheduleDialog.isStartEdit,
     };
@@ -14,7 +13,7 @@ const mapStateToProps = (state: State): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     return {
-        setStartEdit: () => dispatch(startEditUpdateScheduleDialog())
+        setStartEdit: () => dispatch(startEditUpdateScheduleDialog()),
     };
 };
 
