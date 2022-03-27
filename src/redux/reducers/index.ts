@@ -1,11 +1,14 @@
 import { combineReducers } from "redux";
-import calendar from "./calendar";
-import sideMenu from './sideMenu';
-import addScheduleDialog from './addScheduleDialog';
-import schedules from "./schedules";
-import showScheduleDialog from "./showScheduleDialog";
-import updateScheduleDialog from "./updateScheduleDialog";
-import holidays from "./holidays";
+import calendar from "./calendar/calendar";
+import sideMenu from './calendar/sideMenu';
+import addScheduleDialog from './calendar/addScheduleDialog';
+import schedules from "./calendar/schedules";
+import showScheduleDialog from "./calendar/showScheduleDialog";
+import updateScheduleDialog from "./calendar/updateScheduleDialog";
+import holidays from "./calendar/holidays";
+import user from './auth/user';
+import signupDialog from './auth/signupDialog';
+import loginDialog from './auth/loginDialog';
 
 
 export default combineReducers({
@@ -16,4 +19,7 @@ export default combineReducers({
     showScheduleDialog,
     updateScheduleDialog,
     holidays,
+    user,
+    signupDialog,
+    loginDialog,
 });

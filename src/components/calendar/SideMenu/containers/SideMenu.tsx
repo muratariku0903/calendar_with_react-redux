@@ -2,8 +2,8 @@ import SideMenu, { DispatchProps, StateProps } from '../SideMenu';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { State, Schedule, initialDialogForm } from '../../../../redux/stateTypes';
-import { closeSideMenu } from '../../../../redux/actions/sideMenu';
-import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/addScheduleDialog';
+import { closeSideMenu } from '../../../../redux/actions/calendar/sideMenu';
+import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/calendar/addScheduleDialog';
 
 
 const mapStateToProps = (state: State): StateProps => {

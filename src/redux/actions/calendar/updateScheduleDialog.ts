@@ -1,5 +1,5 @@
-import { ActionTypes } from '../actionTypes';
-import { Schedule } from '../stateTypes';
+import { ActionTypes } from '../../actionTypes';
+import { Schedule } from '../../stateTypes';
 
 type SetUpdateScheduleDialogAction = {
     type: ActionTypes.SET_UPDATE_SCHEDULE_DIALOG;

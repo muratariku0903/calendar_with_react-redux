@@ -1,11 +1,10 @@
-import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, setScheduleError, updateSchedule, SchedulesActions } from '../schedules';
+import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, setScheduleError, updateSchedule, SchedulesActions } from '../calendar/schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Schedule, State, DialogSchedule } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
-import dayjs from 'dayjs';
 
 
 type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions>;

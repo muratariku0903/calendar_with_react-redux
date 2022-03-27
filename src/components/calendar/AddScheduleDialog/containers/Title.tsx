@@ -2,7 +2,7 @@ import Title, { DispatchProps, StateProps } from "../parts/Title";
 import { connect } from 'react-redux';
 import { State } from "../../../../redux/stateTypes";
 import { Dispatch } from "redux";
-import { startEditAddScheduleDialog } from "../../../../redux/actions/addScheduleDialog";
+import { startEditAddScheduleDialog } from "../../../../redux/actions/calendar/addScheduleDialog";
 
 
 const mapStateToProps = (state: State): StateProps => {

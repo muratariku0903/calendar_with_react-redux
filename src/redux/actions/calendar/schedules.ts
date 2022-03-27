@@ -1,5 +1,5 @@
-import { ActionTypes } from '../actionTypes';
-import { SchedulesState, Schedule, DialogSchedule, SchedulesKey } from '../stateTypes';
+import { ActionTypes } from '../../actionTypes';
+import { SchedulesState, Schedule, DialogSchedule, SchedulesKey } from '../../stateTypes';
 
 type AddSchedulesAction = {
     type: ActionTypes.ADD_SCHEDULES;

@@ -71,6 +71,28 @@ export type SideMenuState = {
 }
 
 
+export type User = {
+    email: string;
+    password: string;
+    name: string;
+}
+export type UserState = {
+    user: User;
+    isLogin: boolean;
+}
+
+
+export type SignupDialogState = {
+    dialog: User;
+    isShowAlert: boolean;
+}
+
+
+export type LoginDialogState = {
+    dialog: Omit<User, 'name'>;
+    isShowAlert: boolean;
+}
+
 export type State = {
     calendar: CalendarState;
     schedules: SchedulesState;
@@ -79,4 +101,7 @@ export type State = {
     addScheduleDialog: AddScheduleDialogState;
     showScheduleDialog: ShowScheduleDialogState;
     updateScheduleDialog: UpdateScheduleDialogState;
+    user: UserState;
+    signupDialog: SignupDialogState;
+    loginDialog: LoginDialogState;
 };

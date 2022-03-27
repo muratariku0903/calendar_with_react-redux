@@ -1,5 +1,5 @@
-import { ActionTypes } from '../actionTypes';
-import { HolidaysState } from '../stateTypes';
+import { ActionTypes } from '../../actionTypes';
+import { HolidaysState } from '../../stateTypes';
 
 
 type SetHolidaysAction = {

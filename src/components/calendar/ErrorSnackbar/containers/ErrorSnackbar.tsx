@@ -2,7 +2,7 @@ import ErrorSnackbar, { StateProps, DispatchProps } from "../ErrorSnackbar";
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { State } from "../../../../redux/stateTypes";
-import { setScheduleError } from "../../../../redux/actions/schedules";
+import { setScheduleError } from "../../../../redux/actions/calendar/schedules";
 
 
 const mapStateToProps = (state: State): StateProps => {

@@ -1,6 +1,6 @@
-import { HolidaysState } from "../stateTypes";
-import { HolidaysActions } from "../actions/holidays";
-import { ActionTypes } from "../actionTypes";
+import { HolidaysState } from "../../stateTypes";
+import { ActionTypes } from "../../actionTypes";
+import { HolidaysActions } from "../../actions/calendar/holidays";
 
 
 const initialState: HolidaysState = {

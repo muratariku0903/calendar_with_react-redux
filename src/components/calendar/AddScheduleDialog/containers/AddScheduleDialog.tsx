@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { DialogSchedule, State } from "../../../../redux/stateTypes";
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { closeAddScheduleDialog, setAddScheduleDialog, showAddScheduleDialogAlert } from "../../../../redux/actions/addScheduleDialog";
-import { SchedulesActions } from "../../../../redux/actions/schedules";
+import { closeAddScheduleDialog, setAddScheduleDialog, showAddScheduleDialogAlert } from "../../../../redux/actions/calendar/addScheduleDialog";
+import { SchedulesActions } from "../../../../redux/actions/calendar/schedules";
 import { asyncAddSchedule } from "../../../../redux/actions/effects/schedules";
 import { isEmptyDialog } from "../../../../services/dialog";
 

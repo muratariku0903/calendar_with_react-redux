@@ -1,6 +1,6 @@
-import { UpdateScheduleDialogState, initialDialogForm } from '../stateTypes';
-import { ActionTypes } from '../actionTypes';
-import { UpdateScheduleDialogActions } from '../actions/updateScheduleDialog';
+import { UpdateScheduleDialogState, initialDialogForm } from '../../stateTypes';
+import { ActionTypes } from '../../actionTypes';
+import { UpdateScheduleDialogActions } from '../../actions/calendar/updateScheduleDialog';
 
 const initialState: UpdateScheduleDialogState = {
     schedule: { id: -1, ...initialDialogForm },

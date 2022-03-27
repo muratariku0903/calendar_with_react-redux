@@ -1,6 +1,6 @@
-import { AddScheduleDialogState, initialDialogForm } from "../stateTypes";
-import { ActionTypes } from "../actionTypes";
-import { AddScheduleDialogActions } from "../actions/addScheduleDialog";
+import { AddScheduleDialogState, initialDialogForm } from "../../stateTypes";
+import { ActionTypes } from "../../actionTypes";
+import { AddScheduleDialogActions } from "../../actions/calendar/addScheduleDialog";
 
 
 const initialState: AddScheduleDialogState = {

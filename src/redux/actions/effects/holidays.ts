@@ -1,4 +1,4 @@
-import { HolidaysActions, setHolidays, setHolidaysLoading, setHolidaysError } from '../holidays';
+import { HolidaysActions, setHolidays, setHolidaysLoading, setHolidaysError } from '../calendar/holidays';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { State, HolidaysState } from '../../stateTypes';

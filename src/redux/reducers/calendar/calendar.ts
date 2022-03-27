@@ -1,6 +1,6 @@
-import { CalendarState } from "../stateTypes";
-import { ActionTypes } from "../actionTypes";
-import { CalendarActions } from "../actions/calendar";
+import { CalendarState } from "../../stateTypes";
+import { ActionTypes } from "../../actionTypes";
+import { CalendarActions } from "../../actions/calendar/calendar";
 import dayjs from 'dayjs';
 
 const currentTime = dayjs();

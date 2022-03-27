@@ -1,4 +1,4 @@
-import { ActionTypes } from '../actionTypes';
+import { ActionTypes } from '../../actionTypes';
 
 type OpenSideMenuAction = {
     type: ActionTypes.OPEN_SIDE_MENU;

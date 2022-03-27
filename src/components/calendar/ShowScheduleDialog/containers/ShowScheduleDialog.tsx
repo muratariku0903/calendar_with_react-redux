@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { State, Schedule } from "../../../../redux/stateTypes";
-import { SchedulesActions } from "../../../../redux/actions/schedules";
-import { closeShowScheduleDialog } from "../../../../redux/actions/showScheduleDialog";
-import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../redux/actions/updateScheduleDialog';
+import { SchedulesActions } from "../../../../redux/actions/calendar/schedules";
+import { closeShowScheduleDialog } from "../../../../redux/actions/calendar/showScheduleDialog";
+import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../redux/actions/calendar/updateScheduleDialog';
 import { asyncDeleteSchedule } from "../../../../redux/actions/effects/schedules";
 import dayjs from 'dayjs';
 

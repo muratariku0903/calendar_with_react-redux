@@ -1,5 +1,5 @@
-import { DialogSchedule } from "../stateTypes";
-import { ActionTypes } from "../actionTypes";
+import { DialogSchedule } from "../../stateTypes";
+import { ActionTypes } from "../../actionTypes";
 
 
 type SetAddScheduleDialogAction = {

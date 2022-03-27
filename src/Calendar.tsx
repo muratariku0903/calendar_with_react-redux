@@ -1,5 +1,8 @@
 import { Fragment } from 'react';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { State } from './redux/stateTypes';
 import Board from './components/calendar/Board/containers/Board';
 import Navigation from './components/calendar/Navigation/containers/Navigation';
 import SideMenu from './components/calendar/SideMenu/containers/SideMenu';
@@ -9,7 +12,11 @@ import UpdateScheduleDialog from './components/calendar/UpdateScheduleDialog/con
 import ErrorSnackbar from './components/calendar/ErrorSnackbar/containers/ErrorSnackbar';
 
 
-const CalendarApp: React.FC = () => {
+const Calendar: React.FC = () => {
+    const { isLogin } = useSelector<State>(state => state.user) as State['user'];
+
+    if (!isLogin) return <Navigate to='/login' />;
+
     return (
         <Fragment>
             <Navigation />
@@ -24,5 +31,5 @@ const CalendarApp: React.FC = () => {
 };
 
 
-export default CalendarApp;
+export default Calendar;
 

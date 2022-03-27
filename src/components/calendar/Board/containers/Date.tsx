@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { State, Schedule } from '../../../../redux/stateTypes';
-import { SchedulesActions } from '../../../../redux/actions/schedules';
+import { SchedulesActions } from '../../../../redux/actions/calendar/schedules';
 import { asyncUpdateSchedule } from '../../../../redux/actions/effects/schedules';
 
 

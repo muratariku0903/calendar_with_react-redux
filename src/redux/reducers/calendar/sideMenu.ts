@@ -1,6 +1,6 @@
-import { SideMenuState } from '../stateTypes';
-import { SideMenuActions } from '../actions/sideMenu';
-import { ActionTypes } from '../actionTypes';
+import { SideMenuState } from '../../stateTypes';
+import { ActionTypes } from '../../actionTypes';
+import { SideMenuActions } from '../../actions/calendar/sideMenu';
 
 
 const initialState :SideMenuState= {

@@ -1,5 +1,5 @@
-import { Schedule } from "../stateTypes";
-import { ActionTypes } from "../actionTypes";
+import { Schedule } from "../../stateTypes";
+import { ActionTypes } from "../../actionTypes";
 
 
 type SetShowScheduleDialogAction = {

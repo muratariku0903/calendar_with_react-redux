@@ -1,7 +1,7 @@
-import { SchedulesState } from "../stateTypes";
-import { SchedulesActions } from "../actions/schedules";
-import { ActionTypes } from "../actionTypes";
-import { addScheduleToDateSchedules, updateDateSchedules } from "../../services/schedules";
+import { SchedulesState } from "../../stateTypes";
+import { ActionTypes } from "../../actionTypes";
+import { SchedulesActions } from "../../actions/calendar/schedules";
+import { addScheduleToDateSchedules, updateDateSchedules } from "../../../services/schedules";
 
 const initialState: SchedulesState = {
     monthSchedules: {},

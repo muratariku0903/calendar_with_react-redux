@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { State } from "../../../../redux/stateTypes";
-import { setMonth } from '../../../../redux/actions/calendar';
-import { SchedulesActions } from "../../../../redux/actions/schedules";
-import { HolidaysActions } from '../../../../redux/actions/holidays';
+import { setMonth } from '../../../../redux/actions/calendar/calendar';
+import { SchedulesActions } from "../../../../redux/actions/calendar/schedules";
+import { HolidaysActions } from '../../../../redux/actions/calendar/holidays';
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
 import { asyncFetchHolidays } from '../../../../redux/actions/effects/holidays';
-import { openSideMenu } from "../../../../redux/actions/sideMenu";
+import { openSideMenu } from "../../../../redux/actions/calendar/sideMenu";
 import { getPrevMonth, getNextMonth } from "../../../../services/calendar";
 
 const mapStateToProps = (store: State): StateProps => {
