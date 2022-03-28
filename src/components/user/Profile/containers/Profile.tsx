@@ -1,17 +1,11 @@
-import Profile, { StateProps, DispatchProps } from '../Profile';
+import Profile, { StateProps, DispatchProps, ProfileProps } from '../Profile';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { State } from '../../../../redux/stateTypes';
-import { UserActions } from '../../../../redux/actions/auth/user';
-import { asyncLogout } from '../../../../redux/actions/effects/user';
+import { State, UpdateUserDialogState } from '../../../../redux/stateTypes';
+import { UserActions } from '../../../../redux/actions/user/user';
+import { openUpdateUserDialog, setUpdateUserDialog } from '../../../../redux/actions/user/updateUserDialog';
 
-
-const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, UserActions>): DispatchProps => {
-    return {
-        logout: () => dispatch(asyncLogout()),
-    }
-}
 
 const mapStateToProps = (state: State): StateProps => {
     return {
@@ -19,4 +13,21 @@ const mapStateToProps = (state: State): StateProps => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, UserActions>): DispatchProps => {
+    return {
+        openUpdateUserDialog: (user: UpdateUserDialogState['user']) => {
+            dispatch(setUpdateUserDialog(user));
+            dispatch(openUpdateUserDialog());
+        },
+    };
+};
+
+const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): ProfileProps => {
+    return {
+        ...stateProps,
+        ...dispatchProps,
+        openUpdateUserDialog: () => dispatchProps.openUpdateUserDialog(stateProps.user.user),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Profile);

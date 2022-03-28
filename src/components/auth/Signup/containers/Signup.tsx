@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { State, SignupDialogState } from '../../../../redux/stateTypes';
-import { UserActions } from '../../../../redux/actions/auth/user';
+import { UserActions } from '../../../../redux/actions/user/user';
 import { setSignupDialog } from '../../../../redux/actions/auth/signupDialog';
 import { asyncSignup } from '../../../../redux/actions/effects/user';
 

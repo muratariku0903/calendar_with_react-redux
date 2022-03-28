@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Card, CardContent, CardHeader, Typography, List, ListItem, ListItemIcon, ListItemText, Divider, AppBar, Toolbar, IconButton, Button } from '@material-ui/core';
+import { Card, CardContent, CardHeader, CardActions, List, ListItem, ListItemIcon, ListItemText, Divider, Button } from '@material-ui/core';
 import { Person, Email } from '@material-ui/icons';
-import { UserState } from '../../../redux/stateTypes';
+import { UserState, UpdateUserDialogState } from '../../../redux/stateTypes';
 
 
 const useStyles = makeStyles(() => {
@@ -14,9 +13,6 @@ const useStyles = makeStyles(() => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
         },
-        grow: {
-            flexGrow: 1,
-        },
     });
 });
 
@@ -26,48 +22,40 @@ export type StateProps = {
 }
 
 export type DispatchProps = {
-    logout: () => void;
-}
+    openUpdateUserDialog: (user: UpdateUserDialogState['user']) => void;
+};
 
-export type ProfileProps = StateProps & DispatchProps;
+export type ProfileProps = StateProps & DispatchProps & {
+    openUpdateUserDialog: () => void;
+};
 
-const Profile: React.FC<ProfileProps> = ({ user: { isLogin, user: { name, email } }, logout }) => {
+const Profile: React.FC<ProfileProps> = ({ user: { user: { name, email } }, openUpdateUserDialog }) => {
     const classes = useStyles();
-    const navigate = useNavigate();
-
-    if (!isLogin) return <Navigate to='/login' />;
 
     return (
-        <Fragment>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6">プロファイル</Typography>
-                    <div className={classes.grow} />
-                    <Button color="inherit" onClick={() => navigate('/')}>戻る</Button>
-                    <Button color="inherit" onClick={logout}>ログアウト</Button>
-                </Toolbar>
-            </AppBar>
-            <Card variant='outlined' className={classes.card}>
-                <CardHeader variant='h3' title="プロファイル" />
-                <CardContent>
-                    <List>
-                        <ListItem>
-                            <ListItemIcon>
-                                <Person />
-                            </ListItemIcon>
-                            <ListItemText primary={name} />
-                        </ListItem>
-                        <Divider />
-                        <ListItem>
-                            <ListItemIcon>
-                                <Email />
-                            </ListItemIcon>
-                            <ListItemText primary={email} />
-                        </ListItem>
-                    </List>
-                </CardContent>
-            </Card>
-        </Fragment>
+        <Card variant='outlined' className={classes.card}>
+            <CardHeader variant='h3' title="プロファイル" />
+            <CardContent>
+                <List>
+                    <ListItem>
+                        <ListItemIcon>
+                            <Person />
+                        </ListItemIcon>
+                        <ListItemText primary={name} />
+                    </ListItem>
+                    <Divider />
+                    <ListItem>
+                        <ListItemIcon>
+                            <Email />
+                        </ListItemIcon>
+                        <ListItemText primary={email} />
+                    </ListItem>
+                </List>
+            </CardContent>
+            <CardActions>
+                <Button onClick={openUpdateUserDialog} color="primary" variant="outlined">編集</Button>
+            </CardActions>
+        </Card>
     );
 }
 

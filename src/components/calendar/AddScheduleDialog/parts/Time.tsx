@@ -11,8 +11,8 @@ type AddScheduleDialogTimeProps = {
 }
 
 const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, setDialogForm }) => {
-    const startTime = time.start ? dayjs.unix(time.start) : dayjs();
-    const endTime = time.end ? dayjs.unix(time.end) : dayjs().add(1, 'hour');
+    const startTime = time.start ? dayjs.unix(time.start) : null;
+    const endTime = time.end ? dayjs.unix(time.end) : null;
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (flag === 'start') {
             setDialogForm({ time: { ...time, start: d ? d.unix() : null } });

@@ -1,5 +1,5 @@
 import { UserState } from '../../stateTypes';
-import { UserActions } from '../../actions/auth/user';
+import { UserActions } from '../../actions/user/user';
 import { ActionTypes } from '../../actionTypes';
 
 
@@ -18,10 +18,7 @@ const user = (state = initialState, action: UserActions): UserState => {
         case ActionTypes.SET_USER:
             return { ...state, user: action.payload, isLogin: true };
 
-        case ActionTypes.LOGIN_USER:
-            return { ...state, isLogin: true };
-
-        case ActionTypes.LOGOUT_USER:
+        case ActionTypes.RESET_USER:
             return initialState;
 
         default:

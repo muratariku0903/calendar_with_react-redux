@@ -6,7 +6,8 @@ import schedules from "./calendar/schedules";
 import showScheduleDialog from "./calendar/showScheduleDialog";
 import updateScheduleDialog from "./calendar/updateScheduleDialog";
 import holidays from "./calendar/holidays";
-import user from './auth/user';
+import user from './user/user';
+import updateUserDialog from "./user/updateUserDialog";
 import signupDialog from './auth/signupDialog';
 import loginDialog from './auth/loginDialog';
 
@@ -20,6 +21,7 @@ export default combineReducers({
     updateScheduleDialog,
     holidays,
     user,
+    updateUserDialog,
     signupDialog,
     loginDialog,
 });

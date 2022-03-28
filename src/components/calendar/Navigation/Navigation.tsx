@@ -107,7 +107,7 @@ const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevM
                             <AccountCircle style={{ marginRight: '5px', color: 'white' }} />
                         </IconButton>
                         <Menu open={open} onClose={() => setAnchorEl(null)} anchorEl={anchorEl}>
-                            <MenuItem onClick={() => navigate('profile')}>プロフィール</MenuItem>
+                            <MenuItem onClick={() => navigate('user')}>プロフィール</MenuItem>
                         </Menu>
                         <Button color="inherit" onClick={logout}>ログアウト</Button>
                     </div>

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Grid, Input } from '@material-ui/core';
 import { Mail as MailIcon } from '@material-ui/icons';
-import { LoginDialogState } from '../../../../redux/stateTypes';
+import { UpdateUserDialogState } from '../../../../redux/stateTypes';
 
 const spacer = { margin: '4px 0' };
 
 type OutterProps = {
-    mail: LoginDialogState['dialog']['email'];
-    setDialog: (dialogItem: Partial<LoginDialogState['dialog']>) => void;
+    mail: UpdateUserDialogState['user']['email'];
+    setDialog: (dialogItem: Partial<UpdateUserDialogState['user']>) => void;
 }
 
-type LoginDialogMailProps = OutterProps;
+type AddUserDialogMailProps = OutterProps;
 
-const Mail: React.FC<LoginDialogMailProps> = ({ mail, setDialog }) => {
+const Mail: React.FC<AddUserDialogMailProps> = ({ mail, setDialog }) => {
     return (
         <Grid container spacing={1} alignItems='center' justifyContent="space-between">
             <Grid item >
@@ -25,7 +25,6 @@ const Mail: React.FC<LoginDialogMailProps> = ({ mail, setDialog }) => {
                     onChange={e => setDialog({ email: e.target.value })}
                     placeholder='メールアドレスを入力してくだい'
                     fullWidth
-                    autoFocus
                     style={spacer}
                 />
             </Grid>

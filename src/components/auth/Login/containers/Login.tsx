@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { State, LoginDialogState } from '../../../../redux/stateTypes';
-import { UserActions } from '../../../../redux/actions/auth/user';
+import { UserActions } from '../../../../redux/actions/user/user';
 import { setLoginDialog } from '../../../../redux/actions/auth/loginDialog';
 import { asyncLogin } from '../../../../redux/actions/effects/user';
 

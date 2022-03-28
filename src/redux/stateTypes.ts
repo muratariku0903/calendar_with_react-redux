@@ -81,6 +81,12 @@ export type UserState = {
     isLogin: boolean;
 }
 
+export type UpdateUserDialogState = {
+    user: User;
+    isOpenDialog: boolean;
+    isShowAlert: boolean;
+};
+
 
 export type SignupDialogState = {
     dialog: User;
@@ -102,6 +108,7 @@ export type State = {
     showScheduleDialog: ShowScheduleDialogState;
     updateScheduleDialog: UpdateScheduleDialogState;
     user: UserState;
+    updateUserDialog: UpdateUserDialogState;
     signupDialog: SignupDialogState;
     loginDialog: LoginDialogState;
 };

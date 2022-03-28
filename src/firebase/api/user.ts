@@ -1,51 +1,9 @@
 import { db } from '../firestore';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { collection, getDoc, setDoc, doc } from 'firebase/firestore';
-import { User, SignupDialogState, LoginDialogState } from '../../redux/stateTypes';
+import { collection, getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
+import { User } from '../../redux/stateTypes';
 
 const rootCollection = 'users';
 
-
-const signup = async (user: SignupDialogState['dialog']): Promise<string> => {
-    const { email, password } = user;
-    const auth = getAuth();
-    const uid = await createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-            const signupUser = userCredential.user;
-            console.log(`Signup with:${signupUser.uid}`);
-            return signupUser.uid;
-        })
-        .catch(e => {
-            throw (`Fail signup because:${e.message}`);
-        });
-    return uid;
-};
-
-const login = async (user: LoginDialogState['dialog']): Promise<string> => {
-    const { email, password } = user;
-    const auth = getAuth();
-    const uid = await signInWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-            const loginUser = userCredential.user;
-            console.log(`Login with:${loginUser.uid}`);
-            return loginUser.uid;
-        })
-        .catch(e => {
-            throw (`Fail login because:${e.message}`);
-        });
-    return uid;
-};
-
-const logout = async (): Promise<void> => {
-    const auth = getAuth();
-    await signOut(auth)
-        .then(() => {
-            console.log('Logout');
-        })
-        .catch(e => {
-            throw (`Fail logout because:${e.message}`);
-        });
-}
 
 const addUser = async (id: string, user: User): Promise<void> => {
     try {
@@ -67,5 +25,15 @@ const fetchUser = async (id: string): Promise<User> => {
     }
 };
 
+const updateUser = async (id: string, user: User): Promise<void> => {
+    try {
+        const ref = doc(db, rootCollection, id);
+        await updateDoc(ref, user);
+        console.log('Update user of firestore');
+    } catch (e) {
+        throw (`Error updating user of firestore because:${e}`);
+    }
+};
 
-export const userAPI = { signup, login, logout, addUser, fetchUser };
+
+export const userAPI = { addUser, fetchUser, updateUser };

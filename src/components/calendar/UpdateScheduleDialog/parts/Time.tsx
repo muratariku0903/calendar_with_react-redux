@@ -11,6 +11,7 @@ type UpdateScheduleDialogDateProps = {
 }
 
 const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, setUpdateDialog }) => {
+    console.log(time);
     const startTime = time.start ? dayjs.unix(time.start) : null;
     const endTime = time.end ? dayjs.unix(time.end) : null;
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
