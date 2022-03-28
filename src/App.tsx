@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Calendar from './Calendar';
 import Signup from './components/auth/Signup/containers/Signup';
 import Login from './components/auth/Login/containers/Login';
+import Profile from './components/user/Profile/containers/Profile';
 
 
 const App: React.FC = () => {
@@ -12,6 +13,7 @@ const App: React.FC = () => {
                 <Route path='/' element={<Calendar />} />
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/profile' element={<Profile />} />
             </Routes>
         </BrowserRouter>
     );

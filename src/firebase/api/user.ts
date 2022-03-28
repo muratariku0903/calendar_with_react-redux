@@ -1,5 +1,5 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../firestore';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { collection, getDoc, setDoc, doc } from 'firebase/firestore';
 import { User, SignupDialogState, LoginDialogState } from '../../redux/stateTypes';
 
@@ -19,7 +19,7 @@ const signup = async (user: SignupDialogState['dialog']): Promise<string> => {
             throw (`Fail signup because:${e.message}`);
         });
     return uid;
-}
+};
 
 const login = async (user: LoginDialogState['dialog']): Promise<string> => {
     const { email, password } = user;
@@ -34,6 +34,17 @@ const login = async (user: LoginDialogState['dialog']): Promise<string> => {
             throw (`Fail login because:${e.message}`);
         });
     return uid;
+};
+
+const logout = async (): Promise<void> => {
+    const auth = getAuth();
+    await signOut(auth)
+        .then(() => {
+            console.log('Logout');
+        })
+        .catch(e => {
+            throw (`Fail logout because:${e.message}`);
+        });
 }
 
 const addUser = async (id: string, user: User): Promise<void> => {
@@ -44,7 +55,7 @@ const addUser = async (id: string, user: User): Promise<void> => {
     } catch (e) {
         throw (`Error adding user to firestore because:${e}`);
     }
-}
+};
 
 const fetchUser = async (id: string): Promise<User> => {
     try {
@@ -54,7 +65,7 @@ const fetchUser = async (id: string): Promise<User> => {
     } catch (e) {
         throw (`Error fetching user from firestore because:${e}`);
     }
-}
+};
 
 
-export const userAPI = { signup, login, addUser, fetchUser };
+export const userAPI = { signup, login, logout, addUser, fetchUser };

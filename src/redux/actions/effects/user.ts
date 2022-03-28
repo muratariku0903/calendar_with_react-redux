@@ -2,7 +2,7 @@ import { UserActions } from '../auth/user';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { State, SignupDialogState, LoginDialogState } from '../../stateTypes';
-import { setUser } from '../auth/user';
+import { setUser, logoutUser } from '../auth/user';
 import { userAPI } from '../../../firebase/api/user';
 
 
@@ -29,6 +29,17 @@ export const asyncLogin = (user: LoginDialogState['dialog']): UserThunkAction =>
         console.log('Set login user to state.');
     } catch (e) {
         console.error(`Fail setting login user to state because:${e}`);
+        // dispatch(setScheduleError(String(e)));
+    }
+}
+
+export const asyncLogout = (): UserThunkAction => async (dispatch: Dispatch<Action>) => {
+    try {
+        await userAPI.logout();
+        dispatch(logoutUser());
+        console.log('Reset state of login user.');
+    } catch (e) {
+        console.error(`Fail resetting state of login user because:${e}`);
         // dispatch(setScheduleError(String(e)));
     }
 }

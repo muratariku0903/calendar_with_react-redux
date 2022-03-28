@@ -5,7 +5,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
 import { Schedule, SideMenuState } from '../../../redux/stateTypes';
 import { CalendarDate } from '../../../redux/selectors';
-import WeekHeader from './WeekHeader';
+import WeekHeader from './parts/WeekHeader';
 import Date from './containers/Date';
 import { sideMenuWidth } from '../../../constants';
 

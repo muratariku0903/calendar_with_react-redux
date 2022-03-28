@@ -1,4 +1,4 @@
-import Date, { DispatchProps } from '../Date';
+import Date, { DispatchProps } from '../parts/Date';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';

@@ -23,7 +23,7 @@ const Password: React.FC<LoginDialogMailProps> = ({ password, setDialog }) => {
                     type="password"
                     value={password}
                     onChange={e => setDialog({ password: e.target.value })}
-                    placeholder='パスワード設定してください'
+                    placeholder='パスワードを入力してください'
                     fullWidth
                     style={spacer}
                 />

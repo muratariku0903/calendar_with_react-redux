@@ -1,5 +1,6 @@
-import React from 'react';
-import { IconButton, AppBar, Toolbar, Typography, withStyles, Tooltip, Button, TextField, TextFieldProps } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { IconButton, AppBar, Toolbar, Typography, withStyles, Tooltip, Button, Menu, MenuItem } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { customPickerTheme } from './customPickerTheme';
 import { ArrowBackIos, ArrowForwardIos, AccountCircle } from "@material-ui/icons";
@@ -58,6 +59,7 @@ export type StateProps = {
 export type DispatchProps = {
     setMonth: (year: number, month: number) => void;
     sideMenuOpen: () => void;
+    logout: () => void;
 }
 
 export type NavigationProps = StateProps & DispatchProps & {
@@ -65,19 +67,11 @@ export type NavigationProps = StateProps & DispatchProps & {
     setNextMonth: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth, isSideMenuOpen, sideMenuOpen, user }) => {
+const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth, isSideMenuOpen, sideMenuOpen, user, logout }) => {
     const classes = useStyles();
-    const renderText = (props: TextFieldProps): any => {
-        return (
-            <TextField
-                type='text'
-                onClick={props.onClick}
-                value={props.value}
-                onChange={props.onChange}
-                variant={props.variant}
-            />
-        );
-    };
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
     return (
         <AppBar position='static'>
             <StyledToolbar className={isSideMenuOpen ? classes.navigationShift : classes.navigation}>
@@ -99,7 +93,6 @@ const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevM
                         format="YYYY年 M月"
                         variant='inline'
                         animateYearScrolling disableToolbar
-                        // TextFieldComponent={renderText}
                     />
                 </ThemeProvider>
                 <Tooltip title='次月' placement='bottom'>
@@ -110,8 +103,13 @@ const Navigation: React.FC<NavigationProps> = ({ year, month, setMonth, setPrevM
                 <div className={classes.grow} />
                 {user.isLogin && (
                     <div className={classes.desktop}>
-                        <AccountCircle style={{ marginRight: '5px' }} />
-                        <Button color="inherit">ログアウト</Button>
+                        <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
+                            <AccountCircle style={{ marginRight: '5px', color: 'white' }} />
+                        </IconButton>
+                        <Menu open={open} onClose={() => setAnchorEl(null)} anchorEl={anchorEl}>
+                            <MenuItem onClick={() => navigate('profile')}>プロフィール</MenuItem>
+                        </Menu>
+                        <Button color="inherit" onClick={logout}>ログアウト</Button>
                     </div>
                 )}
             </StyledToolbar>

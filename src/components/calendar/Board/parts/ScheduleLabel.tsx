@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Schedule } from '../../../redux/stateTypes';
-import { DndItems } from '../Board/dnd/constants';
+import { Schedule } from '../../../../redux/stateTypes';
+import { DndItems } from '../dnd/constants';
 
 const useStyles = makeStyles(() => {
     return createStyles({

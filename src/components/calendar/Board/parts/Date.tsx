@@ -3,12 +3,12 @@ import { useDrop } from 'react-dnd';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
-import { Schedule } from '../../../redux/stateTypes';
-import { CalendarDate } from '../../../redux/selectors';
-import ScheduleLabel from './containers/ScheduleLabel';
+import { Schedule } from '../../../../redux/stateTypes';
+import { CalendarDate } from '../../../../redux/selectors';
+import ScheduleLabel from './../containers/ScheduleLabel';
 import HolidayLabel from './HolidayLabel';
-import { isFirstDay, isSameDay } from '../../../services/calendar';
-import { DndItems } from './dnd/constants';
+import { isFirstDay, isSameDay } from '../../../../services/calendar';
+import { DndItems } from '../dnd/constants';
 
 const useStyles = makeStyles(() => {
     return createStyles({

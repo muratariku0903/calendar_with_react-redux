@@ -8,6 +8,7 @@ import { SchedulesActions } from "../../../../redux/actions/calendar/schedules";
 import { HolidaysActions } from '../../../../redux/actions/calendar/holidays';
 import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
 import { asyncFetchHolidays } from '../../../../redux/actions/effects/holidays';
+import { asyncLogout } from '../../../../redux/actions/effects/user';
 import { openSideMenu } from "../../../../redux/actions/calendar/sideMenu";
 import { getPrevMonth, getNextMonth } from "../../../../services/calendar";
 
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(asyncFetchHolidays(year, month));
         },
         sideMenuOpen: () => dispatch(openSideMenu()),
+        logout: () => dispatch(asyncLogout()),
     };
 }
 

@@ -1,4 +1,4 @@
-import { weeks } from '../../../constants';
+import { weeks } from '../../../../constants';
 import { GridList, Typography } from '@material-ui/core';
 
 

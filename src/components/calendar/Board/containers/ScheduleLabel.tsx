@@ -1,4 +1,4 @@
-import ScheduleLabel, { DispatchProps } from '../ScheduleLabel';
+import ScheduleLabel, { DispatchProps } from '../parts/ScheduleLabel';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';

@@ -23,7 +23,7 @@ class GoogleCalendarApi {
                         const requestPath = this.createRequestPath(year, month);
                         gapi.client.request({ path: requestPath })
                             .then(res => {
-                                console.log(`Fetch holidays of ${year}:${month} from api.`);
+                                // console.log(`Fetch holidays of ${year}:${month} from api.`);
                                 resolve(res.result.items);
                             })
                             .catch(e => {
