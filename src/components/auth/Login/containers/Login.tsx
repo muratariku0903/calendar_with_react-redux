@@ -11,6 +11,7 @@ import { asyncLogin } from '../../../../redux/actions/effects/user';
 const mapStateToProps = (state: State): StateProps => {
     return {
         dialog: state.loginDialog.dialog,
+        isLogin: state.user.isLogin,
     };
 };
 

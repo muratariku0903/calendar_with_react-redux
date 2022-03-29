@@ -1,13 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogActions, Button, DialogTitle, Divider } from '@material-ui/core';
-import { State, LoginDialogState } from '../../../redux/stateTypes';
+import { LoginDialogState, UserState } from '../../../redux/stateTypes';
 import LoginDialogForm from './parts/LoginDialogForm';
+import { Validation } from '../../../services/validation';
+import { rules } from '../constants';
 
 
 export type StateProps = {
     dialog: LoginDialogState['dialog'];
+    isLogin: UserState['isLogin'];
 }
 
 export type DispatchProps = {
@@ -20,9 +22,11 @@ export type LoginProps = StateProps & DispatchProps & {
     login: () => void;
 };
 
-const Login: React.FC<LoginProps> = ({ dialog, setDialog, login }) => {
-    const { isLogin } = useSelector<State>(state => state.user) as State['user'];
+const Login: React.FC<LoginProps> = ({ dialog, setDialog, login, isLogin }) => {
     const navigate = useNavigate();
+    const validation = new Validation(rules);
+    const validateErrorMessages = validation.validate(dialog);
+    const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
 
     if (isLogin) return <Navigate to='/' />;
 
@@ -34,12 +38,11 @@ const Login: React.FC<LoginProps> = ({ dialog, setDialog, login }) => {
             </DialogActions>
             <Divider />
             <DialogContent>
-                <LoginDialogForm dialog={dialog} setDialog={setDialog} />
+                <LoginDialogForm dialog={dialog} setDialog={setDialog} validateErrorMessages={validateErrorMessages} />
             </DialogContent>
             <Divider />
             <DialogActions>
-                {/* //全て入力されてから押せるように */}
-                <Button onClick={login} color="primary" disabled={false} variant="outlined">ログイン</Button>
+                <Button onClick={login} color="primary" disabled={!isValid} variant="outlined">ログイン</Button>
             </DialogActions>
         </Dialog>
     );

@@ -8,13 +8,14 @@ const spacer = { margin: '4px 0' };
 type OutterProps = {
     name: SignupDialogState['dialog']['name'];
     setDialog: (dialogItem: Partial<SignupDialogState['dialog']>) => void;
+    errorMessage: string;
 }
 
 type AddUserDialogNameProps = OutterProps;
 
-const Name: React.FC<AddUserDialogNameProps> = ({ name, setDialog }) => {
+const Name: React.FC<AddUserDialogNameProps> = ({ name, setDialog, errorMessage }) => {
     const [isStartInput, setIsStartInput] = useState<boolean>(false);
-    const isError = isStartInput && !name;
+    const isError = isStartInput && Boolean(errorMessage);
     return (
         <Grid container spacing={1} alignItems='center' justifyContent="space-between">
             <Grid item >
@@ -34,7 +35,7 @@ const Name: React.FC<AddUserDialogNameProps> = ({ name, setDialog }) => {
                 />
                 <div>
                     {isError && (
-                        <Typography variant="caption" component="div" color="error">名前は必須です</Typography>
+                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
                     )}
                 </div>
             </Grid>

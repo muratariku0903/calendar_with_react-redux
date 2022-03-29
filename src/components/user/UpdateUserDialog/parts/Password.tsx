@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, Input } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Grid, Input, Typography } from '@material-ui/core';
 import { Lock as PasswordIcon } from '@material-ui/icons';
 import { UpdateUserDialogState } from '../../../../redux/stateTypes';
 
@@ -8,11 +8,14 @@ const spacer = { margin: '4px 0' };
 type OutterProps = {
     password: UpdateUserDialogState['user']['password'];
     setDialog: (dialogItem: Partial<UpdateUserDialogState['user']>) => void;
+    errorMessage: string;
 }
 
 type AddUserDialogMailProps = OutterProps;
 
-const Password: React.FC<AddUserDialogMailProps> = ({ password, setDialog }) => {
+const Password: React.FC<AddUserDialogMailProps> = ({ password, setDialog, errorMessage }) => {
+    const [isStartInput, setIsStartInput] = useState<boolean>(false);
+    const isError = isStartInput && Boolean(errorMessage);
     return (
         <Grid container spacing={1} alignItems='center' justifyContent="space-between">
             <Grid item >
@@ -23,10 +26,17 @@ const Password: React.FC<AddUserDialogMailProps> = ({ password, setDialog }) => 
                     type="password"
                     value={password}
                     onChange={e => setDialog({ password: e.target.value })}
+                    error={isError}
+                    onBlur={() => setIsStartInput(true)}
                     placeholder='パスワード設定してください'
                     fullWidth
                     style={spacer}
                 />
+                <div>
+                    {isError && (
+                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
+                    )}
+                </div>
             </Grid>
         </Grid>
     );

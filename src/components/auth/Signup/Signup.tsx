@@ -1,13 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Dialog, DialogContent, DialogActions, Button, Typography, DialogTitle, Divider } from '@material-ui/core';
-import { State, SignupDialogState } from '../../../redux/stateTypes';
+import { Dialog, DialogContent, DialogActions, Button, DialogTitle, Divider } from '@material-ui/core';
+import { SignupDialogState, UserState } from '../../../redux/stateTypes';
 import SignupDialogForm from './parts/SignupDialogForm';
+import { Validation } from '../../../services/validation';
+import { rules } from '../constants';
 
 
 export type StateProps = {
     dialog: SignupDialogState['dialog'];
+    isLogin: UserState['isLogin'];
 }
 
 export type DispatchProps = {
@@ -21,9 +23,11 @@ export type SignupProps = StateProps & DispatchProps & {
 };
 
 // 間違えた人用に、ログインボタンを設置
-const Signup: React.FC<SignupProps> = ({ dialog, setDialog, signup }) => {
-    const { isLogin } = useSelector<State>(state => state.user) as State['user'];
+const Signup: React.FC<SignupProps> = ({ dialog, setDialog, isLogin, signup }) => {
     const navigate = useNavigate();
+    const validation = new Validation(rules);
+    const validateErrorMessages = validation.validate(dialog);
+    const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
 
     if (isLogin) return <Navigate to='/' />;
 
@@ -35,11 +39,11 @@ const Signup: React.FC<SignupProps> = ({ dialog, setDialog, signup }) => {
             </DialogActions>
             <Divider />
             <DialogContent>
-                <SignupDialogForm dialog={dialog} setDialog={setDialog} />
+                <SignupDialogForm dialog={dialog} setDialog={setDialog} validateErrorMessages={validateErrorMessages} />
             </DialogContent>
             <Divider />
             <DialogActions>
-                <Button onClick={signup} color="primary" disabled={false} variant="outlined">登録</Button>
+                <Button onClick={signup} color="primary" disabled={!isValid} variant="outlined">登録</Button>
             </DialogActions>
         </Dialog>
     );

@@ -2,22 +2,18 @@ import React, { useState } from 'react';
 import { Grid, Input, Typography } from '@material-ui/core';
 import { Mail as MailIcon } from '@material-ui/icons';
 import { SignupDialogState } from '../../../../redux/stateTypes';
-import { Validation, ValidateItems } from '../../../../services/validation';
-import { rules } from '../../constants';
 
 const spacer = { margin: '4px 0' };
 
 type OutterProps = {
     mail: SignupDialogState['dialog']['email'];
     setDialog: (dialogItem: Partial<SignupDialogState['dialog']>) => void;
+    errorMessage: string;
 }
 
 type AddUserDialogMailProps = OutterProps;
 
-const Mail: React.FC<AddUserDialogMailProps> = ({ mail, setDialog }) => {
-    const validation = new Validation(rules);
-    const items: ValidateItems = { email: mail };
-    const errorMessage = validation.validate(items).email;
+const Mail: React.FC<AddUserDialogMailProps> = ({ mail, setDialog, errorMessage }) => {
     const [isStartInput, setIsStartInput] = useState<boolean>(false);
     const isError = isStartInput && Boolean(errorMessage);
     return (

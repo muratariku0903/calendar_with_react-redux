@@ -1,4 +1,3 @@
-type ValidateRulesKey = string;
 export type ValidateRules = {
     [key: string]: {
         name: string,
@@ -20,8 +19,7 @@ type ValidateItem = number | string | null;
 export type ValidateItems = Record<string, ValidateItem>;
 
 type ErrorMessage = string;
-type ErrorMessages = Record<string, ErrorMessage>;
-// type ErrorMessages = Record<ValidateRules[keyof ValidateRules]['name'], ErrorMessage>;
+export type ErrorMessages = Record<string, ErrorMessage>;
 
 export class Validation {
     private validationRules: ValidateRules;
@@ -35,11 +33,11 @@ export class Validation {
         for (const key in items) {
             if (!this.existsKeyInValidationRules(key)) continue;
 
-            const item = items[key as keyof ValidateItems];
-
-            for (const ruleName in this.validationRules[key as keyof ValidateRules]['rules']) {
+            key as keyof ValidateRules;
+            const item = items[key];
+            for (const ruleName in this.validationRules[key].rules) {
                 if (ruleName === 'required') {
-                    const errorMessage = this.validateRequired(key as keyof ValidateRules, item);
+                    const errorMessage = this.validateRequired(key, item);
                     if (!this.isEmpty(errorMessage)) {
                         errorMessages[key] = errorMessage;
                         break;
@@ -47,7 +45,7 @@ export class Validation {
                 }
 
                 if (ruleName === 'length') {
-                    const errorMessage = this.validateLength(key as keyof ValidateRules, item);
+                    const errorMessage = this.validateLength(key, item);
                     if (!this.isEmpty(errorMessage)) {
                         errorMessages[key] = errorMessage;
                         break;
@@ -55,7 +53,7 @@ export class Validation {
                 }
 
                 if (ruleName === 'regex') {
-                    const errorMessage = this.validateRegex(key as keyof ValidateRules, item);
+                    const errorMessage = this.validateRegex(key, item);
                     if (!this.isEmpty(errorMessage)) {
                         errorMessages[key] = errorMessage;
                         break;
@@ -66,56 +64,63 @@ export class Validation {
         return errorMessages;
     }
 
-    private validateRequired(key: keyof ValidateRules, item: ValidateItem): ErrorMessage {
-        return this.isEmpty(item) ? `${this.validationRules[key]['name']}は必須です` : '';
+    public isEmptyErrorMessages(errorMessages: ErrorMessages): boolean {
+        return Object.keys(errorMessages).length === 0 && errorMessages.constructor === Object;
     }
 
-    private validateLength(key: keyof ValidateRules, item: ValidateItem): ErrorMessage {
+    private validateRequired(key: string, item: ValidateItem): ErrorMessage {
+        const itemName = this.validationRules[key]['name'];
+        return this.isEmpty(item) ? `${itemName}は必須です` : '';
+    }
+
+    private validateLength(key: string, item: ValidateItem): ErrorMessage {
         if (this.isEmpty(item)) return '';
         const max = this.validationRules[key]['rules']['length']?.['max'];
         const min = this.validationRules[key]['rules']['length']?.['min'];
+        const itemName = this.validationRules[key]['name'];
         switch (typeof (item)) {
             case 'number':
-                return this.validateNumSize(key, item, max, min);
+                return `${itemName}は${this.validateNumSize(item, max, min)}です`;
 
             case 'string':
-                return this.validateStrLen(key, item, max, min);
+                return `${itemName}は${this.validateStrLen(item, max, min)}です`;
             default:
                 return '';
         }
     }
 
-    private validateStrLen(key: keyof ValidateRules, str: string, max?: number, min?: number): ErrorMessage {
+    private validateStrLen(str: string, max?: number, min?: number): ErrorMessage {
         const len = str.length;
         if (max !== undefined && min !== undefined && (len > max || len < min)) {
-            return `${this.validationRules[key]['name']}は${min}文字以上${max}文字以下です`;
+            return `${min}文字以上${max}文字以下`;
         } else if (max !== undefined && len > max) {
-            return `${this.validationRules[key]['name']}は${max}文字以下です`;
+            return `${max}文字以下`;
         } else if (min !== undefined && len < min) {
-            return `${this.validationRules[key]['name']}は${min}文字以上です`;
+            return `${min}文字以上`;
         }
         return '';
     }
 
-    private validateNumSize(key: keyof ValidateRules, num: number, max?: number, min?: number): ErrorMessage {
+    private validateNumSize(num: number, max?: number, min?: number): ErrorMessage {
         if (max !== undefined && min !== undefined && (num > max || num < min)) {
-            return `${this.validationRules[key]['name']}は${min}以上${max}以下です`;
+            return `${min}以上${max}以下`;
         } else if (max !== undefined && num > max) {
-            return `${this.validationRules[key]['name']}は${max}以下です`;
+            return `${max}以下`;
         } else if (min !== undefined && num < min) {
-            return `${this.validationRules[key]['name']}は${min}以上です`;
+            return `${min}以上`;
         }
         return '';
     }
 
-    private validateRegex(key: keyof ValidateRules, item: ValidateItem): ErrorMessage {
+    private validateRegex(key: string, item: ValidateItem): ErrorMessage {
         if (this.isEmpty(item)) return '';
         const regex = this.validationRules[key]['rules']['regex'];
+        const itemName = this.validationRules[key]['name'];
         switch (typeof (item)) {
             case 'string':
-                return regex && !item.match(regex['pattern']) ? `${this.validationRules[key]['name']}は${regex['meaning']}の形式でお願いします。` : '';
+                return regex && !item.match(regex['pattern']) ? `${itemName}は${regex['meaning']}の形式でお願いします` : '';
             case 'number':
-                return '値が正しくありません。';
+                return '値が正しくありません';
             default:
                 return '';
         }
