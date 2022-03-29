@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogActions, Button, Typography, DialogTitle, Divider } from '@material-ui/core';
 import { State, SignupDialogState } from '../../../redux/stateTypes';
 import SignupDialogForm from './parts/SignupDialogForm';
@@ -23,12 +23,16 @@ export type SignupProps = StateProps & DispatchProps & {
 // 間違えた人用に、ログインボタンを設置
 const Signup: React.FC<SignupProps> = ({ dialog, setDialog, signup }) => {
     const { isLogin } = useSelector<State>(state => state.user) as State['user'];
+    const navigate = useNavigate();
 
     if (isLogin) return <Navigate to='/' />;
 
     return (
         <Dialog open maxWidth="sm" fullWidth>
             <DialogTitle>新規登録</DialogTitle>
+            <DialogActions>
+                <Button onClick={() => navigate('/login')} color="primary">ログイン</Button>
+            </DialogActions>
             <Divider />
             <DialogContent>
                 <SignupDialogForm dialog={dialog} setDialog={setDialog} />
