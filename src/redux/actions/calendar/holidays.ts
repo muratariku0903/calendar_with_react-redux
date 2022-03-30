@@ -7,7 +7,6 @@ type SetHolidaysAction = {
     payload: HolidaysState['holidays'];
 }
 
-// fetchというよりsetの方がしっくりくるかも
 export const setHolidays = (holidays: HolidaysState['holidays']): SetHolidaysAction => {
     return {
         type: ActionTypes.SET_HOLIDAYS,
@@ -17,24 +16,14 @@ export const setHolidays = (holidays: HolidaysState['holidays']): SetHolidaysAct
 
 type SetHolidaysLoading = {
     type: ActionTypes.SET_HOLIDAYS_LOADING;
+    payload: HolidaysState['isLoading'];
 }
 
-export const setHolidaysLoading = (): SetHolidaysLoading => {
+export const setHolidaysLoading = (isLoading: HolidaysState['isLoading']): SetHolidaysLoading => {
     return {
-        type: ActionTypes.SET_HOLIDAYS_LOADING
+        type: ActionTypes.SET_HOLIDAYS_LOADING,
+        payload: isLoading,
     }
 }
 
-type SetHolidaysError = {
-    type: ActionTypes.SET_HOLIDAYS_ERROR;
-    payload: HolidaysState['error'];
-}
-
-export const setHolidaysError = (error: HolidaysState['error']): SetHolidaysError => {
-    return {
-        type: ActionTypes.SET_HOLIDAYS_ERROR,
-        payload: error,
-    }
-}
-
-export type HolidaysActions = SetHolidaysAction | SetHolidaysLoading | SetHolidaysError;
+export type HolidaysActions = SetHolidaysAction | SetHolidaysLoading;

@@ -11,42 +11,46 @@ import { setSnackBar } from '../app/snackBar';
 type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions>;
 
 export const asyncFetchSchedules = (year: number, month: number): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
-    dispatch(setScheduleLoading());
+    dispatch(setScheduleLoading(true));
     try {
         const schedules = await schedulesAPI.fetchSchedules(year, month);
         dispatch(setSchedules(schedules));
     } catch (e) {
+        dispatch(setScheduleLoading(false));
         dispatch(setSnackBar('error', '予定の取得に失敗しました'));
         console.error(`Error setting schedules to state because:${e}`);
     }
 }
 
 export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
-    dispatch(setScheduleLoading());
+    dispatch(setScheduleLoading(true));
     try {
         const id = await schedulesAPI.addSchedule(form);
         dispatch(addSchedules(createSchedulesKey(form.date), form, id));
         dispatch(setSnackBar('success', '予定を追加しました'));
     } catch (e) {
+        dispatch(setScheduleLoading(false));
         dispatch(setSnackBar('error', '予定の追加に失敗しました'));
         console.error(`Error adding schedule to state because:${e}`);
     }
 }
 
 export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
-    dispatch(setScheduleLoading());
+    dispatch(setScheduleLoading(true));
+    const { id, date } = schedule;
     try {
         await schedulesAPI.deleteSchedule(schedule);
-        dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
+        dispatch(deleteSchedule(createSchedulesKey(date), id));
         dispatch(setSnackBar('success', '予定を削除しました'));
     } catch (e) {
+        dispatch(setScheduleLoading(false));
         dispatch(setSnackBar('error', '予定の削除に失敗しました'));
         console.error(`Error deleting schedule of state because:${e}`);
     }
 }
 
 export const asyncUpdateSchedule = (prevDate: Schedule['date'], schedule: Schedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
-    dispatch(setScheduleLoading());
+    dispatch(setScheduleLoading(true));
     const { id, date } = schedule;
     try {
         await schedulesAPI.updateSchedule(prevDate, schedule);
@@ -58,6 +62,7 @@ export const asyncUpdateSchedule = (prevDate: Schedule['date'], schedule: Schedu
         }
         dispatch(setSnackBar('success', '予定を更新しました'));
     } catch (e) {
+        dispatch(setScheduleLoading(false));
         dispatch(setSnackBar('error', '予定の更新に失敗しました'));
         console.error(`Error updating schedule of state because:${e}`);
     }

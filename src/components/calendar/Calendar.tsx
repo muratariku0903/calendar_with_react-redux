@@ -9,7 +9,6 @@ import SideMenu from './SideMenu/containers/SideMenu';
 import AddScheduleDialog from './AddScheduleDialog/containers/AddScheduleDialog';
 import ShowScheduleDialog from './ShowScheduleDialog/containers/ShowScheduleDialog';
 import UpdateScheduleDialog from './UpdateScheduleDialog/containers/UpdateScheduleDialog';
-import ErrorSnackbar from './ErrorSnackbar/containers/ErrorSnackbar';
 
 
 const Calendar: React.FC = () => {
@@ -25,7 +24,6 @@ const Calendar: React.FC = () => {
             <AddScheduleDialog />
             <ShowScheduleDialog />
             <UpdateScheduleDialog />
-            <ErrorSnackbar />
         </Fragment>
     );
 };

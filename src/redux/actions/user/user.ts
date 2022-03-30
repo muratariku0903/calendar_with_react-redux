@@ -21,5 +21,17 @@ export const resetUser = (): ResetUserAction => {
     return { type: ActionTypes.RESET_USER };
 };
 
+type SetUserLoadingAction = {
+    type: ActionTypes.SET_USER_LOADING;
+    payload: UserState['isLoading'];
+}
 
-export type UserActions = SetUserAction | ResetUserAction;
+export const setUserLoading = (isLoading: UserState['isLoading']): SetUserLoadingAction => {
+    return {
+        type: ActionTypes.SET_USER_LOADING,
+        payload: isLoading,
+    };
+};
+
+
+export type UserActions = SetUserAction | ResetUserAction | SetUserLoadingAction;

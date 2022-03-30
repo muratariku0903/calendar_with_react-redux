@@ -6,7 +6,6 @@ import { HolidaysActions } from "../../actions/calendar/holidays";
 const initialState: HolidaysState = {
     holidays: {},
     isLoading: false,
-    error: null,
 }
 
 const holidays = (state = initialState, action: HolidaysActions): HolidaysState => {
@@ -19,16 +18,7 @@ const holidays = (state = initialState, action: HolidaysActions): HolidaysState 
             }
 
         case ActionTypes.SET_HOLIDAYS_LOADING:
-            return {
-                ...state,
-                isLoading: true,
-            }
-
-        case ActionTypes.SET_HOLIDAYS_ERROR:
-            return {
-                ...state,
-                error: action.payload
-            }
+            return { ...state, isLoading: action.payload }
 
         default:
             return state;

@@ -6,12 +6,11 @@ import { addScheduleToDateSchedules, updateDateSchedules } from "../../../servic
 const initialState: SchedulesState = {
     monthSchedules: {},
     isLoading: false,
-    error: null,
 }
 
 const schedules = (state = initialState, action: SchedulesActions): SchedulesState => {
     switch (action.type) {
-        case ActionTypes.FETCH_SCHEDULES:
+        case ActionTypes.SET_SCHEDULES:
             return {
                 ...state,
                 monthSchedules: action.payload,
@@ -54,17 +53,7 @@ const schedules = (state = initialState, action: SchedulesActions): SchedulesSta
             }
 
         case ActionTypes.SET_SCHEDULES_LOADING:
-            return {
-                ...state,
-                // これpayloadで受け取った方がいい気がsる
-                isLoading: true,
-            }
-
-        case ActionTypes.SET_SCHEDULES_ERROR:
-            return {
-                ...state,
-                error: action.payload
-            }
+            return { ...state, isLoading: action.payload }
 
         default:
             return state;

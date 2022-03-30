@@ -19,7 +19,6 @@ export type Schedule = {
 export type SchedulesState = {
     monthSchedules: Record<SchedulesKey, Schedule[]>;
     isLoading: boolean;
-    error: null | string;
 };
 
 // AddDialogScheduleの方がわかりやすい
@@ -62,7 +61,6 @@ export type Holiday = {
 export type HolidaysState = {
     holidays: Record<string, Holiday | null>;
     isLoading: boolean;
-    error: null | string;
 }
 
 
@@ -79,6 +77,7 @@ export type User = {
 export type UserState = {
     user: User;
     isLogin: boolean;
+    isLoading: boolean;
 }
 
 export type UpdateUserDialogState = {

@@ -19,7 +19,16 @@ const AddScheduleDialogDate: React.FC<AddScheduleDialogDateProps> = ({ date, set
                 <AccessTime />
             </Grid>
             <Grid item xs={10}>
-                <DatePicker value={dayjs.unix(date ? date : dayjs().unix())} onChange={d => setDialogForm({ date: d?.unix() })} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
+                <DatePicker
+                    value={dayjs.unix(date)}
+                    onChange={d => setDialogForm({ date: d?.unix() })}
+                    variant="inline"
+                    format="YYYY年M月D日"
+                    animateYearScrolling
+                    disableToolbar
+                    fullWidth
+                    style={spacer}
+                />
             </Grid>
         </Grid>
     );

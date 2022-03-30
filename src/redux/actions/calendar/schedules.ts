@@ -49,37 +49,28 @@ export const deleteSchedule = (key: SchedulesKey, id: number): DeleteScheduleAct
 }
 
 type FetchSchedulesAction = {
-    type: ActionTypes.FETCH_SCHEDULES;
+    type: ActionTypes.SET_SCHEDULES;
     payload: Record<SchedulesKey, Schedule[]>;
 }
 
 export const setSchedules = (schedules: SchedulesState['monthSchedules']): FetchSchedulesAction => {
     return {
-        type: ActionTypes.FETCH_SCHEDULES,
+        type: ActionTypes.SET_SCHEDULES,
         payload: schedules,
     }
 }
 
 type SetScheduleLoading = {
     type: ActionTypes.SET_SCHEDULES_LOADING;
+    payload: SchedulesState['isLoading'];
 }
 
-export const setScheduleLoading = (): SetScheduleLoading => {
+export const setScheduleLoading = (isLoading: SchedulesState['isLoading']): SetScheduleLoading => {
     return {
-        type: ActionTypes.SET_SCHEDULES_LOADING
-    }
-}
-type SetScheduleError = {
-    type: ActionTypes.SET_SCHEDULES_ERROR;
-    payload: SchedulesState['error'];
-}
-
-export const setScheduleError = (error: SchedulesState['error']): SetScheduleError => {
-    return {
-        type: ActionTypes.SET_SCHEDULES_ERROR,
-        payload: error,
-    }
-}
+        type: ActionTypes.SET_SCHEDULES_LOADING,
+        payload: isLoading,
+    };
+};
 
 export type SchedulesActions =
-    AddSchedulesAction | DeleteScheduleAction | UpdateScheduleAction | FetchSchedulesAction | SetScheduleLoading | SetScheduleError;
+    AddSchedulesAction | DeleteScheduleAction | UpdateScheduleAction | FetchSchedulesAction | SetScheduleLoading;
