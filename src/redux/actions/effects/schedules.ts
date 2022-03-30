@@ -1,35 +1,35 @@
-import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, setScheduleError, updateSchedule, SchedulesActions } from '../calendar/schedules';
+import { setSchedules, addSchedules, deleteSchedule, setScheduleLoading, updateSchedule, SchedulesActions } from '../calendar/schedules';
 import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Schedule, State, DialogSchedule } from '../../stateTypes';
 import { createSchedulesKey } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
 import { schedulesAPI } from '../../../firebase/api/schedules';
+import { setSnackBar } from '../app/snackBar';
 
 
 type SchedulesThunkAction = ThunkAction<void, State, undefined, SchedulesActions>;
 
 export const asyncFetchSchedules = (year: number, month: number): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
-    await schedulesAPI.fetchSchedules(year, month)
-        .then(schedules => {
-            dispatch(setSchedules(schedules));
-            console.log('Set schedules to state.');
-        }).catch(e => {
-            console.error('Error setting schedules to state because:', e);
-            dispatch(setScheduleError(String(e)));
-        });
+    try {
+        const schedules = await schedulesAPI.fetchSchedules(year, month);
+        dispatch(setSchedules(schedules));
+    } catch (e) {
+        dispatch(setSnackBar('error', '予定の取得に失敗しました'));
+        console.error(`Error setting schedules to state because:${e}`);
+    }
 }
 
 export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setScheduleLoading());
     try {
         const id = await schedulesAPI.addSchedule(form);
-        console.log('Add schedule to state.', id);
         dispatch(addSchedules(createSchedulesKey(form.date), form, id));
+        dispatch(setSnackBar('success', '予定を追加しました'));
     } catch (e) {
-        console.error("Error adding schedule to state because: ", e);
-        dispatch(setScheduleError(String(e)));
+        dispatch(setSnackBar('error', '予定の追加に失敗しました'));
+        console.error(`Error adding schedule to state because:${e}`);
     }
 }
 
@@ -38,10 +38,10 @@ export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction =>
     try {
         await schedulesAPI.deleteSchedule(schedule);
         dispatch(deleteSchedule(createSchedulesKey(schedule.date), schedule.id));
-        console.log('Delete schedule of state.');
+        dispatch(setSnackBar('success', '予定を削除しました'));
     } catch (e) {
-        console.error("Error deleting schedule of state because: ", e);
-        dispatch(setScheduleError(String(e)));
+        dispatch(setSnackBar('error', '予定の削除に失敗しました'));
+        console.error(`Error deleting schedule of state because:${e}`);
     }
 }
 
@@ -56,9 +56,9 @@ export const asyncUpdateSchedule = (prevDate: Schedule['date'], schedule: Schedu
             dispatch(deleteSchedule(createSchedulesKey(prevDate), id));
             dispatch(addSchedules(createSchedulesKey(date), schedule, id));
         }
-        console.log('Update schedule of state.');
+        dispatch(setSnackBar('success', '予定を更新しました'));
     } catch (e) {
-        console.error("Error updating schedule of state because:", e);
-        dispatch(setScheduleError(String(e)));
+        dispatch(setSnackBar('error', '予定の更新に失敗しました'));
+        console.error(`Error updating schedule of state because:${e}`);
     }
 }

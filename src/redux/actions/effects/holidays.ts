@@ -4,6 +4,7 @@ import { ThunkAction } from 'redux-thunk';
 import { State, HolidaysState } from '../../stateTypes';
 import GoogleCalendarApi from '../../../api/GoogleCalendarApi/GoogleCalendarApi';
 import { createHolidaysKey } from '../../../services/holidays';
+import { setSnackBar } from '../app/snackBar';
 import dayjs from 'dayjs';
 
 type HolidaysThunkAction = ThunkAction<void, State, undefined, HolidaysActions>;
@@ -20,11 +21,10 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
             const name = s.summary;
             holidays[createHolidaysKey(date)] = { date, name };
         });
-        console.log('Set holidays to state.');
         dispatch(setHolidays(holidays));
     } catch (e) {
-        console.error('Error Setting holidays to state because:', e);
-        dispatch(setHolidaysError(String(e)));
+        dispatch(setSnackBar('error', '祝日の取得に失敗しました'));
+        console.error(`Error Setting holidays to state because:${e}`);
     }
 }
 

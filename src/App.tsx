@@ -4,6 +4,7 @@ import Calendar from './components/calendar/Calendar';
 import User from './components/user/User';
 import Signup from './components/auth/Signup/containers/Signup';
 import Login from './components/auth/Login/containers/Login';
+import SnackBar from './components/app/Snackbar/containers/Snackbar';
 
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
             </Routes>
+            <SnackBar />
         </BrowserRouter>
     );
 };

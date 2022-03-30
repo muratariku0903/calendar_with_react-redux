@@ -100,6 +100,12 @@ export type LoginDialogState = {
     isShowAlert: boolean;
 }
 
+export type SnackBarState = {
+    isOpenSnackBar: boolean;
+    type: 'success' | 'error' | null;
+    message: string;
+}
+
 export type State = {
     calendar: CalendarState;
     schedules: SchedulesState;
@@ -112,4 +118,5 @@ export type State = {
     updateUserDialog: UpdateUserDialogState;
     signupDialog: SignupDialogState;
     loginDialog: LoginDialogState;
+    snackBar: SnackBarState;
 };

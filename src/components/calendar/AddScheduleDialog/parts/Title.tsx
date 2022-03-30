@@ -26,14 +26,13 @@ export type DispatchProps = {
 
 export type AddScheduleDialogTitleProps = StateProps & DispatchProps & OutterProps;
 
-const AddScheduleDialogTitle: React.FC<AddScheduleDialogTitleProps> = ({ title, isStartEdit, setDialogForm, setStartEdit }) => {
+const AddScheduleDialogTitle: React.FC<AddScheduleDialogTitleProps> = ({ title, isStartEdit, setDialogForm }) => {
     const isError = isStartEdit && !title;
     return (
         <Fragment>
             <Title
                 value={title}
                 onChange={e => setDialogForm({ title: e.target.value })}
-                onBlur={setStartEdit}
                 error={isError}
                 autoFocus
                 fullWidth
