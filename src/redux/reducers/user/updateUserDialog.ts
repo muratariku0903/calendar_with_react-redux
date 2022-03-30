@@ -10,6 +10,7 @@ const initialState: UpdateUserDialogState = {
         password: '',
     },
     isOpenDialog: false,
+    isStartEdit: false,
     isShowAlert: false,
 }
 
@@ -24,6 +25,12 @@ const updateUserDialog = (state = initialState, action: UpdateUserDialogActions)
 
         case ActionTypes.CLOSE_UPDATE_USER_DIALOG:
             return initialState;
+
+        case ActionTypes.START_EDIT_UPDATE_USER_DIALOG:
+            return { ...state, isStartEdit: true };
+
+        case ActionTypes.SHOW_UPDATE_USER_DIALOG_ALERT:
+            return { ...state, isShowAlert: action.payload };
 
         default:
             return state;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { State, UpdateUserDialogState } from '../../../../redux/stateTypes';
 import { UserActions } from '../../../../redux/actions/user/user';
-import { setUpdateUserDialog, closeUpdateUserDialog } from '../../../../redux/actions/user/updateUserDialog';
+import { setUpdateUserDialog, closeUpdateUserDialog, startEditUpdateUserDialog, showUpdateUserDialogAlert } from '../../../../redux/actions/user/updateUserDialog';
 import { asyncUpdate } from '../../../../redux/actions/effects/user';
 
 
@@ -18,12 +18,17 @@ const mapStateToProps = (state: State): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, UserActions>): DispatchProps => {
     return {
-        setDialog: (user: UpdateUserDialogState['user']) => dispatch(setUpdateUserDialog(user)),
+        setDialog: (user: UpdateUserDialogState['user']) => {
+            dispatch(setUpdateUserDialog(user));
+            dispatch(startEditUpdateUserDialog());
+        },
         update: (user: UpdateUserDialogState['user']) => {
             dispatch(asyncUpdate(user));
             dispatch(closeUpdateUserDialog());
         },
         closeDialog: () => dispatch(closeUpdateUserDialog()),
+        showAlert: () => dispatch(showUpdateUserDialogAlert(true)),
+        closeAlert: () => dispatch(showUpdateUserDialogAlert(false)),
     };
 };
 

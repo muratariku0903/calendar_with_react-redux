@@ -21,12 +21,20 @@ export const openUpdateUserDialog = (): OpenUpdateUserDialogAlertAction => {
     return { type: ActionTypes.OPEN_UPDATE_USER_DIALOG };
 };
 
-type CloseUpdateUserDialogAlertAction = {
+type CloseUpdateUserDialogAction = {
     type: ActionTypes.CLOSE_UPDATE_USER_DIALOG;
 };
 
-export const closeUpdateUserDialog = (): CloseUpdateUserDialogAlertAction => {
+export const closeUpdateUserDialog = (): CloseUpdateUserDialogAction => {
     return { type: ActionTypes.CLOSE_UPDATE_USER_DIALOG };
+};
+
+type StartEditUpdateUserDialogAction = {
+    type: ActionTypes.START_EDIT_UPDATE_USER_DIALOG;
+};
+
+export const startEditUpdateUserDialog = (): StartEditUpdateUserDialogAction => {
+    return { type: ActionTypes.START_EDIT_UPDATE_USER_DIALOG };
 };
 
 type ShowUpdateUserDialogAlertAction = {
@@ -34,11 +42,11 @@ type ShowUpdateUserDialogAlertAction = {
     payload: boolean;
 };
 
-export const showSignupDialogAlert = (isShow: boolean): ShowUpdateUserDialogAlertAction => {
+export const showUpdateUserDialogAlert = (isShow: boolean): ShowUpdateUserDialogAlertAction => {
     return {
         type: ActionTypes.SHOW_UPDATE_USER_DIALOG_ALERT,
         payload: isShow,
     };
 };
 
-export type UpdateUserDialogActions = SetUpdateUserDialogAction | OpenUpdateUserDialogAlertAction | CloseUpdateUserDialogAlertAction | ShowUpdateUserDialogAlertAction;
+export type UpdateUserDialogActions = SetUpdateUserDialogAction | OpenUpdateUserDialogAlertAction | CloseUpdateUserDialogAction | ShowUpdateUserDialogAlertAction | StartEditUpdateUserDialogAction;

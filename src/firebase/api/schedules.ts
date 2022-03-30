@@ -79,9 +79,9 @@ const deleteSchedule = async (schedule: Schedule): Promise<void> => {
 }
 
 const getAuthUid = (): string => {
-    const auth = getAuth().currentUser;
-    if (auth) return auth.uid;
-    throw ('Can not get auth uid because not logged in.');
+    const user = getAuth().currentUser;
+    if (user) return user.uid;
+    throw ('Can not get auth uid.');
 }
 
 const createCollectionRef = (uid: string, key: string) => {

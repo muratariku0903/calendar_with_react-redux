@@ -84,6 +84,7 @@ export type UserState = {
 export type UpdateUserDialogState = {
     user: User;
     isOpenDialog: boolean;
+    isStartEdit: boolean;
     isShowAlert: boolean;
 };
 

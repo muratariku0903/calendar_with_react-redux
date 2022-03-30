@@ -1,5 +1,5 @@
 import { db } from '../firestore';
-import { collection, getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
 import { User } from '../../redux/stateTypes';
 
 const rootCollection = 'users';
@@ -7,8 +7,8 @@ const rootCollection = 'users';
 
 const addUser = async (id: string, user: User): Promise<void> => {
     try {
-        const ref = collection(db, rootCollection);
-        await setDoc(doc(ref, id), user);
+        const ref = doc(db, rootCollection, id);
+        await setDoc(ref, user);
         console.log('Add user to firestore');
     } catch (e) {
         throw (`Error adding user to firestore because:${e}`);
@@ -17,7 +17,8 @@ const addUser = async (id: string, user: User): Promise<void> => {
 
 const fetchUser = async (id: string): Promise<User> => {
     try {
-        const user = (await getDoc(doc(db, rootCollection, id))).data() as User;
+        const ref = doc(db, rootCollection, id);
+        const user = (await getDoc(ref)).data() as User;
         console.log('Fetch user from firestore');
         return user;
     } catch (e) {
