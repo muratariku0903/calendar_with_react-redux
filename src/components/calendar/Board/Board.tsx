@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         boardShift: {
             width: `calc(100% - ${sideMenuWidth}px)`,
-            marginLeft: sideMenuWidth - 8,// bodyのmargin分調整
+            marginLeft: sideMenuWidth,
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
@@ -61,8 +61,8 @@ const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, fetchHoliday
     return (
         <DndProvider backend={HTML5Backend}>
             <div className={isSideMenuOpen ? classes.boardShift : classes.board}>
-                <WeekHeader />
                 <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
+                    {WeekHeader()}
                     {dates.map((val, idx) => {
                         return (
                             <li key={idx} onClick={() => openAddDialog(val.date.unix())}>

@@ -1,6 +1,6 @@
 import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
 import { createTheme } from '@material-ui/core/styles';
-import { sideMenuWidth } from '../../../constants';
+import { sideMenuWidth } from './constants';
 
 
 type overridesNameToClassKey = {
@@ -31,7 +31,7 @@ declare module '@material-ui/core/styles/overrides' {
     export interface ComponentNameToClassKey extends CustomType { }
 }
 
-export const customPickerTheme = createTheme({
+export const theme = createTheme({
     overrides: {
         MuiPickersStaticWrapper: {
             staticWrapperRoot: {

@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { IconButton, Drawer, Divider, Button, Tooltip } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
-import { customPickerTheme } from './customPickerTheme';
 import { Add } from '@material-ui/icons';
-import { createStyles, makeStyles, ThemeProvider, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { CalendarState, SideMenuState, Schedule } from '../../../redux/stateTypes';
 import { getMonth } from '../../../services/calendar';
+import { headerHeight, sideMenuWidth } from '../../../constants';
 import dayjs, { Dayjs } from 'dayjs';
 
 
 const useStyles = makeStyles((theme: Theme) => {
     return createStyles({
         drawer: {
+            width: sideMenuWidth,
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
@@ -20,15 +21,16 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         drawerHeader: {
             display: 'flex',
+            height: headerHeight,
             marginLeft: 'auto',
         },
-        drawerPaper: {
-            marginBottom: '8px',
-            borderBottom: 'solid 1px rgba(0, 0, 0, 0.12)',
-            height: 'calc(100% - 8px)',
+        drawerCloseBtn: {
+            width: headerHeight,
+            height: headerHeight,
         },
         addButton: {
             borderRadius: '0',
+            width: sideMenuWidth,
         }
     });
 });
@@ -65,12 +67,11 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
             anchor='left'
             onClose={close}
             variant="persistent"
-            classes={{ paper: classes.drawerPaper }}
         >
             <div className={classes.drawerHeader}>
                 <Tooltip title='閉じる' placement='bottom'>
-                    <IconButton onClick={close}>
-                        <ChevronLeftIcon />
+                    <IconButton onClick={close} className={classes.drawerCloseBtn}>
+                        <ChevronLeftIcon fontSize='large' />
                     </IconButton>
                 </Tooltip>
             </div>
@@ -86,16 +87,14 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
                 作成
             </Button>
             <Divider />
-            <ThemeProvider theme={customPickerTheme}>
-                <DatePicker
-                    value={selectedDate}
-                    onChange={d => d ? setSelectedDate(d) : alert('正しい日付を入力してください')}
-                    format="YYYY年 M月"
-                    variant='static'
-                    animateYearScrolling
-                    disableToolbar
-                />
-            </ThemeProvider>
+            <DatePicker
+                value={selectedDate}
+                onChange={d => d ? setSelectedDate(d) : alert('正しい日付を入力してください')}
+                format="YYYY年 M月"
+                variant='static'
+                animateYearScrolling
+                disableToolbar
+            />
         </Drawer>
     );
 }

@@ -1,6 +1,7 @@
 import { ValidateRules } from './services/validation';
 export const weeks = ['日', '月', '火', '水', '木', '金', '土'];
 export const sideMenuWidth = 240;
+export const headerHeight = 64;
 // ルールのキーもダイアログの入力項目名とに含まれる型定義
 export const rules: ValidateRules = {
     name: {

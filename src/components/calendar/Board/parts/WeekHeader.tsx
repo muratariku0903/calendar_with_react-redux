@@ -1,21 +1,34 @@
+import { Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import { weeks } from '../../../../constants';
-import { GridList, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles(() => {
+    return createStyles({
+        week: {
+            borderRight: '1px solid #ccc',
+            paddingTop: '10px',
+        }
+    });
+});
 
 
 const WeekHeader = () => {
-    return (
-        <GridList cols={7} cellHeight="auto" spacing={0}>
-            {weeks.map((week, idx) => {
-                return (
-                    <li key={idx}>
-                        <Typography align="center" component="div" variant="caption" color="textSecondary">
-                            {week}
-                        </Typography>
-                    </li>
-                )
-            })}
-        </GridList>
-    );
-}
+    const classes = useStyles();
+    const dayOfTheWeeks = weeks.map((week, idx) => {
+        return (
+            <li key={idx}>
+                <Typography
+                    className={classes.week}
+                    align="center"
+                    component="div"
+                    variant="caption"
+                    color="textSecondary">
+                    {week}
+                </Typography>
+            </li>
+        );
+    });
+    return dayOfTheWeeks
+};
 
 export default WeekHeader;
