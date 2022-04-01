@@ -1,79 +1,18 @@
-import React, { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { GridList } from '@material-ui/core';
-import { Schedule, SideMenuState } from '../../../redux/stateTypes';
-import { CalendarDate } from '../../../redux/selectors';
-import WeekHeader from './parts/WeekHeader';
-import Date from './containers/Date';
-import { sideMenuWidth } from '../../../constants';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { State, CalendarState } from '../../../redux/stateTypes';
+import MonthBoard from './MonthBoard/containers/MonthBoard';
 
 
-const useStyles = makeStyles((theme: Theme) => {
-    return createStyles({
-        grid: {
-            borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
-            borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-        },
-        board: {
-            width: '100%',
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-        },
-        boardShift: {
-            width: `calc(100% - ${sideMenuWidth}px)`,
-            marginLeft: sideMenuWidth,
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-        },
-    });
-});
+const Board: React.FC = () => {
+    const boardType = useSelector<State>(state => state.calendar.type) as CalendarState['type'];
+    switch (boardType) {
+        case 'month':
+            return <MonthBoard />;
 
-export type StateProps = {
-    year: number;
-    month: number;
-    dates: CalendarDate[];
-    isSideMenuOpen: SideMenuState['isOpen'];
-}
-
-export type DispatchProps = {
-    openAddDialog: (date: Schedule['date']) => void;
-    fetchSchedules: (year: number, month: number) => void;
-    fetchHolidays: (year: number, month: number) => void;
-}
-
-export type BoardProps = StateProps & DispatchProps & {
-    fetchSchedules: () => void;
-    fetchHolidays: () => void;
-}
-
-const Board: React.FC<BoardProps> = ({ month, dates, openAddDialog, fetchHolidays, fetchSchedules, isSideMenuOpen }) => {
-    const classes = useStyles();
-    useEffect(() => {
-        fetchSchedules();
-        fetchHolidays();
-    }, []);
-    return (
-        <DndProvider backend={HTML5Backend}>
-            <div className={isSideMenuOpen ? classes.boardShift : classes.board}>
-                <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
-                    {WeekHeader()}
-                    {dates.map((val, idx) => {
-                        return (
-                            <li key={idx} onClick={() => openAddDialog(val.date.unix())}>
-                                <Date date={val.date} dateSchedules={val.dateSchedules} holiday={val.holiday} month={month} />
-                            </li>
-                        );
-                    })}
-                </GridList>
-            </div>
-        </DndProvider>
-    );
+        case 'week':
+            return <div>week</div>;
+    }
 }
 
 export default Board;

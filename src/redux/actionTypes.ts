@@ -2,6 +2,7 @@
 export enum ActionTypes {
     //calendar
     SET_MONTH = 'SET_MONTH',
+    SET_TYPE = 'SET_TYPE',
     //sideMenu
     OPEN_SIDE_MENU = 'OPEN_SIDE_MENU',
     CLOSE_SIDE_MENU = 'CLOSE_SIDE_MENU',

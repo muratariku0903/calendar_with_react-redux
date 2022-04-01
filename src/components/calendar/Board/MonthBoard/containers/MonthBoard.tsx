@@ -1,14 +1,14 @@
-import Board, { StateProps, DispatchProps, BoardProps } from '../Board';
+import MonthBoard, { StateProps, DispatchProps, MonthBoardProps } from '../MonthBoard';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { State, initialDialogForm, Schedule } from '../../../../redux/stateTypes';
-import { SchedulesActions } from '../../../../redux/actions/calendar/schedules';
-import { HolidaysActions } from '../../../../redux/actions/calendar/holidays';
-import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/calendar/addScheduleDialog';
-import { asyncFetchSchedules } from '../../../../redux/actions/effects/schedules';
-import { asyncFetchHolidays } from '../../../../redux/actions/effects/holidays';
-import { getCalendarDates } from '../../../../redux/selectors';
+import { State, initialDialogForm, Schedule } from '../../../../../redux/stateTypes';
+import { SchedulesActions } from '../../../../../redux/actions/calendar/schedules';
+import { HolidaysActions } from '../../../../../redux/actions/calendar/holidays';
+import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../../redux/actions/calendar/addScheduleDialog';
+import { asyncFetchSchedules } from '../../../../../redux/actions/effects/schedules';
+import { asyncFetchHolidays } from '../../../../../redux/actions/effects/holidays';
+import { getCalendarDates } from '../../../../../redux/selectors';
 
 
 const mapStateToProps = (state: State): StateProps => {
@@ -35,7 +35,7 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
     }
 }
 
-const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): BoardProps => {
+const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): MonthBoardProps => {
     return {
         ...stateProps,
         ...dispatchProps,
@@ -44,4 +44,4 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Board
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Board);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(MonthBoard);

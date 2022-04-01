@@ -2,8 +2,8 @@ import ScheduleLabel, { DispatchProps } from '../parts/ScheduleLabel';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Schedule } from '../../../../redux/stateTypes';
-import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../redux/actions/calendar/showScheduleDialog';
+import { Schedule } from '../../../../../redux/stateTypes';
+import { openShowScheduleDialog, setShowScheduleDialog } from '../../../../../redux/actions/calendar/showScheduleDialog';
 
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {

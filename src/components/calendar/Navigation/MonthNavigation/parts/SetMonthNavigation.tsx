@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react';
-import { IconButton, Tooltip, TextField } from '@material-ui/core';
+import { IconButton, Tooltip } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { CalendarState } from '../../../../redux/stateTypes';
-import { getMonth } from '../../../../services/calendar';
+import { CalendarState } from '../../../../../redux/stateTypes';
+import { getMonth } from '../../../../../services/calendar';
 
 const useStyles = makeStyles(() => {
     return createStyles({
         textField: {
             color: 'white',
+            cursor: 'pointer',
         }
     });
 });
@@ -23,9 +24,9 @@ type OutterProps = {
     setNextMonth: () => void;
 }
 
-export type MonthNavigationProps = OutterProps;
+export type SetMonthNavigationProps = OutterProps;
 
-const MonthNavigation: React.FC<MonthNavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth }) => {
+const SetMonthNavigation: React.FC<SetMonthNavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth }) => {
     const classes = useStyles();
     return (
         <Fragment>
@@ -52,4 +53,4 @@ const MonthNavigation: React.FC<MonthNavigationProps> = ({ year, month, setMonth
     );
 }
 
-export default MonthNavigation;
+export default SetMonthNavigation;
