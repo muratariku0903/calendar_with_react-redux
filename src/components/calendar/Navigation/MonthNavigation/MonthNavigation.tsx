@@ -10,7 +10,7 @@ export type StateProps = {
 }
 
 export type DispatchProps = {
-    setMonth: (year: number, month: number) => void;
+    setMonth: (year: number, month: number, firstDateOfWeek: number) => void;
 }
 
 export type MonthNavigationProps = StateProps & DispatchProps & {

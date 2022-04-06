@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => {
 type OutterProps = {
     year: CalendarState['year'];
     month: CalendarState['month'];
-    setMonth: (year: number, month: number) => void;
+    setMonth: (year: number, month: number, firstDateOfWeek: number) => void;
     setPrevMonth: () => void;
     setNextMonth: () => void;
 }
@@ -37,7 +37,7 @@ const SetMonthNavigation: React.FC<SetMonthNavigationProps> = ({ year, month, se
             </Tooltip>
             <DatePicker
                 value={getMonth(year, month)}
-                onChange={d => d ? setMonth(d.year(), d.month() + 1) : alert('正しい日付を入力してください')}
+                onChange={d => d ? setMonth(d.year(), d.month() + 1, d.day(0).date()) : alert('正しい日付を入力してください')}
                 format="YYYY年 M月"
                 variant='inline'
                 animateYearScrolling

@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 export type CalendarState = {
     year: number;
     month: number;
+    firstDateOfWeek: number;
     type: 'month' | 'week';
 };
 

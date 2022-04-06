@@ -39,6 +39,12 @@ export const getNextMonth = (year: number, month: number): Dayjs => {
     return getMonth(year, month);
 }
 
+export const getDate = (year: number, month: number, date: number) => {
+    const dateDate = dayjs(`${year}-${month}-${date}`);
+    if (dateDate.isValid() && validateYearMonthDate(year, month, date)) return dateDate;
+    throw (`Invalid date from year(${year}) and month(${month}) and date(${date}).`);
+}
+
 export const getDateCntOfMonth = (year: number, month: number): number => {
     return getMonth(year, month).endOf('month').date();
 }
@@ -48,6 +54,10 @@ export const getTotalCalendarCellCnt = (date: Dayjs): number => {
     const currentMonthDateCnt = date.endOf('month').date();
     const nextMonthDateCnt = 6 - date.endOf('month').day();
     return prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
+}
+
+const validateYearMonthDate = (year: number, month: number, date: number): boolean => {
+    return validateYear(year) && validateMonth(month) && validateDate(date);
 }
 
 const validateYearMonth = (year: number, month: number): boolean => {
@@ -60,4 +70,8 @@ const validateYear = (year: number): boolean => {
 
 const validateMonth = (month: number): boolean => {
     return 1 <= month && month <= 12;
+}
+
+const validateDate = (date: number): boolean => {
+    return 1 <= date && date <= 31;
 }

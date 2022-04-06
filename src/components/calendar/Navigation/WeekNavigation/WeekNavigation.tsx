@@ -1,29 +1,28 @@
 import React from 'react';
+import { CalendarState } from '../../../../redux/stateTypes';
+import SetWeekNavigation from './parts/SetWeekNavigation';
 import BaseNavigation from '../base/containers/BaseNavigation';
 
 
 export type StateProps = {
-    // year: CalendarState['year'];
-    // month: CalendarState['month'];
-    // isSideMenuOpen: SideMenuState['isOpen'];
-    // user: UserState;
+    year: CalendarState['year'];
+    month: CalendarState['month'];
+    firstDateOfWeek: CalendarState['firstDateOfWeek'];
 }
 
 export type DispatchProps = {
-    // setMonth: (year: number, month: number) => void;
-    // sideMenuOpen: () => void;
-    // logout: () => void;
+    setWeek: (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeek: CalendarState['firstDateOfWeek']) => void;
 }
 
 export type WeekNavigationProps = StateProps & DispatchProps & {
-    // setPrevMonth: () => void;
-    // setNextMonth: () => void;
+    setPrevWeek: () => void;
+    setNextWeek: () => void;
 }
 
-const WeekNavigation: React.FC<WeekNavigationProps> = ({ }) => {
+const WeekNavigation: React.FC<WeekNavigationProps> = ({ year, month, setPrevWeek, setNextWeek }) => {
     return (
         <BaseNavigation>
-            hello
+            <SetWeekNavigation year={year} month={month} setPrevWeek={setPrevWeek} setNextWeek={setNextWeek} />
         </BaseNavigation>
     );
 }

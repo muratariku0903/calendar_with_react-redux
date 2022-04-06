@@ -19,8 +19,8 @@ const mapStateToProps = (store: State): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions & HolidaysActions>): DispatchProps => {
     return {
-        setMonth: (year: number, month: number) => {
-            dispatch(setMonth(year, month));
+        setMonth: (year: number, month: number, firstDateOfWeek: number) => {
+            dispatch(setMonth(year, month, firstDateOfWeek));
             dispatch(asyncFetchSchedules(year, month));
             dispatch(asyncFetchHolidays(year, month));
         },
@@ -33,11 +33,11 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Month
         ...dispatchProps,
         setPrevMonth: () => {
             const prevDate = getPrevMonth(stateProps.year, stateProps.month);
-            dispatchProps.setMonth(prevDate.year(), prevDate.month() + 1);
+            dispatchProps.setMonth(prevDate.year(), prevDate.month() + 1, prevDate.day(0).date());
         },
         setNextMonth: () => {
             const nextDate = getNextMonth(stateProps.year, stateProps.month);
-            dispatchProps.setMonth(nextDate.year(), nextDate.month() + 1);
+            dispatchProps.setMonth(nextDate.year(), nextDate.month() + 1, nextDate.day(0).date());
         },
     }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { State, CalendarState } from '../../../redux/stateTypes';
 import MonthNavigation from './MonthNavigation/containers/MonthNavigation';
-import WeekNavigation from './WeekNavigation/WeekNavigation';
+import WeekNavigation from './WeekNavigation/containers/WeekNavigation';
 
 
 const Navigation: React.FC = () => {
