@@ -10,7 +10,6 @@ import { asyncFetchSchedules } from '../../../../../redux/actions/effects/schedu
 import { asyncFetchHolidays } from '../../../../../redux/actions/effects/holidays';
 import { getDate } from "../../../../../services/calendar";
 
-// 週の最初の日にちをstateで管理
 const mapStateToProps = (store: State): StateProps => {
     return {
         year: store.calendar.year,

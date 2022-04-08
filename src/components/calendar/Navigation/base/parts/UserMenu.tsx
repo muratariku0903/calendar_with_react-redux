@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton, Button, Menu, MenuItem } from '@material-ui/core';
 import { AccountCircle } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { UserState } from '../../../../redux/stateTypes';
+import { UserState } from '../../../../../redux/stateTypes';
 
 const useStyles = makeStyles((theme: Theme) => {
     return createStyles({

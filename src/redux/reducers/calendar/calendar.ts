@@ -16,7 +16,6 @@ const calendar = (state = initialState, action: CalendarActions): CalendarState 
     switch (action.type) {
         case ActionTypes.SET_MONTH: {
             const { year, month, firstDateOfWeek } = action.payload;
-            // firstDateOfWeekはどうする？monthが変わったら1日をfirstDateOfWeekとする
             return { ...state, year, month, firstDateOfWeek };
         }
 

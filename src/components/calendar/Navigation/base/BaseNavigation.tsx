@@ -3,8 +3,8 @@ import { IconButton, AppBar, Toolbar, Typography, withStyles, Tooltip } from '@m
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { CalendarState, SideMenuState, UserState } from '../../../../redux/stateTypes';
-import BoardTypeMenu from '../base/BoardTypeMenu';
-import UserMenu from '../base/UserMenu';
+import BoardTypeMenu from './parts/BoardTypeMenu';
+import UserMenu from './parts/UserMenu';
 import { sideMenuWidth } from '../../../../constants';
 
 
