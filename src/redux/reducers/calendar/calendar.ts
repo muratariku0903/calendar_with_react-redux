@@ -8,7 +8,7 @@ const currentTime = dayjs();
 const initialState: CalendarState = {
     year: currentTime.year(),
     month: currentTime.month() + 1,
-    firstDateOfWeek: currentTime.subtract(currentTime.day(), 'd').date(),
+    firstDateOfWeek: currentTime.subtract(currentTime.day(), 'd').unix(),
     type: 'month',
 }
 

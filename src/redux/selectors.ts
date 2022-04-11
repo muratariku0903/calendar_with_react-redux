@@ -2,6 +2,7 @@ import { State, Schedule, Holiday } from './stateTypes';
 import { Dayjs } from 'dayjs';
 import { getMonth, getDate, getTotalCalendarCellCnt } from '../services/calendar';
 import { createSchedulesKey } from '../services/schedules';
+import dayjs from 'dayjs';
 
 
 export type CalendarDate = {
@@ -33,10 +34,10 @@ export const getCalendarDates = (store: State): CalendarDate[] => {
 
 
 export const getCalendarWeekDates = (state: State): CalendarDate[] => {
-    const { year, month, firstDateOfWeek } = state.calendar;
+    const { firstDateOfWeek } = state.calendar;
     const holidays = state.holidays.holidays;
     const schedules = state.schedules.monthSchedules;
-    const firstDay = getDate(year, month, firstDateOfWeek);
+    const firstDay = dayjs.unix(firstDateOfWeek);
     const dates: CalendarDate[] = [];
     for (let i = 0; i < 7; i++) {
         const date = firstDay.add(i, "day");
@@ -47,7 +48,6 @@ export const getCalendarWeekDates = (state: State): CalendarDate[] => {
             holiday: dateKey in holidays ? holidays[dateKey] : null,
         });
     }
-    console.log(dates);
 
     return dates;
 }

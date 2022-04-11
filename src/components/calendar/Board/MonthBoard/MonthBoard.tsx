@@ -7,7 +7,6 @@ import { Schedule, SideMenuState, CalendarState } from '../../../../redux/stateT
 import { CalendarDate } from '../../../../redux/selectors';
 import WeekHeader from './parts/WeekHeader';
 import Dates from './parts/Dates';
-import Date from './containers/Date';
 import { sideMenuWidth } from '../../../../constants';
 
 

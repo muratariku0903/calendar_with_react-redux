@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import { Dayjs } from 'dayjs';
 
+export const isSameTime = (stamp1: number, stamp2: number): boolean => {
+    const format = "HHmm";
+    return dayjs.unix(stamp1).format(format) === dayjs.unix(stamp2).format(format);
+}
+
 export const isSameDay = (stamp1: number, stamp2: number): boolean => {
     const format = "YYYYMMDD";
     return dayjs.unix(stamp1).format(format) === dayjs.unix(stamp2).format(format);
@@ -11,7 +16,13 @@ export const isSameMonth = (m1: number, m2: number): boolean => {
     return dayjs.unix(m1).format(format) === dayjs.unix(m2).format(format);
 };
 
-export const isFirstDay = (day: Dayjs): boolean => day.date() === 1;
+export const isFirstDay = (day: Dayjs): boolean => {
+    return day.date() === 1;
+}
+
+export const roundMinutes = (stamp: number, unit: number = 15): number => {
+    return Math.ceil(stamp / 60 / unit) * unit * 60;
+}
 
 export const getMonth = (year: number, month: number): Dayjs => {
     const date = dayjs(`${year}-${month}`);

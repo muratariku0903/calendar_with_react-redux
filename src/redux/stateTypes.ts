@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import { roundMinutes } from "../services/calendar";
 
 
 export type CalendarState = {
@@ -14,7 +15,7 @@ export type Schedule = {
     id: number;
     title: string;
     date: number;
-    time: { start: number | null, end: number | null };
+    time: { start: number, end: number };
     location: string;
     description: string;
 };
@@ -25,10 +26,11 @@ export type SchedulesState = {
 
 // AddDialogScheduleの方がわかりやすい
 export type DialogSchedule = Omit<Schedule, 'id'>;
+const currTime = roundMinutes(dayjs().unix());
 export const initialDialogForm: DialogSchedule = {
     title: '',
-    date: dayjs().unix(),
-    time: { start: null, end: null },
+    date: currTime,
+    time: { start: currTime, end: dayjs.unix(currTime).add(1, 'h').unix() },
     location: '',
     description: '',
 };
