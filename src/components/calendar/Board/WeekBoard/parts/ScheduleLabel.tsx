@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 
 type Props = {
     height: string;
-    // lineHeight: string;
 };
 
 const useStyles = makeStyles(() => {
@@ -24,9 +23,6 @@ const useStyles = makeStyles(() => {
             margin: '1px 0',
             cursor: 'pointer',
             zIndex: 10,
-        },
-        scheduleTitle: {
-
         },
     });
 });

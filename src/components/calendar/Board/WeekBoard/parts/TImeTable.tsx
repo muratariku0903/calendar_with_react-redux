@@ -6,7 +6,7 @@ import TimeCol from './TimeCol';
 
 const useStyles = makeStyles(() => {
     return createStyles({
-        dateHeader: {
+        timeTable: {
             borderLeft: '1px solid #ccc',
         },
         gridCell: {
@@ -18,9 +18,9 @@ const useStyles = makeStyles(() => {
     });
 });
 
-const DateHeader = (dates: CalendarDate[]): JSX.Element[] => {
+const TimeTable = (dates: CalendarDate[]): JSX.Element[] => {
     const classes = useStyles();
-    const dateHeader = dates.map((val, idx) => {
+    const timeTable = dates.map((calendarDate, idx) => {
         return (
             <li key={idx}>
                 <Typography
@@ -28,15 +28,15 @@ const DateHeader = (dates: CalendarDate[]): JSX.Element[] => {
                     component="div"
                     variant="caption"
                     color="textSecondary"
-                    className={classes.dateHeader}
+                    className={classes.timeTable}
                 >
-                    {val.date.date()}
+                    {calendarDate.date.date()}
                 </Typography>
-                {TimeCol(val)}
+                {TimeCol(calendarDate)}
             </li>
         );
     });
-    return dateHeader;
+    return timeTable;
 }
 
-export default DateHeader;
+export default TimeTable;
