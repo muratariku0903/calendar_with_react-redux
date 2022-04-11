@@ -29,10 +29,10 @@ const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ tim
             <Grid item xs={10}>
                 <Grid container>
                     <Grid item xs={5}>
-                        <TimePicker label="開始" value={dayjs.unix(time.start)} onChange={d => setTime(d, 'start')} />
+                        <TimePicker label="開始" value={dayjs.unix(time.start)} minutesStep={15} onChange={d => setTime(d, 'start')} />
                     </Grid>
                     <Grid item xs={5}>
-                        <TimePicker label="終了" value={dayjs.unix(time.end)} onChange={d => setTime(d, 'end')} />
+                        <TimePicker label="終了" value={dayjs.unix(time.end)} minutesStep={15} onChange={d => setTime(d, 'end')} />
                     </Grid>
                 </Grid>
             </Grid>

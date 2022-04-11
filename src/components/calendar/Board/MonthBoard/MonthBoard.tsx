@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Schedule, CalendarState } from '../../../../redux/stateTypes';
 import { CalendarDate } from '../../../../redux/selectors';
-import WeekHeader from './parts/WeekHeader';
-import Dates from './parts/Dates';
 import BaseBoard from '../base/containers/BaseBoard';
+import WeekHeader from '../base/WeekHeader';
+import Dates from './parts/Dates';
 
 
 export type StateProps = {

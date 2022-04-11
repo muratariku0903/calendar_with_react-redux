@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { weeks } from '../../../../../constants';
+import { weeks } from '../../../../constants';
 
 const useStyles = makeStyles(() => {
     return createStyles({

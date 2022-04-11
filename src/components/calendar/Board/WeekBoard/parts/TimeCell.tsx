@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => {
             position: 'relative',
             height: '3.5vh',
             borderTop: '1px solid #ccc',
-            borderLeft: '1px solid #ccc',
+            borderRight: '1px solid #ccc',
             textAlign: 'center',
         },
     });

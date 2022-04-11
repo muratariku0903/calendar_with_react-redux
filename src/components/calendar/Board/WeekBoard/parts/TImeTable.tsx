@@ -2,18 +2,16 @@ import { Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core';
 import { CalendarDate } from '../../../../../redux/selectors';
 import TimeCol from './TimeCol';
+import HolidayLabel from '../../base/HolidayLabel';
 
 
 const useStyles = makeStyles(() => {
     return createStyles({
         timeTable: {
-            borderLeft: '1px solid #ccc',
+            borderRight: '1px solid #ccc',
         },
-        gridCell: {
+        holidayLabelBox: {
             height: '3.5vh',
-            borderTop: '1px solid #ccc',
-            borderLeft: '1px solid #ccc',
-            textAlign: 'center',
         },
     });
 });
@@ -32,6 +30,9 @@ const TimeTable = (dates: CalendarDate[]): JSX.Element[] => {
                 >
                     {calendarDate.date.date()}
                 </Typography>
+                <div className={classes.holidayLabelBox}>
+                    {calendarDate.holiday && (<HolidayLabel name={calendarDate.holiday.name} margin='0' />)}
+                </div>
                 {TimeCol(calendarDate)}
             </li>
         );

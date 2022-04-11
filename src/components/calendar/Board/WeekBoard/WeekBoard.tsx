@@ -1,7 +1,7 @@
 import React from 'react';
 import { CalendarDate } from '../../../../redux/selectors';
 import BaseBoard from '../base/containers/BaseBoard';
-import WeekHeader from './parts/WeekHeader';
+import WeekHeader from '../base/WeekHeader';
 import TimeTable from './parts/TImeTable';
 
 

@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { Schedule } from '../../../../../redux/stateTypes';
 import { CalendarDate } from '../../../../../redux/selectors';
 import ScheduleLabel from '../containers/ScheduleLabel';
-import HolidayLabel from './HolidayLabel';
+import HolidayLabel from '../../base/HolidayLabel';
 import { isFirstDay, isSameDay } from '../../../../../services/calendar';
 import { DndItems } from '../../dnd/constants';
 
@@ -63,7 +63,7 @@ const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month, update
                     {dateSchedules.map((schedule, idx) => {
                         return <ScheduleLabel key={idx} schedule={schedule} />;
                     })}
-                    {holiday && (<HolidayLabel name={holiday.name} />)}
+                    {holiday && (<HolidayLabel name={holiday.name} margin='1px 0' />)}
                 </div>
             </div>
         </Fragment>
