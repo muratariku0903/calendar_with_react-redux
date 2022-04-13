@@ -5,8 +5,9 @@ import { isSameTime } from '../../../../../services/calendar';
 import { TimeItem } from '../parts/TimeCell';
 
 
+// 日付と予定を紐づけてるけど、それってコンテナファイルでやるべきこと？
 const TimeCol = (calendarDate: CalendarDate): JSX.Element[] => {
-    const { date, dateSchedules, holiday } = calendarDate;
+    const { date, dateSchedules } = calendarDate;
     const timeItems: TimeItem[] = [];
     let timeDate = dayjs(`${date.year()}-${date.month() + 1}-${date.date()} 00:00`);
     for (let i = 0; i < 48; i++) {

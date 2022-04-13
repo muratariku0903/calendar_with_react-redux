@@ -6,13 +6,16 @@ import ScheduleLabel from '../containers/ScheduleLabel';
 import { DndItems } from '../../dnd/constants';
 import { Dayjs } from 'dayjs';
 
+type Props = {
+    borderTop: string;
+};
 
 const useStyles = makeStyles(() => {
     return createStyles({
         gridCell: {
             position: 'relative',
             height: '3.5vh',
-            borderTop: '1px solid #ccc',
+            borderTop: (props: Props) => props.borderTop,
             borderRight: '1px solid #ccc',
             textAlign: 'center',
         },
@@ -37,7 +40,7 @@ type TimeCellProps = DispatchProps & OutterProps;
 
 const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDialog }) => {
     const { date, schedule } = timeItem;
-    const classes = useStyles();
+    const classes = useStyles({ borderTop: date.format('mm') == '00' ? '1px solid #ccc' : 'none' });
     const [collected, drop] = useDrop(() => ({
         accept: DndItems.Schedule,
         drop: (collected: Schedule) => {
