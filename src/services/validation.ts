@@ -80,34 +80,34 @@ export class Validation {
         const itemName = this.validationRules[key]['name'];
         switch (typeof (item)) {
             case 'number':
-                return `${itemName}は${this.validateNumSize(item, max, min)}です`;
+                return this.validateNumSize(item, itemName, max, min);
 
             case 'string':
-                return `${itemName}は${this.validateStrLen(item, max, min)}です`;
+                return this.validateStrLen(item, itemName, max, min);
             default:
                 return '';
         }
     }
 
-    private validateStrLen(str: string, max?: number, min?: number): ErrorMessage {
+    private validateStrLen(str: string, itemName: string, max?: number, min?: number): ErrorMessage {
         const len = str.length;
         if (max !== undefined && min !== undefined && (len > max || len < min)) {
-            return `${min}文字以上${max}文字以下`;
+            return `${itemName}は${min}文字以上${max}文字以下です`;
         } else if (max !== undefined && len > max) {
-            return `${max}文字以下`;
+            return `${itemName}は${max}文字以下です`;
         } else if (min !== undefined && len < min) {
-            return `${min}文字以上`;
+            return `${itemName}は${min}文字以上です`;
         }
         return '';
     }
 
-    private validateNumSize(num: number, max?: number, min?: number): ErrorMessage {
+    private validateNumSize(num: number, itemName: string, max?: number, min?: number): ErrorMessage {
         if (max !== undefined && min !== undefined && (num > max || num < min)) {
-            return `${min}以上${max}以下`;
+            return `$${itemName}は{min}以上${max}以下です`;
         } else if (max !== undefined && num > max) {
-            return `${max}以下`;
+            return `${itemName}は${max}以下です`;
         } else if (min !== undefined && num < min) {
-            return `${min}以上`;
+            return `${itemName}は${min}以上です`;
         }
         return '';
     }
