@@ -4,7 +4,7 @@ import { makeStyles, createStyles } from '@material-ui/core';
 import { Schedule } from '../../../../../redux/stateTypes';
 import ScheduleLabel from '../containers/ScheduleLabel';
 import { DndItems } from '../../dnd/constants';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 type Props = {
     borderTop: string;
