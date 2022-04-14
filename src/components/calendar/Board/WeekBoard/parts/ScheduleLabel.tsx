@@ -48,9 +48,6 @@ const ScheduleLabel: React.FC<ScheduleLabelProps> = ({ schedule, openShowDialog 
         item: schedule,
     }), [schedule]);
 
-    console.log(dayjs.unix(start).format('HHmm'));
-    console.log(dayjs.unix(end).format('HHmm'));
-
     return (
         <div
             ref={drag}
