@@ -1,3 +1,4 @@
+import { DialogTypes } from "./constants";
 import dayjs from "dayjs"
 import { roundMinutes } from "../services/calendar";
 
@@ -35,6 +36,11 @@ export const initialDialogForm: DialogSchedule = {
     description: '',
 };
 
+export type BaseInputDialogState = {
+    isOpenDialog: boolean;
+    isStartEdit: boolean;
+    isShowAlert: boolean;
+}
 
 export type AddScheduleDialogState = {
     schedule: DialogSchedule;
@@ -114,6 +120,7 @@ export type State = {
     schedules: SchedulesState;
     holidays: HolidaysState;
     sideMenu: SideMenuState;
+    baseInputDialog: BaseInputDialogState;
     addScheduleDialog: AddScheduleDialogState;
     showScheduleDialog: ShowScheduleDialogState;
     updateScheduleDialog: UpdateScheduleDialogState;

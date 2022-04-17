@@ -2,12 +2,12 @@ import ShowScheduleDialog, { StateProps, DispatchProps, ShowScheduleDialogProps 
 import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { State, Schedule } from "../../../../redux/stateTypes";
-import { SchedulesActions } from "../../../../redux/actions/calendar/schedules";
-import { closeShowScheduleDialog } from "../../../../redux/actions/calendar/showScheduleDialog";
-import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../redux/actions/calendar/updateScheduleDialog';
-import { asyncDeleteSchedule } from "../../../../redux/actions/effects/schedules";
-import dayjs from 'dayjs';
+import { State, Schedule } from "../../../../../redux/stateTypes";
+import { SchedulesActions } from "../../../../../redux/actions/calendar/schedules";
+import { closeShowScheduleDialog } from "../../../../../redux/actions/calendar/showScheduleDialog";
+import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../../redux/actions/calendar/updateScheduleDialog';
+import { asyncDeleteSchedule } from "../../../../../redux/actions/effects/schedules";
+import { openBaseInputDialog } from "../../../../../redux/actions/calendar/baseInputDialog";
 
 const mapStateToProps = (state: State): StateProps => {
     return {
@@ -24,10 +24,9 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
         },
         openUpdateScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: Schedule) => {
             e.stopPropagation();
-            console.log(schedule, dayjs.unix(schedule.date));
             dispatch(closeShowScheduleDialog());
             dispatch(setUpdateScheduleDialog(schedule));
-            dispatch(openUpdateScheduleDialog());
+            dispatch(openBaseInputDialog());
         },
     }
 }

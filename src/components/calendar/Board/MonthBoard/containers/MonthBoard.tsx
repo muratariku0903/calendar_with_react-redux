@@ -9,6 +9,7 @@ import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../../redu
 import { asyncFetchSchedules } from '../../../../../redux/actions/effects/schedules';
 import { asyncFetchHolidays } from '../../../../../redux/actions/effects/holidays';
 import { getCalendarDates } from '../../../../../redux/selectors';
+import { openBaseInputDialog } from '../../../../../redux/actions/calendar/baseInputDialog';
 
 
 const mapStateToProps = (state: State): StateProps => {
@@ -23,7 +24,8 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
     return {
         openAddDialog: (date: Schedule['date']) => {
             dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
-            dispatch(openAddScheduleDialog());
+            // dispatch(openAddScheduleDialog());
+            dispatch(openBaseInputDialog());
         },
         fetchSchedules: (year: number, month: number) => {
             dispatch(asyncFetchSchedules(year, month));

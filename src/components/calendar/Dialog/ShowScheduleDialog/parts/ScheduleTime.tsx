@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { AccessTimeOutlined } from "@material-ui/icons";
-import { Schedule } from '../../../../redux/stateTypes';
+import { Schedule } from '../../../../../redux/stateTypes';
 import dayjs from 'dayjs';
 
 

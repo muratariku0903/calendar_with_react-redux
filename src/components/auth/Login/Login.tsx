@@ -25,7 +25,7 @@ export type LoginProps = StateProps & DispatchProps & {
 const Login: React.FC<LoginProps> = ({ dialog, setDialog, login, isLogin }) => {
     const navigate = useNavigate();
     const validation = new Validation(rules);
-    const validateErrorMessages = validation.validate(dialog);
+    const validateErrorMessages = validation.validate<LoginDialogState['dialog']>(dialog);
     const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
 
     if (isLogin) return <Navigate to='/' />;

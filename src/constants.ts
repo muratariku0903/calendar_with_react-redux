@@ -30,5 +30,18 @@ export const rules: ValidateRules = {
             },
         },
     },
+    title: {
+        name: 'タイトル',
+        rules: {
+            required: true,
+        }
+    },
+    time: {
+        name: '時間',
+        rules: {
+            required: true,
+            time: true,
+        }
+    },
 };
 

@@ -1,25 +1,24 @@
 export type ValidateRules = {
     [key: string]: {
-        name: string,
+        name: string;
         rules: {
-            required?: true,
+            required?: true;
             length?: {
-                min?: number,
-                max?: number,
+                min?: number;
+                max?: number;
             },
             regex?: {
                 pattern: RegExp;
                 meaning: string;
             },
+            time?: true;
         },
     },
 };
 
-type ValidateItem = number | string | null;
-export type ValidateItems = Record<string, ValidateItem>;
-
 type ErrorMessage = string;
 export type ErrorMessages = Record<string, ErrorMessage>;
+type Time = { start: number, end: number };
 
 export class Validation {
     private validationRules: ValidateRules;
@@ -28,7 +27,8 @@ export class Validation {
         this.validationRules = validationRules;
     }
 
-    public validate(items: ValidateItems): ErrorMessages {
+    public validate<T>(items: T): ErrorMessages {
+        type ItemType = T[keyof T];
         const errorMessages: ErrorMessages = {};
         for (const key in items) {
             if (!this.existsKeyInValidationRules(key)) continue;
@@ -37,7 +37,7 @@ export class Validation {
             const item = items[key];
             for (const ruleName in this.validationRules[key].rules) {
                 if (ruleName === 'required') {
-                    const errorMessage = this.validateRequired(key, item);
+                    const errorMessage = this.validateRequired<ItemType>(key, item);
                     if (!this.isEmpty(errorMessage)) {
                         errorMessages[key] = errorMessage;
                         break;
@@ -45,7 +45,7 @@ export class Validation {
                 }
 
                 if (ruleName === 'length') {
-                    const errorMessage = this.validateLength(key, item);
+                    const errorMessage = typeof (item) === 'number' || typeof (item) === 'string' ? this.validateLength(key, item) : '';
                     if (!this.isEmpty(errorMessage)) {
                         errorMessages[key] = errorMessage;
                         break;
@@ -53,7 +53,15 @@ export class Validation {
                 }
 
                 if (ruleName === 'regex') {
-                    const errorMessage = this.validateRegex(key, item);
+                    const errorMessage = typeof (item) === 'string' ? this.validateRegex(key, item) : '';
+                    if (!this.isEmpty(errorMessage)) {
+                        errorMessages[key] = errorMessage;
+                        break;
+                    }
+                }
+
+                if (ruleName === 'time') {
+                    const errorMessage = this.isTime(item) ? this.validateTime(key, item) : '';
                     if (!this.isEmpty(errorMessage)) {
                         errorMessages[key] = errorMessage;
                         break;
@@ -68,12 +76,12 @@ export class Validation {
         return Object.keys(errorMessages).length === 0 && errorMessages.constructor === Object;
     }
 
-    private validateRequired(key: string, item: ValidateItem): ErrorMessage {
+    private validateRequired<T>(key: string, item: T): ErrorMessage {
         const itemName = this.validationRules[key]['name'];
-        return this.isEmpty(item) ? `${itemName}は必須です` : '';
+        return this.isEmpty<T>(item) ? `${itemName}は必須です` : '';
     }
 
-    private validateLength(key: string, item: ValidateItem): ErrorMessage {
+    private validateLength(key: string, item: number | string): ErrorMessage {
         if (this.isEmpty(item)) return '';
         const max = this.validationRules[key]['rules']['length']?.['max'];
         const min = this.validationRules[key]['rules']['length']?.['min'];
@@ -81,12 +89,21 @@ export class Validation {
         switch (typeof (item)) {
             case 'number':
                 return this.validateNumSize(item, itemName, max, min);
-
             case 'string':
                 return this.validateStrLen(item, itemName, max, min);
-            default:
-                return '';
         }
+    }
+
+    private validateRegex(key: string, item: string): ErrorMessage {
+        if (this.isEmpty(item)) return '';
+        const regex = this.validationRules[key]['rules']['regex'];
+        const itemName = this.validationRules[key]['name'];
+        return regex && !item.match(regex['pattern']) ? `${itemName}は${regex['meaning']}の形式でお願いします` : '';
+    }
+
+    private validateTime(key: string, item: Time): ErrorMessage {
+        const itemName = this.validationRules[key]['name'];
+        return item.start > item.end ? `${itemName}は開始が終了より早い必要があります` : '';
     }
 
     private validateStrLen(str: string, itemName: string, max?: number, min?: number): ErrorMessage {
@@ -103,7 +120,7 @@ export class Validation {
 
     private validateNumSize(num: number, itemName: string, max?: number, min?: number): ErrorMessage {
         if (max !== undefined && min !== undefined && (num > max || num < min)) {
-            return `$${itemName}は{min}以上${max}以下です`;
+            return `${itemName}は${min}以上${max}以下です`;
         } else if (max !== undefined && num > max) {
             return `${itemName}は${max}以下です`;
         } else if (min !== undefined && num < min) {
@@ -112,25 +129,24 @@ export class Validation {
         return '';
     }
 
-    private validateRegex(key: string, item: ValidateItem): ErrorMessage {
-        if (this.isEmpty(item)) return '';
-        const regex = this.validationRules[key]['rules']['regex'];
-        const itemName = this.validationRules[key]['name'];
-        switch (typeof (item)) {
-            case 'string':
-                return regex && !item.match(regex['pattern']) ? `${itemName}は${regex['meaning']}の形式でお願いします` : '';
-            case 'number':
-                return '値が正しくありません';
-            default:
-                return '';
-        }
-    }
-
     private existsKeyInValidationRules(key: string): boolean {
         return key in this.validationRules;
     }
 
-    private isEmpty(item: ValidateItem): boolean {
-        return item === '' || item === null;
+    private isEmpty<T>(item: T): boolean {
+        switch (typeof (item)) {
+            case 'string':
+                return item.trimLeft() === '';
+            case 'number':
+                return false;
+            case 'object':
+                return Object.keys(item).length === 0;
+            default:
+                return true;
+        }
+    }
+
+    private isTime = (item: any): item is Time => {
+        return Boolean((item as Time).start && (item as Time).end);
     }
 }

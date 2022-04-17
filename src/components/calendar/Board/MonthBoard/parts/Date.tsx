@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useDrop } from 'react-dnd';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
@@ -54,19 +54,17 @@ const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month, update
     }), [date]);
 
     return (
-        <Fragment>
-            <div className={classes.element} >
-                <Typography align="center" component="div" variant="caption" color={textColor}>
-                    <span className={isToday ? classes.today : ''}>{date.format(format)}</span>
-                </Typography>
-                <div ref={drop} className={classes.schedules}>
-                    {dateSchedules.map((schedule, idx) => {
-                        return <ScheduleLabel key={idx} schedule={schedule} />;
-                    })}
-                    {holiday && (<HolidayLabel name={holiday.name} margin='1px 0' />)}
-                </div>
+        <div className={classes.element} >
+            <Typography align="center" component="div" variant="caption" color={textColor}>
+                <span className={isToday ? classes.today : ''}>{date.format(format)}</span>
+            </Typography>
+            <div ref={drop} className={classes.schedules}>
+                {dateSchedules.map((schedule, idx) => {
+                    return <ScheduleLabel key={idx} schedule={schedule} />;
+                })}
+                {holiday && (<HolidayLabel name={holiday.name} margin='1px 0' />)}
             </div>
-        </Fragment>
+        </div>
     );
 }
 

@@ -1,8 +1,8 @@
-import { State, Schedule, Holiday } from './stateTypes';
-import { Dayjs } from 'dayjs';
-import { getMonth, getDate, getTotalCalendarCellCnt } from '../services/calendar';
+import { State, Schedule, User, Holiday } from './stateTypes';
+import { DialogTypes } from "./constants";
+import { getMonth, getTotalCalendarCellCnt } from '../services/calendar';
 import { createSchedulesKey } from '../services/schedules';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 
 export type CalendarDate = {
@@ -50,4 +50,16 @@ export const getCalendarWeekDates = (state: State): CalendarDate[] => {
     }
 
     return dates;
+}
+
+type DialogType = typeof DialogTypes[keyof typeof DialogTypes];
+export const getDialogForm = (state: State, dialogType: DialogType): Omit<Schedule, 'id'> | User => {
+    switch (dialogType) {
+        case 'ADD_SCHEDULE':
+            return state.addScheduleDialog.schedule;
+        case 'UPDATE_SCHEDULE':
+            return state.updateScheduleDialog.schedule;
+        case 'UPDATE_USER':
+            return state.updateUserDialog.user;
+    }
 }

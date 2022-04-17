@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { Schedule } from '../../../../redux/stateTypes';
+import { Schedule } from '../../../../../redux/stateTypes';
 import dayjs from 'dayjs';
 
 

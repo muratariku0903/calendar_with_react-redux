@@ -6,9 +6,7 @@ import { State } from '../../redux/stateTypes';
 import Board from './Board/Board';
 import Navigation from './Navigation/Navigation';
 import SideMenu from './SideMenu/containers/SideMenu';
-import AddScheduleDialog from './AddScheduleDialog/containers/AddScheduleDialog';
-import ShowScheduleDialog from './ShowScheduleDialog/containers/ShowScheduleDialog';
-import UpdateScheduleDialog from './UpdateScheduleDialog/containers/UpdateScheduleDialog';
+import Dialog from './Dialog/Dialog';
 
 
 const Calendar: React.FC = () => {
@@ -21,9 +19,7 @@ const Calendar: React.FC = () => {
             <Navigation />
             <Board />
             <SideMenu />
-            <AddScheduleDialog />
-            <ShowScheduleDialog />
-            <UpdateScheduleDialog />
+            <Dialog />
         </Fragment>
     );
 };
