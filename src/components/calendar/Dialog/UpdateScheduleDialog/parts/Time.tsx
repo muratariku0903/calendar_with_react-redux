@@ -3,20 +3,29 @@ import { Grid } from '@material-ui/core';
 import { TimePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
 import { Schedule } from '../../../../../redux/stateTypes';
+import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
 import dayjs, { Dayjs } from 'dayjs';
 
-type UpdateScheduleDialogDateProps = {
-    time: Schedule['time'];
-    setUpdateDialog: (scheduleItem: Partial<Schedule>) => void;
+export type StateProps = {
+    isStartEdit: boolean;
 }
 
-const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, setUpdateDialog }) => {
+type OutterPros = {
+    time: Schedule['time'];
+    setDialogForm: (scheduleItem: Partial<Schedule>) => void;
+    errorMessage: string;
+}
+
+type UpdateScheduleDialogDateProps = StateProps & OutterPros;
+
+const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, isStartEdit, setDialogForm, errorMessage }) => {
+    const isError = isStartEdit && Boolean(errorMessage);
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (d) {
             if (flag === 'start') {
-                setUpdateDialog({ time: { ...time, start: d.unix() } });
+                setDialogForm({ time: { ...time, start: d.unix() } });
             } else if (flag === 'end') {
-                setUpdateDialog({ time: { ...time, end: d.unix() } });
+                setDialogForm({ time: { ...time, end: d.unix() } });
             }
         }
     }
@@ -35,6 +44,7 @@ const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ tim
                         <TimePicker label="終了" value={dayjs.unix(time.end)} minutesStep={15} onChange={d => setTime(d, 'end')} />
                     </Grid>
                 </Grid>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

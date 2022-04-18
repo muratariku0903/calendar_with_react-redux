@@ -7,17 +7,17 @@ const spacer = { margin: '4px 0' };
 
 type UpdateScheduleDialogLocationProps = {
     location: Schedule['location'];
-    setUpdateDialog: (scheduleItem: Partial<Schedule>) => void;
+    setDialogForm: (scheduleItem: Partial<Schedule>) => void;
 }
 
-const UpdateScheduleDialogLocation: React.FC<UpdateScheduleDialogLocationProps> = ({ location, setUpdateDialog }) => {
+const UpdateScheduleDialogLocation: React.FC<UpdateScheduleDialogLocationProps> = ({ location, setDialogForm }) => {
     return (
         <Grid container spacing={1} alignItems="center" justifyContent="space-between">
             <Grid item>
                 <LocationOnOutlined />
             </Grid>
             <Grid item xs={10}>
-                <TextField value={location} onChange={e => setUpdateDialog({ location: e.target.value })} style={spacer} fullWidth placeholder="場所を追加" />
+                <TextField value={location} onChange={e => setDialogForm({ location: e.target.value })} style={spacer} fullWidth placeholder="場所を追加" />
             </Grid>
         </Grid>
     );

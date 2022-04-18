@@ -5,10 +5,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import { DialogSchedule, Schedule, State } from '../../../../../redux/stateTypes';
 import { SchedulesActions } from '../../../../../redux/actions/calendar/schedules';
 import { asyncUpdateSchedule } from '../../../../../redux/actions/effects/schedules';
-import { closeUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../../redux/actions/calendar/updateScheduleDialog';
+import { closeUpdateScheduleDialog, setUpdateScheduleDialog, startEditUpdateScheduleDialog, showUpdateScheduleDialogAlert } from '../../../../../redux/actions/calendar/updateScheduleDialog';
 import { getScheduleById } from '../../../../../services/schedules';
 import { isEmptyDialog } from '../../../../../services/dialog';
-import { closeBaseInputDialog } from '../../../../../redux/actions/calendar/baseInputDialog';
 
 
 const mapStateToProps = (state: State): StateProps => {
@@ -20,11 +19,17 @@ const mapStateToProps = (state: State): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>): DispatchProps => {
     return {
-        setUpdateScheduleDialog: (schedule: Schedule) => dispatch(setUpdateScheduleDialog(schedule)),
+        setDialogForm: (schedule: Schedule) => {
+            dispatch(setUpdateScheduleDialog(schedule));
+            dispatch(startEditUpdateScheduleDialog());
+        },
+        closeDialog: () => dispatch(closeUpdateScheduleDialog()),
         updateSchedule: (prevDate: Schedule['date'], schedule: Schedule) => {
             dispatch(asyncUpdateSchedule(prevDate, schedule));
-            dispatch(closeBaseInputDialog());
+            dispatch(closeUpdateScheduleDialog());
         },
+        showAlert: () => dispatch(showUpdateScheduleDialogAlert(true)),
+        closeAlert: () => dispatch(showUpdateScheduleDialogAlert(false)),
     }
 }
 
@@ -33,7 +38,7 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Updat
         ...stateProps,
         ...dispatchProps,
         isEmptyDialog: () => isEmptyDialog<DialogSchedule>(stateProps.dialog.schedule, ['date']),
-        setUpdateDialog: (updateItem: Partial<Schedule>) => dispatchProps.setUpdateScheduleDialog({ ...stateProps.dialog.schedule, ...updateItem }),
+        setDialogForm: (updateItem: Partial<Schedule>) => dispatchProps.setDialogForm({ ...stateProps.dialog.schedule, ...updateItem }),
         updateSchedule: () => {
             const prevSchedule = getScheduleById(stateProps.schedules, stateProps.dialog.schedule.id);
             const prevDate: Schedule['date'] = prevSchedule.date;

@@ -9,17 +9,17 @@ const spacer = { margin: '4px 0' };
 
 type UpdateScheduleDialogDateProps = {
     date: Schedule['date'];
-    setUpdateDialog: (scheduleItem: Partial<Schedule>) => void;
+    setDialogForm: (scheduleItem: Partial<Schedule>) => void;
 }
 
-const UpdateScheduleDialogDate: React.FC<UpdateScheduleDialogDateProps> = ({ date, setUpdateDialog }) => {
+const UpdateScheduleDialogDate: React.FC<UpdateScheduleDialogDateProps> = ({ date, setDialogForm }) => {
     return (
         <Grid container spacing={1} alignItems="center" justifyContent="space-between">
             <Grid item>
                 <AccessTime />
             </Grid>
             <Grid item xs={10}>
-                <DatePicker value={dayjs.unix(date)} onChange={(d) => setUpdateDialog({ date: d?.unix() })} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
+                <DatePicker value={dayjs.unix(date)} onChange={(d) => setDialogForm({ date: d?.unix() })} variant="inline" format="YYYY年M月D日" animateYearScrolling disableToolbar fullWidth style={spacer} />
             </Grid>
         </Grid>
     );

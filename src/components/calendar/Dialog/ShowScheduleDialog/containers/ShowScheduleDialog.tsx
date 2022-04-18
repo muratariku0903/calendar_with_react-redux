@@ -7,7 +7,6 @@ import { SchedulesActions } from "../../../../../redux/actions/calendar/schedule
 import { closeShowScheduleDialog } from "../../../../../redux/actions/calendar/showScheduleDialog";
 import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../../redux/actions/calendar/updateScheduleDialog';
 import { asyncDeleteSchedule } from "../../../../../redux/actions/effects/schedules";
-import { openBaseInputDialog } from "../../../../../redux/actions/calendar/baseInputDialog";
 
 const mapStateToProps = (state: State): StateProps => {
     return {
@@ -26,7 +25,7 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             e.stopPropagation();
             dispatch(closeShowScheduleDialog());
             dispatch(setUpdateScheduleDialog(schedule));
-            dispatch(openBaseInputDialog());
+            dispatch(openUpdateScheduleDialog());
         },
     }
 }

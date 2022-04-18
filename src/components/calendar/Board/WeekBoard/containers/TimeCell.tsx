@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { State, Schedule, initialDialogForm } from '../../../../../redux/stateTypes';
 import { SchedulesActions } from '../../../../../redux/actions/calendar/schedules';
-import { setAddScheduleDialog, openAddScheduleDialog } from '../../../../../redux/actions/calendar/addScheduleDialog';
+import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../../redux/actions/calendar/addScheduleDialog';
 import { asyncUpdateSchedule } from '../../../../../redux/actions/effects/schedules';
 
 

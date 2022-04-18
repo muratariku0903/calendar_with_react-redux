@@ -1,12 +1,10 @@
 import React from 'react';
 import { DialogContent, DialogActions, Button } from '@material-ui/core';
 import { Schedule, UpdateScheduleDialogState, SchedulesState } from '../../../../redux/stateTypes';
-import UpdateScheduleDialogTitle from './containers/Title';
-import UpdateScheduleDialogDate from './parts/Date';
-import UpdateScheduleDialogTime from './parts/Time';
-import UpdateScheduleDialogLocation from './parts/Location';
-import UpdateScheduleDialogDescription from './parts/Description';
-import BaseInputDialog from '../base/containers/BaseInputDialog';
+import BaseInputDialog from '../../../app/Dialog/BaseInputDialog/BaseInputDialog';
+import UpdateScheduleDialogForm from './parts/Form';
+import { Validation } from '../../../../services/validation';
+import { rules } from '../../constants';
 
 export type StateProps = {
     dialog: UpdateScheduleDialogState;
@@ -14,28 +12,37 @@ export type StateProps = {
 };
 
 export type DispatchProps = {
-    setUpdateScheduleDialog: (schedule: Schedule) => void;
+    closeDialog: () => void;
+    setDialogForm: (schedule: Schedule) => void;
     updateSchedule: (prevDate: Schedule['date'], schedule: Schedule) => void;
+    showAlert: () => void;
+    closeAlert: () => void;
 }
 
 export type UpdateScheduleDialogProps = StateProps & DispatchProps & {
-    setUpdateDialog: (updateItem: Partial<Schedule>) => void;
+    setDialogForm: (updateItem: Partial<Schedule>) => void;
     updateSchedule: () => void;
     isEmptyDialog: () => boolean;
 }
 
-const UpdateScheduleDialog: React.FC<UpdateScheduleDialogProps> = ({ dialog, setUpdateDialog, updateSchedule, isEmptyDialog }) => {
+const UpdateScheduleDialog: React.FC<UpdateScheduleDialogProps> = ({ dialog, setDialogForm, updateSchedule, isEmptyDialog, closeDialog, showAlert, closeAlert }) => {
+    const validation = new Validation(rules);
+    const validationErrorMessages = validation.validate<UpdateScheduleDialogState['schedule']>(dialog.schedule);
+    const isValid = validation.isEmptyErrorMessages(validationErrorMessages);
     return (
-        <BaseInputDialog isEmptyDialogForm={isEmptyDialog()}>
+        <BaseInputDialog
+            isOpenDialog={dialog.isOpenDialog}
+            isShowAlert={dialog.isShowAlert}
+            closeDialog={closeDialog}
+            showAlert={showAlert}
+            closeAlert={closeAlert}
+            isEmptyDialogForm={isEmptyDialog()}
+        >
             <DialogContent>
-                <UpdateScheduleDialogTitle title={dialog.schedule.title} setUpdateDialog={setUpdateDialog} />
-                <UpdateScheduleDialogDate date={dialog.schedule.date} setUpdateDialog={setUpdateDialog} />
-                <UpdateScheduleDialogTime time={dialog.schedule.time} setUpdateDialog={setUpdateDialog} />
-                <UpdateScheduleDialogLocation location={dialog.schedule.location} setUpdateDialog={setUpdateDialog} />
-                <UpdateScheduleDialogDescription description={dialog.schedule.description} setUpdateDialog={setUpdateDialog} />
+                <UpdateScheduleDialogForm schedule={dialog.schedule} setDialogForm={setDialogForm} errorMessages={validationErrorMessages} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={updateSchedule} disabled={!dialog.schedule.title} color="primary" variant="outlined">更新</Button>
+                <Button onClick={updateSchedule} disabled={!isValid} color="primary" variant="outlined">更新</Button>
             </DialogActions>
         </BaseInputDialog>
     );

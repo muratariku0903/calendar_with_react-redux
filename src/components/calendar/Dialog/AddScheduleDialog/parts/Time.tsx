@@ -3,14 +3,23 @@ import { Grid } from '@material-ui/core';
 import { TimePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
 import { DialogSchedule } from '../../../../../redux/stateTypes';
-import dayjs,{ Dayjs } from 'dayjs';
+import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
+import dayjs, { Dayjs } from 'dayjs';
 
-type AddScheduleDialogTimeProps = {
-    time: DialogSchedule['time'];
-    setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
+export type StateProps = {
+    isStartEdit: boolean;
 }
 
-const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, setDialogForm }) => {
+type OutterProps = {
+    time: DialogSchedule['time'];
+    setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
+    errorMessage: string;
+}
+
+type AddScheduleDialogTimeProps = StateProps & OutterProps;
+
+const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, isStartEdit, setDialogForm, errorMessage }) => {
+    const isError = isStartEdit && Boolean(errorMessage);
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (d) {
             if (flag === 'start') {
@@ -35,6 +44,7 @@ const AddScheduleDialogTime: React.FC<AddScheduleDialogTimeProps> = ({ time, set
                         <TimePicker label="終了" value={dayjs.unix(time.end)} onChange={d => setTime(d, 'end')} minutesStep={15} />
                     </Grid>
                 </Grid>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

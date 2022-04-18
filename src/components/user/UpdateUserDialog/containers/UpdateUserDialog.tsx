@@ -6,6 +6,7 @@ import { State, UpdateUserDialogState } from '../../../../redux/stateTypes';
 import { UserActions } from '../../../../redux/actions/user/user';
 import { setUpdateUserDialog, closeUpdateUserDialog, startEditUpdateUserDialog, showUpdateUserDialogAlert } from '../../../../redux/actions/user/updateUserDialog';
 import { asyncUpdate } from '../../../../redux/actions/effects/user';
+import { isEmptyDialog } from '../../../../services/dialog';
 
 
 
@@ -38,6 +39,7 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Updat
         ...dispatchProps,
         setDialog: (userItem: Partial<UpdateUserDialogState['user']>) => dispatchProps.setDialog({ ...stateProps.dialog.user, ...userItem }),
         update: () => dispatchProps.update(stateProps.dialog.user),
+        isEmptyDialog: () => isEmptyDialog(stateProps.dialog.user),
     };
 };
 

@@ -24,7 +24,7 @@ const updateUserDialog = (state = initialState, action: UpdateUserDialogActions)
             return { ...state, isOpenDialog: true };
 
         case ActionTypes.CLOSE_UPDATE_USER_DIALOG:
-            return { ...state, isOpenDialog: false };
+            return initialState;
 
         case ActionTypes.START_EDIT_UPDATE_USER_DIALOG:
             return { ...state, isStartEdit: true };

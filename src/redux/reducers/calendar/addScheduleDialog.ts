@@ -14,10 +14,8 @@ const addScheduleDialog = (state = initialState, action: AddScheduleDialogAction
     switch (action.type) {
         case ActionTypes.SET_ADD_SCHEDULE_DIALOG:
             return { ...state, schedule: { ...state.schedule, ...action.payload } }
-
         case ActionTypes.START_EDIT_ADD_SCHEDULE_DIALOG:
             return { ...state, isStartEdit: true };
-
         case ActionTypes.OPEN_ADD_SCHEDULE_DIALOG:
             return { ...state, isOpenDialog: true }
 
@@ -26,7 +24,6 @@ const addScheduleDialog = (state = initialState, action: AddScheduleDialogAction
 
         case ActionTypes.SHOW_ADD_SCHEDULE_DIALOG_ALERT:
             return { ...state, isShowAlert: action.payload };
-
         default:
             return state;
     }

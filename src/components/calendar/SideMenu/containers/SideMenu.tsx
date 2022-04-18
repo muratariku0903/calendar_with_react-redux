@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { State, Schedule, initialDialogForm } from '../../../../redux/stateTypes';
 import { closeSideMenu } from '../../../../redux/actions/calendar/sideMenu';
-import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/calendar/addScheduleDialog';
+import { openAddScheduleDialog,setAddScheduleDialog } from '../../../../redux/actions/calendar/addScheduleDialog';
 
 
 const mapStateToProps = (state: State): StateProps => {

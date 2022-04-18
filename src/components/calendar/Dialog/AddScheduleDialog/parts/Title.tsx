@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import { Typography, Input } from '@material-ui/core';
+import { Input } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { DialogSchedule } from '../../../../../redux/stateTypes';
+import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 
 const Title = withStyles({
@@ -14,6 +15,7 @@ const Title = withStyles({
 export type OutterProps = {
     title: DialogSchedule['title'];
     setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
+    errorMessage: string;
 }
 
 export type StateProps = {
@@ -26,23 +28,20 @@ export type DispatchProps = {
 
 export type AddScheduleDialogTitleProps = StateProps & DispatchProps & OutterProps;
 
-const AddScheduleDialogTitle: React.FC<AddScheduleDialogTitleProps> = ({ title, isStartEdit, setDialogForm }) => {
-    const isError = isStartEdit && !title;
+const AddScheduleDialogTitle: React.FC<AddScheduleDialogTitleProps> = ({ title, isStartEdit, setDialogForm, errorMessage, setStartEdit }) => {
+    const isError = isStartEdit && Boolean(errorMessage);
     return (
         <Fragment>
             <Title
                 value={title}
                 onChange={e => setDialogForm({ title: e.target.value })}
+                onBlur={setStartEdit}
                 error={isError}
                 autoFocus
                 fullWidth
                 placeholder="タイトル追加"
             />
-            <div>
-                {isError && (
-                    <Typography variant="caption" component="div" color="error">タイトルは必須です。</Typography>
-                )}
-            </div>
+            {isError && (<ErrorMessage errorMessage={errorMessage} />)}
         </Fragment>
     );
 }
