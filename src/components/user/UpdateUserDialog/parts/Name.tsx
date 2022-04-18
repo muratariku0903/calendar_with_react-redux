@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { Grid, Input, Typography } from '@material-ui/core';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { startEditUpdateUserDialog } from '../../../../redux/actions/user/updateUserDialog';
+import { Grid, Input } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
-import { UpdateUserDialogState } from '../../../../redux/stateTypes';
+import { State, UpdateUserDialogState } from '../../../../redux/stateTypes';
+import ErrorMessage from '../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 const spacer = { margin: '4px 0' };
 
@@ -14,8 +17,9 @@ type OutterProps = {
 type AddUserDialogNameProps = OutterProps;
 
 const Name: React.FC<AddUserDialogNameProps> = ({ name, setDialog, errorMessage }) => {
-    const [isStartInput, setIsStartInput] = useState<boolean>(false);
-    const isError = isStartInput && Boolean(errorMessage);
+    const dispatch = useDispatch();
+    const isStartEdit = useSelector((state: State) => state.updateUserDialog.isStartEdit);
+    const isError = isStartEdit && Boolean(errorMessage);
     return (
         <Grid container spacing={1} alignItems='center' justifyContent="space-between">
             <Grid item >
@@ -27,17 +31,13 @@ const Name: React.FC<AddUserDialogNameProps> = ({ name, setDialog, errorMessage 
                     value={name}
                     onChange={e => setDialog({ name: e.target.value })}
                     error={isError}
-                    onBlur={() => setIsStartInput(true)}
+                    onBlur={() => dispatch(startEditUpdateUserDialog())}
                     placeholder="名前を入力してください"
                     autoFocus
                     fullWidth
                     style={spacer}
                 />
-                <div>
-                    {isError && (
-                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
-                    )}
-                </div>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

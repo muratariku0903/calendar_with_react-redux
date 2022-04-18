@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { DialogSchedule } from '../../../../../redux/stateTypes';
 import { ErrorMessages } from '../../../../../services/validation';
-import UpdateScheduleDialogTitle from '../containers/Title';
+import UpdateScheduleDialogTitle from './Title';
 import UpdateScheduleDialogDate from './Date';
-import UpdateScheduleDialogTime from '../containers/Time';
+import UpdateScheduleDialogTime from './Time';
 import UpdateScheduleDialogLocation from './Location';
 import UpdateScheduleDialogDescription from './Description';
 

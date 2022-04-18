@@ -1,14 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { TimePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
-import { Schedule } from '../../../../../redux/stateTypes';
+import { State, Schedule } from '../../../../../redux/stateTypes';
 import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
 import dayjs, { Dayjs } from 'dayjs';
-
-export type StateProps = {
-    isStartEdit: boolean;
-}
 
 type OutterPros = {
     time: Schedule['time'];
@@ -16,9 +13,10 @@ type OutterPros = {
     errorMessage: string;
 }
 
-type UpdateScheduleDialogDateProps = StateProps & OutterPros;
+type UpdateScheduleDialogDateProps = OutterPros;
 
-const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, isStartEdit, setDialogForm, errorMessage }) => {
+const UpdateScheduleDialogTime: React.FC<UpdateScheduleDialogDateProps> = ({ time, setDialogForm, errorMessage }) => {
+    const isStartEdit = useSelector((state: State) => state.updateScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
     const setTime = (d: Dayjs | null, flag: 'start' | 'end') => {
         if (d) {

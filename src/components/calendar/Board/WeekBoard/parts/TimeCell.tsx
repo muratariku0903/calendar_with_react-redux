@@ -73,7 +73,7 @@ const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDi
             className={classes.gridCell}
             onClick={() => openAddDialog({ start: date.unix(), end: date.add(1, 'h').unix() })}
         >
-            {schedule ? (<ScheduleLabel schedule={schedule} />) : null}
+            {schedule && (<ScheduleLabel schedule={schedule} />)}
         </div>
     );
 }

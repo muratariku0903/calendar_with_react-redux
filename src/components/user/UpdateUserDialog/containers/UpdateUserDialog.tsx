@@ -9,7 +9,6 @@ import { asyncUpdate } from '../../../../redux/actions/effects/user';
 import { isEmptyDialog } from '../../../../services/dialog';
 
 
-
 const mapStateToProps = (state: State): StateProps => {
     return {
         dialog: state.updateUserDialog,

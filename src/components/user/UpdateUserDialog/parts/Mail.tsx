@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { Grid, Input, Typography } from '@material-ui/core';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { startEditUpdateUserDialog } from '../../../../redux/actions/user/updateUserDialog';
+import { Grid, Input } from '@material-ui/core';
 import { Mail as MailIcon } from '@material-ui/icons';
-import { UpdateUserDialogState } from '../../../../redux/stateTypes';
+import { State, UpdateUserDialogState } from '../../../../redux/stateTypes';
+import ErrorMessage from '../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 const spacer = { margin: '4px 0' };
 
 type OutterProps = {
     mail: UpdateUserDialogState['user']['email'];
     setDialog: (dialogItem: Partial<UpdateUserDialogState['user']>) => void;
-   errorMessage: string;
+    errorMessage: string;
 }
 
 type AddUserDialogMailProps = OutterProps;
 
 const Mail: React.FC<AddUserDialogMailProps> = ({ mail, setDialog, errorMessage }) => {
-    const [isStartInput, setIsStartInput] = useState<boolean>(false);
-    const isError = isStartInput && Boolean(errorMessage);
+    const dispatch = useDispatch();
+    const isStartEdit = useSelector((state: State) => state.updateUserDialog.isStartEdit);
+    const isError = isStartEdit && Boolean(errorMessage);
     return (
         <Grid container spacing={1} alignItems='center' justifyContent="space-between">
             <Grid item >
@@ -27,16 +31,12 @@ const Mail: React.FC<AddUserDialogMailProps> = ({ mail, setDialog, errorMessage 
                     value={mail}
                     onChange={e => setDialog({ email: e.target.value })}
                     error={isError}
-                    onBlur={() => setIsStartInput(true)}
+                    onBlur={() => dispatch(startEditUpdateUserDialog())}
                     placeholder='メールアドレスを入力してくだい'
                     fullWidth
                     style={spacer}
                 />
-                <div>
-                    {isError && (
-                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
-                    )}
-                </div>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

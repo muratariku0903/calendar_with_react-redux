@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import { Input } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import { DialogSchedule } from '../../../../../redux/stateTypes';
+import { State, DialogSchedule } from '../../../../../redux/stateTypes';
 import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 
@@ -18,24 +19,16 @@ export type OutterProps = {
     errorMessage: string;
 }
 
-export type StateProps = {
-    isStartEdit: boolean;
-}
+export type AddScheduleDialogTitleProps =  OutterProps;
 
-export type DispatchProps = {
-    setStartEdit: () => void;
-}
-
-export type AddScheduleDialogTitleProps = StateProps & DispatchProps & OutterProps;
-
-const AddScheduleDialogTitle: React.FC<AddScheduleDialogTitleProps> = ({ title, isStartEdit, setDialogForm, errorMessage, setStartEdit }) => {
+const AddScheduleDialogTitle: React.FC<AddScheduleDialogTitleProps> = ({ title, setDialogForm, errorMessage }) => {
+    const isStartEdit = useSelector((state: State) => state.addScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
     return (
         <Fragment>
             <Title
                 value={title}
                 onChange={e => setDialogForm({ title: e.target.value })}
-                onBlur={setStartEdit}
                 error={isError}
                 autoFocus
                 fullWidth

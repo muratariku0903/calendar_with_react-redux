@@ -9,7 +9,7 @@ import UpdateUserDialog from './UpdateUserDialog/containers/UpdateUserDialog';
 
 
 const User: React.FC = () => {
-    const { isLogin } = useSelector<State>(state => state.user) as State['user'];
+    const { isLogin } = useSelector((state: State) => state.user);
 
     if (!isLogin) return <Navigate to='/login' />;
 

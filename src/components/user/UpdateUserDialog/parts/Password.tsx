@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { Grid, Input, Typography } from '@material-ui/core';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { startEditUpdateUserDialog } from '../../../../redux/actions/user/updateUserDialog';
+import { Grid, Input } from '@material-ui/core';
 import { Lock as PasswordIcon } from '@material-ui/icons';
-import { UpdateUserDialogState } from '../../../../redux/stateTypes';
+import { State, UpdateUserDialogState } from '../../../../redux/stateTypes';
+import ErrorMessage from '../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 const spacer = { margin: '4px 0' };
 
@@ -14,8 +17,9 @@ type OutterProps = {
 type AddUserDialogMailProps = OutterProps;
 
 const Password: React.FC<AddUserDialogMailProps> = ({ password, setDialog, errorMessage }) => {
-    const [isStartInput, setIsStartInput] = useState<boolean>(false);
-    const isError = isStartInput && Boolean(errorMessage);
+    const dispatch = useDispatch();
+    const isStartEdit = useSelector((state: State) => state.updateUserDialog.isStartEdit);
+    const isError = isStartEdit && Boolean(errorMessage);
     return (
         <Grid container spacing={1} alignItems='center' justifyContent="space-between">
             <Grid item >
@@ -27,16 +31,12 @@ const Password: React.FC<AddUserDialogMailProps> = ({ password, setDialog, error
                     value={password}
                     onChange={e => setDialog({ password: e.target.value })}
                     error={isError}
-                    onBlur={() => setIsStartInput(true)}
+                    onBlur={() => dispatch(startEditUpdateUserDialog())}
                     placeholder='パスワード設定してください'
                     fullWidth
                     style={spacer}
                 />
-                <div>
-                    {isError && (
-                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
-                    )}
-                </div>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

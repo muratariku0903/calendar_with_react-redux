@@ -13,7 +13,7 @@ const TimeCol = (calendarDate: CalendarDate): JSX.Element[] => {
     for (let i = 0; i < 96; i++) {
         const timeItem: TimeItem = { date: timeDate, schedule: null };
         for (const dateSchedule of dateSchedules) {
-            if (dateSchedule.time.start && isSameTime(dateSchedule.time.start, timeDate.unix())) {
+            if (isSameTime(dateSchedule.time.start, timeDate.unix())) {
                 timeItem.schedule = dateSchedule;
             }
         }
