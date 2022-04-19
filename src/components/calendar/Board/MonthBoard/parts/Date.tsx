@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
-import { Schedule } from '../../../../../redux/stateTypes';
+import { State, Schedule } from '../../../../../redux/stateTypes';
 import { CalendarDate } from '../../../../../redux/selectors';
 import ScheduleLabel from './ScheduleLabel';
 import HolidayLabel from '../../base/HolidayLabel';
@@ -32,16 +33,17 @@ const useStyles = makeStyles(() => {
 });
 
 export type DispatchProps = {
+    openAddDialog: (date: Schedule['date']) => void;
     updateSchedule: (prevDate: Schedule['date'], schedule: Schedule) => void;
 }
 
-// Dateがmonthをoutterで受け取るのはおかしい
-type OutterProps = CalendarDate & { month: number; }
+type OutterProps = CalendarDate;
 
 type DateProps = DispatchProps & OutterProps;
 
-const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month, updateSchedule }) => {
+const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, updateSchedule, openAddDialog }) => {
     const classes = useStyles();
+    const month = useSelector((state: State) => state.calendar.month);
     const today = dayjs();
     const isCurrentMonth = date.month() + 1 === month;
     const isToday = isSameDay(today.unix(), date.unix());
@@ -54,14 +56,12 @@ const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, month, update
     }), [date]);
 
     return (
-        <div className={classes.element} >
+        <div className={classes.element} onClick={() => openAddDialog(date.unix())}>
             <Typography align="center" component="div" variant="caption" color={textColor}>
                 <span className={isToday ? classes.today : ''}>{date.format(format)}</span>
             </Typography>
             <div ref={drop} className={classes.schedules}>
-                {dateSchedules.map((schedule, idx) => {
-                    return <ScheduleLabel key={idx} schedule={schedule} />;
-                })}
+                {dateSchedules.map((schedule, idx) => <ScheduleLabel key={idx} schedule={schedule} />)}
                 {holiday && (<HolidayLabel name={holiday.name} margin='1px 0' />)}
             </div>
         </div>

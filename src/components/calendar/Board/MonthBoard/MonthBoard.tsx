@@ -44,7 +44,7 @@ const MonthBoard: React.FC<MonthBoardProps> = ({ month, dates, openAddDialog, fe
         <BaseBoard>
             <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
                 {WeekHeader()}
-                {Dates(dates, openAddDialog, month)}
+                {Dates(dates)}
             </GridList>
         </BaseBoard>
     );
