@@ -5,7 +5,7 @@ import { Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
 import { Schedule } from '../../../../../redux/stateTypes';
 import { CalendarDate } from '../../../../../redux/selectors';
-import ScheduleLabel from '../containers/ScheduleLabel';
+import ScheduleLabel from './ScheduleLabel';
 import HolidayLabel from '../../base/HolidayLabel';
 import { isFirstDay, isSameDay } from '../../../../../services/calendar';
 import { DndItems } from '../../dnd/constants';

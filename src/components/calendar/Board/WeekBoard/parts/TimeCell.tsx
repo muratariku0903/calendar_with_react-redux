@@ -2,7 +2,7 @@ import React from 'react';
 import { useDrop } from 'react-dnd';
 import { makeStyles, createStyles } from '@material-ui/core';
 import { Schedule } from '../../../../../redux/stateTypes';
-import ScheduleLabel from '../containers/ScheduleLabel';
+import ScheduleLabel from './ScheduleLabel';
 import { DndItems } from '../../dnd/constants';
 import { cellHeight } from '../constants';
 import { Dayjs } from 'dayjs';

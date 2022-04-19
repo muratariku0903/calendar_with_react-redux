@@ -1,4 +1,4 @@
-import ScheduleLabel, { DispatchProps } from '../parts/ScheduleLabel';
+import BaseScheduleLabel, { DispatchProps } from '../BaseScheduleLabel';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -16,4 +16,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(ScheduleLabel);
+export default connect(null, mapDispatchToProps)(BaseScheduleLabel);

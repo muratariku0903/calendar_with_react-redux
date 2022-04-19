@@ -1,8 +1,7 @@
 import React from 'react';
-import { useDrag } from 'react-dnd';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import { Schedule } from '../../../../../redux/stateTypes';
-import { DndItems } from '../../dnd/constants';
+import BaseScheduleLabel from '../../base/containers/BaseScheduleLabel';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -23,27 +22,15 @@ export type OutterProps = {
     schedule: Schedule;
 }
 
-export type DispatchProps = {
-    openShowDialog: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, schedule: Schedule) => void;
-}
+export type ScheduleLabelProps = OutterProps;
 
-export type ScheduleLabelProps = DispatchProps & OutterProps;
-
-const ScheduleLabel: React.FC<ScheduleLabelProps> = ({ schedule, openShowDialog }) => {
+const ScheduleLabel: React.FC<ScheduleLabelProps> = ({ schedule }) => {
     const classes = useStyles();
-    const [collected, drag] = useDrag(() => ({
-        type: DndItems.Schedule,
-        item: schedule,
-    }));
 
     return (
-        <div
-            ref={drag}
-            onClick={e => openShowDialog(e, schedule)}
-            className={classes.schedule}
-        >
+        <BaseScheduleLabel schedule={schedule} classes={classes}>
             {schedule.title}
-        </div>
+        </BaseScheduleLabel>
     );
 }
 
