@@ -3,8 +3,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogActions, Button, DialogTitle, Divider } from '@material-ui/core';
 import { SignupDialogState, UserState } from '../../../redux/stateTypes';
 import SignupDialogForm from './parts/SignupDialogForm';
-import { Validation } from '../../../services/validation';
-import { rules } from '../constants';
+import { AuthValidation } from '../../../services/Validation/authValidation';
+import { rules } from '../validationRules';
 
 
 export type StateProps = {
@@ -22,10 +22,10 @@ export type SignupProps = StateProps & DispatchProps & {
     signup: () => void;
 };
 
-// 間違えた人用に、ログインボタンを設置
+
 const Signup: React.FC<SignupProps> = ({ dialog, setDialog, isLogin, signup }) => {
     const navigate = useNavigate();
-    const validation = new Validation(rules);
+    const validation = new AuthValidation(rules);
     const validateErrorMessages = validation.validate<SignupDialogState['dialog']>(dialog);
     const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
 

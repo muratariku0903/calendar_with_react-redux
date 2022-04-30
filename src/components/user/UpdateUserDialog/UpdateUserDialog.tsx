@@ -3,8 +3,8 @@ import { DialogTitle, DialogContent, DialogActions, Divider, Button } from '@mat
 import { UpdateUserDialogState } from '../../../redux/stateTypes';
 import BaseInputDialog from '../../app/Dialog/BaseInputDialog/BaseInputDialog';
 import UpdateUserDialogForm from './parts/UpdateUserDialogForm';
-import { Validation } from '../../../services/validation';
-import { rules } from '../constants';
+import { AuthValidation } from '../../../services/Validation/authValidation';
+import { rules } from '../validationRules';
 
 
 export type StateProps = {
@@ -26,7 +26,7 @@ export type UpdateUserDialogProps = StateProps & DispatchProps & {
 };
 
 const UpdateUserDialog: React.FC<UpdateUserDialogProps> = ({ dialog, closeDialog, setDialog, update, showAlert, closeAlert, isEmptyDialog }) => {
-    const validation = new Validation(rules);
+    const validation = new AuthValidation(rules);
     const validateErrorMessages = validation.validate(dialog.user);
     const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
     return (

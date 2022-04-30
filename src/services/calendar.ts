@@ -20,6 +20,13 @@ export const isFirstDay = (day: Dayjs): boolean => {
     return day.date() === 1;
 }
 
+export const getCurrHourAndCurrMinute = (): { hour: number, minute: number } => {
+    const currTime = roundMinutes(dayjs().unix());
+    const hour = dayjs.unix(currTime).hour();
+    const minute = dayjs.unix(currTime).minute();
+    return { hour, minute };
+}
+
 export const roundMinutes = (stamp: number, unit: number = 15): number => {
     return Math.ceil(stamp / 60 / unit) * unit * 60;
 }

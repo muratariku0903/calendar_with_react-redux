@@ -3,12 +3,11 @@ import { SignupDialogState } from '../../../../redux/stateTypes';
 import Name from './Name';
 import Mail from './Mail';
 import Password from './Password';
-import { ErrorMessages } from '../../../../services/validation';
 
 type OutterProps = {
     dialog: SignupDialogState['dialog'];
     setDialog: (dialogItem: Partial<SignupDialogState['dialog']>) => void;
-    validateErrorMessages: ErrorMessages;
+    validateErrorMessages: Record<string, string>;
 }
 
 type AddUserDialogFormProps = OutterProps;

@@ -24,7 +24,7 @@ export type SchedulesState = {
     isLoading: boolean;
 };
 
-// AddDialogScheduleの方がわかりやすい
+
 export type DialogSchedule = Omit<Schedule, 'id'>;
 const currTime = roundMinutes(dayjs().unix());
 export const initialDialogForm: DialogSchedule = {

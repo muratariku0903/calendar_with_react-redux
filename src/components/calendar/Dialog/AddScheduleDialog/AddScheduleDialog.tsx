@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DialogContent, DialogActions, Button } from '@material-ui/core';
-import { AddScheduleDialogState, DialogSchedule } from '../../../../redux/stateTypes';
+import { AddScheduleDialogState, DialogSchedule, Schedule, SchedulesState } from '../../../../redux/stateTypes';
 import BaseInputDialog from '../../../app/Dialog/BaseInputDialog/BaseInputDialog';
 import AddScheduleDialogForm from './parts/Form';
-import { Validation } from '../../../../services/validation';
-import { rules } from '../../constants';
+import { createSchedulesKey, getSchedulesByDate } from "../../../../services/schedules";
+import { ScheduleValidation } from '../../../../services/Validation/scheduleValidation';
+import { rules } from '../../validationRules';
 
 
 export type StateProps = {
     dialog: AddScheduleDialogState;
+    schedules: SchedulesState['monthSchedules'];
 }
 
 export type DispatchProps = {
@@ -25,8 +27,14 @@ export type AddScheduleDialogProps = StateProps & DispatchProps & {
     setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
 }
 
-const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, setDialogForm, addSchedule, isEmptyDialog, closeDialog, showAlert, closeAlert }) => {
-    const validation = new Validation(rules);
+const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, schedules, setDialogForm, addSchedule, isEmptyDialog, closeDialog, showAlert, closeAlert }) => {
+    const [dateSchedules, setDateSchedules] = useState<Schedule[]>([]);
+    useEffect(() => {
+        const key = createSchedulesKey(dialog.schedule.date);
+        const dateSchedules = getSchedulesByDate(schedules, key);
+        setDateSchedules(dateSchedules);
+    }, [dialog.schedule.date]);
+    const validation = new ScheduleValidation(rules, dateSchedules);
     const validationErrorMessages = validation.validate<AddScheduleDialogState['schedule']>(dialog.schedule);
     const isValid = validation.isEmptyErrorMessages(validationErrorMessages);
     return (

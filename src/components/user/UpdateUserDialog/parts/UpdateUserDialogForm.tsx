@@ -3,12 +3,11 @@ import { UpdateUserDialogState } from '../../../../redux/stateTypes';
 import Name from './Name';
 import Mail from './Mail';
 import Password from './Password';
-import { ErrorMessages } from '../../../../services/validation';
 
 type OutterProps = {
     user: UpdateUserDialogState['user'];
     setDialog: (dialogItem: Partial<UpdateUserDialogState['user']>) => void;
-    validateErrorMessages: ErrorMessages;
+    validateErrorMessages: Record<string, string>;
 }
 
 type UpdateUserDialogFormProps = OutterProps;

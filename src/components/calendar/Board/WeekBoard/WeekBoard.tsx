@@ -40,7 +40,6 @@ const WeekBoard: React.FC<WeekBoardProps> = ({ dates }) => {
                 </Grid>
             </Grid>
         </BaseBoard>
-
     );
 }
 

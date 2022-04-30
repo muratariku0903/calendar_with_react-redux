@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { DialogSchedule } from '../../../../../redux/stateTypes';
-import { ErrorMessages } from '../../../../../services/validation';
 import UpdateScheduleDialogTitle from './Title';
 import UpdateScheduleDialogDate from './Date';
 import UpdateScheduleDialogTime from './Time';
@@ -11,7 +10,7 @@ import UpdateScheduleDialogDescription from './Description';
 type UpdateScheduleDialogFormProps = {
     schedule: DialogSchedule;
     setDialogForm: (scheduleItem: Partial<DialogSchedule>) => void;
-    errorMessages: ErrorMessages;
+    errorMessages: Record<string, string>;
 }
 
 const UpdateScheduleDialogForm: React.FC<UpdateScheduleDialogFormProps> = ({ schedule, setDialogForm, errorMessages }) => {
@@ -21,7 +20,7 @@ const UpdateScheduleDialogForm: React.FC<UpdateScheduleDialogFormProps> = ({ sch
             <UpdateScheduleDialogDate date={schedule.date} setDialogForm={setDialogForm} />
             <UpdateScheduleDialogTime time={schedule.time} setDialogForm={setDialogForm} errorMessage={errorMessages.time} />
             <UpdateScheduleDialogLocation location={schedule.location} setDialogForm={setDialogForm} />
-            <UpdateScheduleDialogDescription description={schedule.description} setDialogForm={setDialogForm} />
+            <UpdateScheduleDialogDescription description={schedule.description} setDialogForm={setDialogForm} errorMessage={errorMessages.description} />
         </Fragment>
     );
 }

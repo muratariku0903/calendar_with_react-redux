@@ -3,8 +3,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogActions, Button, DialogTitle, Divider } from '@material-ui/core';
 import { LoginDialogState, UserState } from '../../../redux/stateTypes';
 import LoginDialogForm from './parts/LoginDialogForm';
-import { Validation } from '../../../services/validation';
-import { rules } from '../constants';
+import { AuthValidation } from '../../../services/Validation/authValidation';
+import { rules } from '../validationRules';
 
 
 export type StateProps = {
@@ -24,7 +24,7 @@ export type LoginProps = StateProps & DispatchProps & {
 
 const Login: React.FC<LoginProps> = ({ dialog, setDialog, login, isLogin }) => {
     const navigate = useNavigate();
-    const validation = new Validation(rules);
+    const validation = new AuthValidation(rules);
     const validateErrorMessages = validation.validate<LoginDialogState['dialog']>(dialog);
     const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
 

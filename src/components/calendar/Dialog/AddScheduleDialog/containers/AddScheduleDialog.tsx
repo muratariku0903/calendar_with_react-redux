@@ -8,9 +8,10 @@ import { SchedulesActions } from "../../../../../redux/actions/calendar/schedule
 import { asyncAddSchedule } from "../../../../../redux/actions/effects/schedules";
 import { isEmptyDialog } from "../../../../../services/dialog";
 
-const mapStateToProps = (store: State): StateProps => {
+const mapStateToProps = (state: State): StateProps => {
     return {
-        dialog: store.addScheduleDialog,
+        dialog: state.addScheduleDialog,
+        schedules: state.schedules.monthSchedules,
     }
 }
 

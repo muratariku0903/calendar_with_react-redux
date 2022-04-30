@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core';
 import { GridList } from '@material-ui/core';
-import { Schedule, CalendarState } from '../../../../redux/stateTypes';
+import { CalendarState } from '../../../../redux/stateTypes';
 import { CalendarDate } from '../../../../redux/selectors';
 import BaseBoard from '../base/containers/BaseBoard';
 import WeekHeader from '../base/WeekHeader';
@@ -24,7 +24,6 @@ export type StateProps = {
 }
 
 export type DispatchProps = {
-    openAddDialog: (date: Schedule['date']) => void;
     fetchSchedules: (year: number, month: number) => void;
     fetchHolidays: (year: number, month: number) => void;
 }
@@ -34,7 +33,7 @@ export type MonthBoardProps = StateProps & DispatchProps & {
     fetchHolidays: () => void;
 }
 
-const MonthBoard: React.FC<MonthBoardProps> = ({ month, dates, openAddDialog, fetchHolidays, fetchSchedules }) => {
+const MonthBoard: React.FC<MonthBoardProps> = ({ dates, fetchHolidays, fetchSchedules }) => {
     const classes = useStyles();
     useEffect(() => {
         fetchSchedules();

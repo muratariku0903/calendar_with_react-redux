@@ -6,12 +6,17 @@ import { State, Schedule, initialDialogForm } from '../../../../../redux/stateTy
 import { SchedulesActions } from '../../../../../redux/actions/calendar/schedules';
 import { asyncUpdateSchedule } from '../../../../../redux/actions/effects/schedules';
 import { setAddScheduleDialog, openAddScheduleDialog } from '../../../../../redux/actions/calendar/addScheduleDialog';
+import { getCurrHourAndCurrMinute } from '../../../../../services/calendar';
+import dayjs from 'dayjs';
 
 
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions>): DispatchProps => {
     return {
         openAddDialog: (date: Schedule['date']) => {
-            dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
+            const { hour, minute } = getCurrHourAndCurrMinute();
+            const start = dayjs.unix(date).hour(hour).minute(minute).unix();
+            const end = dayjs.unix(start).add(1, 'h').unix();
+            dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date, time: { start, end } }));
             dispatch(openAddScheduleDialog());
         },
         updateSchedule: (prevDate: Schedule['date'], schedule: Schedule): void => dispatch(asyncUpdateSchedule(prevDate, schedule)),
