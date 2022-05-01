@@ -8,7 +8,7 @@ export const rules: ScheduleValidationRules = {
         }
     },
     time: {
-        name: '予定の時間',
+        name: '予定',
         rules: {
             required: true,
             timeLogical: true,

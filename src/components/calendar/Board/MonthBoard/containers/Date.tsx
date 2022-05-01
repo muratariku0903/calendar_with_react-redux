@@ -1,11 +1,12 @@
-import Date, { DispatchProps } from '../parts/Date';
+import Date, {  DispatchProps } from '../parts/Date';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { State, Schedule, initialDialogForm } from '../../../../../redux/stateTypes';
+import { State, Schedule, initialDialogForm, SnackBarState } from '../../../../../redux/stateTypes';
 import { SchedulesActions } from '../../../../../redux/actions/calendar/schedules';
 import { asyncUpdateSchedule } from '../../../../../redux/actions/effects/schedules';
 import { setAddScheduleDialog, openAddScheduleDialog } from '../../../../../redux/actions/calendar/addScheduleDialog';
+import { setSnackBar } from '../../../../../redux/actions/app/snackBar';
 import { getCurrHourAndCurrMinute } from '../../../../../services/calendar';
 import dayjs from 'dayjs';
 
@@ -20,6 +21,7 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(openAddScheduleDialog());
         },
         updateSchedule: (prevDate: Schedule['date'], schedule: Schedule): void => dispatch(asyncUpdateSchedule(prevDate, schedule)),
+        openSnackBar: (errorMessage: SnackBarState['message']) => dispatch(setSnackBar('error', errorMessage)),
     }
 }
 

@@ -3,13 +3,17 @@ import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import dayjs from 'dayjs';
-import { State, Schedule } from '../../../../../redux/stateTypes';
+import { State, Schedule, SnackBarState } from '../../../../../redux/stateTypes';
 import { CalendarDate } from '../../../../../redux/selectors';
 import ScheduleLabel from './ScheduleLabel';
 import HolidayLabel from '../../base/HolidayLabel';
-import { isFirstDay, isSameDay } from '../../../../../services/calendar';
 import { DndItems } from '../../dnd/constants';
+import { isFirstDay, isSameDay } from '../../../../../services/calendar';
+import { getScheduleTimeMergedDate } from '../../../../../services/schedule';
+import { getSchedulesByDate, createSchedulesKey } from '../../../../../services/schedules';
+import { ScheduleValidation } from '../../../../../services/Validation/scheduleValidation';
+import { rules } from '../../../validationRules';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -32,16 +36,18 @@ const useStyles = makeStyles(() => {
     });
 });
 
+
 export type DispatchProps = {
     openAddDialog: (date: Schedule['date']) => void;
     updateSchedule: (prevDate: Schedule['date'], schedule: Schedule) => void;
+    openSnackBar: (errorMessage: SnackBarState['message']) => void;
 }
 
 type OutterProps = CalendarDate;
 
 type DateProps = DispatchProps & OutterProps;
 
-const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, updateSchedule, openAddDialog }) => {
+const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, updateSchedule, openAddDialog, openSnackBar }) => {
     const classes = useStyles();
     const month = useSelector((state: State) => state.calendar.month);
     const today = dayjs();
@@ -49,9 +55,21 @@ const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, updateSchedul
     const isToday = isSameDay(today.unix(), date.unix());
     const textColor = isCurrentMonth ? 'textPrimary' : 'textSecondary';
     const format = isFirstDay(date) ? "M月D日" : "D";
+    const monthSchedules = useSelector((state: State) => state.schedules.monthSchedules);
     const [collected, drop] = useDrop(() => ({
         accept: DndItems.Schedule,
-        drop: (collected: Schedule) => updateSchedule(collected.date, { ...collected, date: date.unix() }),
+        drop: (schedule: Schedule) => {
+            const key = createSchedulesKey(date.unix());
+            const dateSchedules = getSchedulesByDate(monthSchedules, key);
+            const newScheduleTime = getScheduleTimeMergedDate(date.unix(), schedule.time);
+            const validation = new ScheduleValidation(rules);
+            const validationMessage = validation.validateTimeConflict('予定の時間', newScheduleTime, dateSchedules);
+            if (!validationMessage) {
+                updateSchedule(schedule.date, { ...schedule, date: date.unix(), time: newScheduleTime });
+            } else {
+                openSnackBar(validationMessage);
+            }
+        },
         collect: (monitor) => ({ schedule: monitor.getItem() }),
     }), [date]);
 

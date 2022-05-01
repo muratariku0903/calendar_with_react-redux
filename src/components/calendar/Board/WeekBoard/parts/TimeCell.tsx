@@ -1,10 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { makeStyles, createStyles } from '@material-ui/core';
-import { Schedule } from '../../../../../redux/stateTypes';
+import { State, Schedule, SnackBarState } from '../../../../../redux/stateTypes';
 import ScheduleLabel from './ScheduleLabel';
 import { DndItems } from '../../dnd/constants';
 import { cellHeight } from '../constants';
+import { getSchedulesByDate, createSchedulesKey } from '../../../../../services/schedules';
+import { ScheduleValidation } from '../../../../../services/Validation/scheduleValidation';
+import { rules } from '../../../validationRules';
 import { Dayjs } from 'dayjs';
 
 type Props = {
@@ -34,6 +38,7 @@ export type TimeItem = {
 export type DispatchProps = {
     openAddDialog: (time: Schedule['time']) => void;
     updateSchedule: (prevDate: Schedule['date'], schedule: Schedule) => void;
+    openSnackBar: (errorMessage: SnackBarState['message']) => void;
 }
 
 export type OutterProps = {
@@ -42,7 +47,8 @@ export type OutterProps = {
 
 type TimeCellProps = DispatchProps & OutterProps;
 
-const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDialog }) => {
+const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDialog, openSnackBar }) => {
+    const monthSchedules = useSelector((state: State) => state.schedules.monthSchedules);
     const { date, schedule } = timeItem;
     const [collected, drop] = useDrop(() => ({
         accept: DndItems.Schedule,
@@ -57,7 +63,17 @@ const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDi
                     end: date.unix() + diff,
                 }
             }
-            updateSchedule(schedule.date, newSchedule);
+            const key = createSchedulesKey(date.unix());
+            console.log(key);
+            const dateSchedules = getSchedulesByDate(monthSchedules, key);
+            console.log(dateSchedules);
+            const validation = new ScheduleValidation(rules);
+            const validationMessage = validation.validateTimeConflict('予定の時間', newSchedule.time, dateSchedules);
+            if (!validationMessage) {
+                updateSchedule(schedule.date, newSchedule);
+            } else {
+                openSnackBar(validationMessage);
+            }
         },
         collect: (monitor) => ({ schedule: monitor.getItem(), isHovered: monitor.isOver() }),
     }), [date]);

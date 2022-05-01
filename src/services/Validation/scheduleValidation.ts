@@ -1,6 +1,5 @@
 import { BaseValidation, BaseRuleItems, ErrorMessages } from "./baseValidation";
 import { Schedule } from '../../redux/stateTypes';
-import dayjs from 'dayjs';
 
 
 type ExpansionRuleItems = {
@@ -21,9 +20,9 @@ type Time = { start: number, end: number };
 
 export class ScheduleValidation extends BaseValidation {
     private validationRules: ScheduleValidationRules;
-    private schedules: Schedule[];
+    private schedules?: Schedule[];
 
-    constructor(validationRules: ScheduleValidationRules, schedules: Schedule[]) {
+    constructor(validationRules: ScheduleValidationRules, schedules?: Schedule[]) {
         super();
         this.validationRules = validationRules;
         this.schedules = schedules;
@@ -73,8 +72,8 @@ export class ScheduleValidation extends BaseValidation {
                     }
                 }
 
-                if (ruleName === 'timeConflict') {
-                    const validationMessage = this.isTime(item) ? this.validateTimeConflict(itemName, item) : '';
+                if (ruleName === 'timeConflict' && this.schedules) {
+                    const validationMessage = this.isTime(item) ? this.validateTimeConflict(itemName, item, this.schedules) : '';
                     if (!this.isEmpty(validationMessage)) {
                         this.validationMessages[key] = validationMessage;
                         break;
@@ -93,15 +92,15 @@ export class ScheduleValidation extends BaseValidation {
         return item.start >= item.end ? `${itemName}は開始が終了より早い必要があります` : '';
     }
 
-    private validateTimeConflict(itemName: string, item: Time): string {
-        for (const { time: { start, end } } of this.schedules) {
+    public validateTimeConflict(itemName: string, item: Time, schedules: Schedule[]): string {
+        for (const { time: { start, end } } of schedules) {
             if (
-                ((item.start <= start) && (end <= item.end)) 
+                ((item.start <= start) && (end <= item.end))
                 ||
                 ((start < item.start) && (item.start < end))
                 ||
                 ((start < item.end) && (item.end < end))
-            ) return `既にある予定と時間が重複しています`;
+            ) return `${itemName}が既にある予定と時間が重複しています`;
         }
         return '';
     }
