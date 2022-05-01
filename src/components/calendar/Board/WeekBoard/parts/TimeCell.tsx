@@ -63,10 +63,9 @@ const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDi
                     end: date.unix() + diff,
                 }
             }
+            console.log(date);
             const key = createSchedulesKey(date.unix());
-            console.log(key);
             const dateSchedules = getSchedulesByDate(monthSchedules, key);
-            console.log(dateSchedules);
             const validation = new ScheduleValidation(rules);
             const validationMessage = validation.validateTimeConflict('予定の時間', newSchedule.time, dateSchedules);
             if (!validationMessage) {

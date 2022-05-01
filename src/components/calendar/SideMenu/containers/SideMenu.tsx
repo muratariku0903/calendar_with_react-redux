@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { State, Schedule, initialDialogForm } from '../../../../redux/stateTypes';
 import { closeSideMenu } from '../../../../redux/actions/calendar/sideMenu';
-import { openAddScheduleDialog,setAddScheduleDialog } from '../../../../redux/actions/calendar/addScheduleDialog';
+import { openAddScheduleDialog, setAddScheduleDialog } from '../../../../redux/actions/calendar/addScheduleDialog';
+import { getCurrHourAndCurrMinute } from '../../../../services/calendar';
+import dayjs from 'dayjs';
 
 
 const mapStateToProps = (state: State): StateProps => {
@@ -18,7 +20,10 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
     return {
         close: () => dispatch(closeSideMenu()),
         openAddDialog: (date: Schedule['date']) => {
-            dispatch(setAddScheduleDialog({ ...initialDialogForm, date: date }));
+            const { hour, minute } = getCurrHourAndCurrMinute();
+            const start = dayjs.unix(date).hour(hour).minute(minute).unix();
+            const end = dayjs.unix(start).add(1, 'h').unix();
+            dispatch(setAddScheduleDialog({ ...initialDialogForm, date, time: { start, end } }));
             dispatch(openAddScheduleDialog());
         },
     }

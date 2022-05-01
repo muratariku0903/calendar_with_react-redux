@@ -17,7 +17,7 @@ const UpdateScheduleDialogForm: React.FC<UpdateScheduleDialogFormProps> = ({ sch
     return (
         <Fragment>
             <UpdateScheduleDialogTitle title={schedule.title} setDialogForm={setDialogForm} errorMessage={errorMessages.title} />
-            <UpdateScheduleDialogDate date={schedule.date} setDialogForm={setDialogForm} />
+            <UpdateScheduleDialogDate date={schedule.date} time={schedule.time} setDialogForm={setDialogForm} />
             <UpdateScheduleDialogTime time={schedule.time} setDialogForm={setDialogForm} errorMessage={errorMessages.time} />
             <UpdateScheduleDialogLocation location={schedule.location} setDialogForm={setDialogForm} />
             <UpdateScheduleDialogDescription description={schedule.description} setDialogForm={setDialogForm} errorMessage={errorMessages.description} />
