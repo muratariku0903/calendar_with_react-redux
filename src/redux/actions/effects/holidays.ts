@@ -14,12 +14,13 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
     dispatch(setHolidaysLoading(true));
     const gapi = new GoogleCalendarApi();
     try {
-        const schedulesFromGapi = await gapi.fetchHolidays(year, month);
+        const holidaysFromGapi = await gapi.fetchHolidays(year, month);
         const holidays: HolidaysState['holidays'] = {};
-        schedulesFromGapi.forEach(s => {
-            const date = dayjs(s.start.date).unix();
-            const name = s.summary;
-            holidays[createHolidaysKey(date)] = { date, name };
+        holidaysFromGapi.forEach(h => {
+            const date = dayjs(h.start.date).unix();
+            const name = h.summary;
+            const key = createHolidaysKey(date);
+            holidays[key] = { date, name };
         });
         dispatch(setHolidays(holidays));
     } catch (e) {
@@ -28,5 +29,3 @@ export const asyncFetchHolidays = (year: number, month: number): HolidaysThunkAc
         console.error(`Error Setting holidays to state because:${e}`);
     }
 }
-
-

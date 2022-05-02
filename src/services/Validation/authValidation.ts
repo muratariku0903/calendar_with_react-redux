@@ -1,8 +1,9 @@
 import { BaseValidation, BaseRuleItems, ErrorMessages } from "./baseValidation";
+import { User } from '../../redux/stateTypes';
 
 
 type ExpansionRuleItems = {
-
+    emailConflict?: true;
 }
 
 type AuthValidationRuleItems = BaseRuleItems & ExpansionRuleItems;
@@ -16,10 +17,12 @@ export type AuthValidationRules = {
 
 export class AuthValidation extends BaseValidation {
     private validationRules: AuthValidationRules;
+    private users?: User[];
 
-    constructor(validationRules: AuthValidationRules) {
+    constructor(validationRules: AuthValidationRules, users?: User[]) {
         super();
         this.validationRules = validationRules;
+        this.users = users;
     }
 
     public validate<T>(items: T): ErrorMessages {
@@ -57,6 +60,14 @@ export class AuthValidation extends BaseValidation {
                         break;
                     }
                 }
+
+                if (ruleName === 'emailConflict' && this.users) {
+                    const validationMessage = this.isString(item) ? this.validateEmailConflict(item, this.users) : '';
+                    if (!this.isEmpty(validationMessage)) {
+                        this.validationMessages[key] = validationMessage;
+                        break;
+                    }
+                }
             }
         }
         return this.validationMessages;
@@ -64,5 +75,10 @@ export class AuthValidation extends BaseValidation {
 
     public isEmptyErrorMessages(errorMessages: Record<string, string>): boolean {
         return super.isEmptyErrorMessages(errorMessages);
+    }
+
+    private validateEmailConflict(item: string, users: User[]): string {
+        for (const user of users) if (item === user.email) return '入力されたメールアドレスは既に存在します';
+        return '';
     }
 }

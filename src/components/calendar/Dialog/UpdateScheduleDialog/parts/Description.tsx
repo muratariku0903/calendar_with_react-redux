@@ -23,8 +23,8 @@ const UpdateScheduleDialogDescription: React.FC<UpdateScheduleDialogDescriptionP
             </Grid>
             <Grid item xs={10}>
                 <TextField value={description} onChange={(e) => setDialogForm({ description: e.target.value })} style={spacer} fullWidth placeholder="説明を追加" />
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
-            {isError && (<ErrorMessage errorMessage={errorMessage} />)}
         </Grid>
     );
 }

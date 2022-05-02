@@ -1,5 +1,6 @@
 import { db } from '../firestore';
-import { getDoc, setDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDoc, getDocs, setDoc, doc, updateDoc, collection } from 'firebase/firestore';
+import { getAuth, signInAnonymously } from 'firebase/auth';
 import { User } from '../../redux/stateTypes';
 
 const rootCollection = 'users';
@@ -26,6 +27,25 @@ const fetchUser = async (id: string): Promise<User> => {
     }
 };
 
+const fetchAllUsers = async (): Promise<User[]> => {
+    const auth = getAuth();
+    const ref = collection(db, rootCollection);
+    const users: User[] = [];
+    signInAnonymously(auth)
+        .then(() => {
+            getDocs(ref).then(res => {
+                res.docs.forEach(doc => {
+                    users.push(doc.data() as User);
+                });
+            });
+            console.log('Fetch all users from firestore');
+        })
+        .catch(e => {
+            throw (`Error fetching all users from firestore because:${e}`);
+        });
+    return users;
+}
+
 const updateUser = async (id: string, user: User): Promise<void> => {
     try {
         const ref = doc(db, rootCollection, id);
@@ -37,4 +57,4 @@ const updateUser = async (id: string, user: User): Promise<void> => {
 };
 
 
-export const userAPI = { addUser, fetchUser, updateUser };
+export const userAPI = { addUser, fetchUser, updateUser, fetchAllUsers };

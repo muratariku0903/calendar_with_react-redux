@@ -27,7 +27,7 @@ export type UpdateUserDialogProps = StateProps & DispatchProps & {
 
 const UpdateUserDialog: React.FC<UpdateUserDialogProps> = ({ dialog, closeDialog, setDialog, update, showAlert, closeAlert, isEmptyDialog }) => {
     const validation = new AuthValidation(rules);
-    const validateErrorMessages = validation.validate(dialog.user);
+    const validateErrorMessages = validation.validate<UpdateUserDialogState['user']>(dialog.user);
     const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
     return (
         <BaseInputDialog
