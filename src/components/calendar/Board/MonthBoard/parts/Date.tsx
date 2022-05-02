@@ -60,7 +60,7 @@ const Date: React.FC<DateProps> = ({ date, dateSchedules, holiday, updateSchedul
         accept: DndItems.Schedule,
         drop: (schedule: Schedule) => {
             const key = createSchedulesKey(date.unix());
-            const dateSchedules = getSchedulesByDate(monthSchedules, key);
+            const dateSchedules = getSchedulesByDate(monthSchedules, key).filter((dateSchedule) => dateSchedule.id != schedule.id);
             const newScheduleTime = getScheduleTimeMergedDate(date.unix(), schedule.time);
             const validation = new ScheduleValidation(rules);
             const validationMessage = validation.validateTimeConflict('予定の時間', newScheduleTime, dateSchedules);

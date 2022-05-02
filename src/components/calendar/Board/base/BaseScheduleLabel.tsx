@@ -24,10 +24,15 @@ const BaseScheduleLabel: React.FC<BaseScheduleLabelProps> = ({ schedule, openSho
     const [collected, drag] = useDrag(() => ({
         type: DndItems.Schedule,
         item: schedule,
+        collect: (monitor) => {
+            return {
+                isDragging: monitor.isDragging(),
+            }
+        }
     }), [schedule]);
 
     return (
-        <div
+        <div style={{ display: collected.isDragging ? 'none' : 'block' }}
             ref={drag}
             onClick={e => openShowDialog(e, schedule)}
             className={classes.schedule}

@@ -34,9 +34,7 @@ const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, schedules
         const dateSchedules = getSchedulesByDate(schedules, key);
         setDateSchedules(dateSchedules);
     }, [dialog.isOpenDialog, dialog.schedule.date]);
-    console.log(dateSchedules);
     const validation = new ScheduleValidation(rules, dateSchedules);
-    console.log(dialog.schedule.time);
     const validationErrorMessages = validation.validate<AddScheduleDialogState['schedule']>(dialog.schedule);
     const isValid = validation.isEmptyErrorMessages(validationErrorMessages);
     return (

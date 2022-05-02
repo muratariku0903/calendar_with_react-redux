@@ -15,7 +15,7 @@ export type Schedule = {
     id: number;
     title: string;
     date: number;
-    // 今思ったけど時間はタイムスタンプじゃなくて純粋に時間として管理するべきだった
+    // 今思ったけど時間はタイムスタンプじゃなくて純粋に時間、分として管理するべきだった
     time: { start: number, end: number };
     location: string;
     description: string;

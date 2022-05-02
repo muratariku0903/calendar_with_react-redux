@@ -32,7 +32,7 @@ const UpdateScheduleDialog: React.FC<UpdateScheduleDialogProps> = ({ dialog, sch
         const key = createSchedulesKey(dialog.schedule.date);
         const dateSchedules = getSchedulesByDate(schedules, key).filter((schedule) => schedule.id != dialog.schedule.id);
         setDateSchedules(dateSchedules);
-    }, [dialog.schedule.date]);
+    }, [dialog.isOpenDialog, dialog.schedule.date]);
     const validation = new ScheduleValidation(rules, dateSchedules);
     const validationErrorMessages = validation.validate<UpdateScheduleDialogState['schedule']>(dialog.schedule);
     const isValid = validation.isEmptyErrorMessages(validationErrorMessages);

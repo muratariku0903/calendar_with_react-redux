@@ -54,27 +54,32 @@ const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDi
         accept: DndItems.Schedule,
         drop: (schedule: Schedule) => {
             const { start, end } = schedule.time;
+            const droppedCellTime = date.unix();
             const diff = end - start;
             const newSchedule = {
                 ...schedule,
-                date: date.unix(),
+                date: droppedCellTime,
                 time: {
-                    start: date.unix(),
-                    end: date.unix() + diff,
+                    start: droppedCellTime,
+                    end: droppedCellTime + diff,
                 }
             }
-            console.log(date);
             const key = createSchedulesKey(date.unix());
-            const dateSchedules = getSchedulesByDate(monthSchedules, key);
+            const dateSchedules = getSchedulesByDate(monthSchedules, key).filter(dateSchedule => dateSchedule.id != schedule.id);
             const validation = new ScheduleValidation(rules);
-            const validationMessage = validation.validateTimeConflict('予定の時間', newSchedule.time, dateSchedules);
+            const validationMessage = validation.validateTimeConflict('予定', newSchedule.time, dateSchedules);
             if (!validationMessage) {
                 updateSchedule(schedule.date, newSchedule);
             } else {
                 openSnackBar(validationMessage);
             }
         },
-        collect: (monitor) => ({ schedule: monitor.getItem(), isHovered: monitor.isOver() }),
+        collect: (monitor) => {
+            return {
+                schedule: monitor.getItem(),
+                isHovered: monitor.isOver()
+            }
+        },
     }), [date]);
     const classes = useStyles({
         borderTop: date.format('mm') == '00' ? '1px solid #ccc' : 'none',
