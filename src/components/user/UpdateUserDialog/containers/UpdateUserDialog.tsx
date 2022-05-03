@@ -12,6 +12,7 @@ import { isEmptyDialog } from '../../../../services/dialog';
 const mapStateToProps = (state: State): StateProps => {
     return {
         dialog: state.updateUserDialog,
+        loginUser: state.user.user,
     };
 };
 

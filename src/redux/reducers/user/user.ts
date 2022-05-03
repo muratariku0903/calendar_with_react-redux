@@ -5,6 +5,7 @@ import { ActionTypes } from '../../actionTypes';
 
 const initialState: UserState = {
     user: {
+        id: null,
         name: '',
         email: '',
         password: '',

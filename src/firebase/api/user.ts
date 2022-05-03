@@ -6,10 +6,10 @@ import { User } from '../../redux/stateTypes';
 const rootCollection = 'users';
 
 
-const addUser = async (id: string, user: User): Promise<void> => {
+const addUser = async (id: string, user: Omit<User, 'id'>): Promise<void> => {
     try {
         const ref = doc(db, rootCollection, id);
-        await setDoc(ref, user);
+        await setDoc(ref, { ...user, id });
         console.log('Add user to firestore');
     } catch (e) {
         throw (`Error adding user to firestore because:${e}`);
@@ -28,22 +28,38 @@ const fetchUser = async (id: string): Promise<User> => {
 };
 
 const fetchAllUsers = async (): Promise<User[]> => {
-    const auth = getAuth();
-    const ref = collection(db, rootCollection);
     const users: User[] = [];
-    signInAnonymously(auth)
+    const ref = collection(db, rootCollection);
+    try {
+        (await getDocs(ref)).docs.forEach(doc => {
+            users.push(doc.data() as User);
+        });
+        console.log('Fetch all users from firestore');
+    } catch (e) {
+        throw (`Error fetching all users from firestore because:${e}`);
+    }
+
+    return users;
+}
+
+const fetchAllUsersAnonymously = async (): Promise<User[]> => {
+    const ref = collection(db, rootCollection);
+    const auth = getAuth();
+    return await signInAnonymously(auth)
         .then(() => {
+            const users: User[] = [];
             getDocs(ref).then(res => {
                 res.docs.forEach(doc => {
                     users.push(doc.data() as User);
                 });
+
             });
             console.log('Fetch all users from firestore');
+            return users;
         })
         .catch(e => {
             throw (`Error fetching all users from firestore because:${e}`);
         });
-    return users;
 }
 
 const updateUser = async (id: string, user: User): Promise<void> => {
@@ -56,5 +72,10 @@ const updateUser = async (id: string, user: User): Promise<void> => {
     }
 };
 
+const getUid = (): string | null => {
+    const auth = getAuth();
+    return auth.currentUser ? auth.currentUser.uid : null;
+}
 
-export const userAPI = { addUser, fetchUser, updateUser, fetchAllUsers };
+
+export const userAPI = { addUser, fetchUser, updateUser, fetchAllUsers, fetchAllUsersAnonymously, getUid };

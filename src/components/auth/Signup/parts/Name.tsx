@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Grid, Input, Typography } from '@material-ui/core';
+import { Grid, Input } from '@material-ui/core';
 import { Person } from '@material-ui/icons';
 import { SignupDialogState } from '../../../../redux/stateTypes';
+import ErrorMessage from '../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 const spacer = { margin: '4px 0' };
 
@@ -33,11 +34,7 @@ const Name: React.FC<AddUserDialogNameProps> = ({ name, setDialog, errorMessage 
                     fullWidth
                     style={spacer}
                 />
-                <div>
-                    {isError && (
-                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
-                    )}
-                </div>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

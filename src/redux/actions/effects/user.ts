@@ -16,7 +16,7 @@ export const asyncSignup = (user: SignupDialogState['dialog']): UserThunkAction 
     try {
         const uid = await authAPI.signup(email, password);
         await userAPI.addUser(uid, user);
-        dispatch(setUser(user));
+        dispatch(setUser({ ...user, id: uid }));
         dispatch(setSnackBar('success', '新規登録しました'));
     } catch (e) {
         dispatch(setUserLoading(false));
@@ -58,8 +58,9 @@ export const asyncUpdate = (user: UpdateUserDialogState['user']): UserThunkActio
     const { email, password } = user;
     try {
         const uid = await authAPI.update(email, password);
-        await userAPI.updateUser(uid, user);
-        dispatch(setUser(user));
+        const updatedUser = { ...user, id: uid };
+        await userAPI.updateUser(uid, updatedUser);
+        dispatch(setUser(updatedUser));
         dispatch(setSnackBar('success', 'ユーザー情報を更新しました'));
     } catch (e) {
         dispatch(setUserLoading(false));

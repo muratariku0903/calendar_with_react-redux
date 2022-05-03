@@ -14,7 +14,8 @@ export const rules: AuthValidationRules = {
             regex: {
                 pattern: /.+@.+\..+/,
                 meaning: 'メールアドレス'
-            }
+            },
+            emailConflict: true,
         }
     },
     password: {

@@ -75,6 +75,7 @@ export type SideMenuState = {
 
 
 export type User = {
+    id: string | null;
     email: string;
     password: string;
     name: string;
@@ -86,7 +87,7 @@ export type UserState = {
 }
 
 export type UpdateUserDialogState = {
-    user: User;
+    user: Omit<User, 'id'>;
     isOpenDialog: boolean;
     isStartEdit: boolean;
     isShowAlert: boolean;
@@ -94,13 +95,13 @@ export type UpdateUserDialogState = {
 
 
 export type SignupDialogState = {
-    dialog: User;
+    dialog: Omit<User, 'id'>;
     isShowAlert: boolean;
 }
 
 
 export type LoginDialogState = {
-    dialog: Omit<User, 'name'>;
+    dialog: Omit<User, 'name' | 'id'>;
     isShowAlert: boolean;
 }
 

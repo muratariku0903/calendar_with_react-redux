@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Input, Typography } from '@material-ui/core';
 import { Lock as PasswordIcon } from '@material-ui/icons';
 import { LoginDialogState } from '../../../../redux/stateTypes';
+import ErrorMessage from '../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 const spacer = { margin: '4px 0' };
 
@@ -13,7 +14,7 @@ type OutterProps = {
 
 type LoginDialogMailProps = OutterProps;
 
-const Password: React.FC<LoginDialogMailProps> = ({ password, setDialog,errorMessage }) => {
+const Password: React.FC<LoginDialogMailProps> = ({ password, setDialog, errorMessage }) => {
     const [isStartInput, setIsStartInput] = useState<boolean>(false);
     const isError = isStartInput && Boolean(errorMessage);
     return (
@@ -32,11 +33,7 @@ const Password: React.FC<LoginDialogMailProps> = ({ password, setDialog,errorMes
                     fullWidth
                     style={spacer}
                 />
-                <div>
-                    {isError && (
-                        <Typography variant="caption" component="div" color="error">{errorMessage}</Typography>
-                    )}
-                </div>
+                {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>
         </Grid>
     );

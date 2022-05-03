@@ -1,14 +1,16 @@
 import React from 'react';
 import { DialogTitle, DialogContent, DialogActions, Divider, Button } from '@material-ui/core';
-import { UpdateUserDialogState } from '../../../redux/stateTypes';
+import { UpdateUserDialogState, User } from '../../../redux/stateTypes';
 import BaseInputDialog from '../../app/Dialog/BaseInputDialog/BaseInputDialog';
 import UpdateUserDialogForm from './parts/UpdateUserDialogForm';
 import { AuthValidation } from '../../../services/Validation/authValidation';
 import { rules } from '../validationRules';
+import { useFetchAllUsers } from '../../../hooks/user';
 
 
 export type StateProps = {
     dialog: UpdateUserDialogState;
+    loginUser: User;
 }
 
 export type DispatchProps = {
@@ -25,10 +27,12 @@ export type UpdateUserDialogProps = StateProps & DispatchProps & {
     isEmptyDialog: () => boolean;
 };
 
-const UpdateUserDialog: React.FC<UpdateUserDialogProps> = ({ dialog, closeDialog, setDialog, update, showAlert, closeAlert, isEmptyDialog }) => {
-    const validation = new AuthValidation(rules);
+const UpdateUserDialog: React.FC<UpdateUserDialogProps> = ({ loginUser, dialog, closeDialog, setDialog, update, showAlert, closeAlert, isEmptyDialog }) => {
+    const users = useFetchAllUsers().filter(user => user.id != loginUser.id);
+    const validation = new AuthValidation(rules, users);
     const validateErrorMessages = validation.validate<UpdateUserDialogState['user']>(dialog.user);
     const isValid = validation.isEmptyErrorMessages(validateErrorMessages);
+
     return (
         <BaseInputDialog
             isOpenDialog={dialog.isOpenDialog}

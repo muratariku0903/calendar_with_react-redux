@@ -90,9 +90,7 @@ const createCollectionRef = (uid: string, key: string) => {
 
 const createCollectionRefs = (uid: string, keys: string[]) => {
     const refs = [];
-    for (const key of keys) {
-        refs.push(createCollectionRef(uid, key));
-    }
+    for (const key of keys) refs.push(createCollectionRef(uid, key));
     return refs;
 }
 
