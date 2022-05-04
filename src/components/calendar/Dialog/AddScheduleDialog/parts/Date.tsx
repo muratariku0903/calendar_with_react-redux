@@ -1,8 +1,10 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { AccessTime } from "@material-ui/icons";
 import { DialogSchedule, Schedule } from '../../../../../redux/stateTypes';
+import { setSnackBar } from '../../../../../redux/actions/app/snackBar';
 import { getScheduleTimeMergedDate } from '../../../../../services/schedule';
 import dayjs from 'dayjs';
 
@@ -15,8 +17,13 @@ type AddScheduleDialogDateProps = {
 }
 
 const AddScheduleDialogDate: React.FC<AddScheduleDialogDateProps> = ({ date, time, setDialogForm }) => {
+    const dispatch = useDispatch();
     const setDialogFormDate = (date: number | undefined) => {
-        if (date) setDialogForm({ date, time: getScheduleTimeMergedDate(date, time) });
+        if (date) {
+            setDialogForm({ date, time: getScheduleTimeMergedDate(date, time) });
+        } else {
+            dispatch(setSnackBar('error', '正しい日付を選択してください'));
+        }
     }
     return (
         <Grid container spacing={1} alignItems="center" justifyContent="space-between">

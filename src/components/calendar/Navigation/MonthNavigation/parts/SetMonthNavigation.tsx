@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { IconButton, Tooltip } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CalendarState } from '../../../../../redux/stateTypes';
+import { setSnackBar } from '../../../../../redux/actions/app/snackBar';
 import { getMonth } from '../../../../../services/calendar';
 
 const useStyles = makeStyles(() => {
@@ -28,6 +30,7 @@ export type SetMonthNavigationProps = OutterProps;
 
 const SetMonthNavigation: React.FC<SetMonthNavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth }) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     return (
         <Fragment>
             <Tooltip title='前月' placement='bottom'>
@@ -37,7 +40,7 @@ const SetMonthNavigation: React.FC<SetMonthNavigationProps> = ({ year, month, se
             </Tooltip>
             <DatePicker
                 value={getMonth(year, month)}
-                onChange={d => d ? setMonth(d.year(), d.month() + 1, d.day(0).date()) : alert('正しい日付を入力してください')}
+                onChange={d => d ? setMonth(d.year(), d.month() + 1, d.day(0).date()) : dispatch(setSnackBar('error', '正しい日付を選択してください'))}
                 format="YYYY年 M月"
                 variant='inline'
                 animateYearScrolling
