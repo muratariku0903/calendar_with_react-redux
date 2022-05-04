@@ -1,5 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, User } from 'firebase/auth';
-
+import { AuthError } from '../types/authError';
 
 const signup = async (email: string, password: string): Promise<string> => {
     const auth = getAuth();
@@ -10,7 +10,7 @@ const signup = async (email: string, password: string): Promise<string> => {
             return signupUser.uid;
         })
         .catch(e => {
-            throw (`Fail signup because:${e.message}`);
+            throw ({ msg: `Fail signup because:${e.message}`, code: e.code } as AuthError);
         });
     return uid;
 };
@@ -24,7 +24,7 @@ const login = async (email: string, password: string): Promise<string> => {
             return loginUser.uid;
         })
         .catch(e => {
-            throw (`Fail login because:${e.message}`);
+            throw ({ msg: `Fail login because:${e.message}`, code: e.code } as AuthError);
         });
     return uid;
 };
@@ -36,7 +36,7 @@ const logout = async (): Promise<void> => {
             console.log('Logout');
         })
         .catch(e => {
-            throw (`Fail logout because:${e.message}`);
+            throw ({ msg: `Fail logout because:${e.message}`, code: e.code } as AuthError);
         });
 };
 
