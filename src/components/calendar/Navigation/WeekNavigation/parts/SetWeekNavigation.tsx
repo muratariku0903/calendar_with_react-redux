@@ -1,17 +1,7 @@
 import React, { Fragment } from 'react';
 import { IconButton, Tooltip, Typography } from '@material-ui/core';
 import { ArrowBackIos, ArrowForwardIos } from "@material-ui/icons";
-import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { CalendarState } from '../../../../../redux/stateTypes';
-
-const useStyles = makeStyles(() => {
-    return createStyles({
-        textField: {
-            color: 'white',
-            cursor: 'pointer',
-        }
-    });
-});
 
 
 type OutterProps = {
@@ -24,7 +14,6 @@ type OutterProps = {
 export type SetWeekNavigationProps = OutterProps;
 
 const SetWeekNavigation: React.FC<SetWeekNavigationProps> = ({ year, month, setPrevWeek, setNextWeek }) => {
-    const classes = useStyles();
     return (
         <Fragment>
             <Tooltip title='前週' placement='bottom'>

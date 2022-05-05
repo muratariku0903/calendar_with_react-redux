@@ -8,7 +8,8 @@ import { SchedulesActions } from "../../../../../redux/actions/calendar/schedule
 import { HolidaysActions } from '../../../../../redux/actions/calendar/holidays';
 import { asyncFetchSchedules } from '../../../../../redux/actions/effects/schedules';
 import { asyncFetchHolidays } from '../../../../../redux/actions/effects/holidays';
-import dayjs from 'dayjs';
+import { getDate } from "../../../../../services/calendar";
+
 
 const mapStateToProps = (store: State): StateProps => {
     return {
@@ -33,13 +34,12 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): WeekN
         ...stateProps,
         ...dispatchProps,
         setPrevWeek: () => {
-            const prevFirstDateOfWeek = dayjs.unix(stateProps.firstDateOfWeek).subtract(7, 'day');
-            dispatchProps.setWeek(prevFirstDateOfWeek.year(), prevFirstDateOfWeek.month() + 1, prevFirstDateOfWeek.unix());
+            const prevFirstDateOfWeek = getDate(stateProps.year, stateProps.month, stateProps.firstDateOfWeek).subtract(7, 'day');
+            dispatchProps.setWeek(prevFirstDateOfWeek.year(), prevFirstDateOfWeek.month() + 1, prevFirstDateOfWeek.date());
         },
         setNextWeek: () => {
-            const nextFirstDateOfWeek = dayjs.unix(stateProps.firstDateOfWeek).add(7, 'day');
-            console.log(nextFirstDateOfWeek);
-            dispatchProps.setWeek(nextFirstDateOfWeek.year(), nextFirstDateOfWeek.month() + 1, nextFirstDateOfWeek.unix());
+            const nextFirstDateOfWeek = getDate(stateProps.year, stateProps.month, stateProps.firstDateOfWeek).add(7, 'day');
+            dispatchProps.setWeek(nextFirstDateOfWeek.year(), nextFirstDateOfWeek.month() + 1, nextFirstDateOfWeek.date());
         },
     }
 }

@@ -33,11 +33,11 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Month
         ...dispatchProps,
         setPrevMonth: () => {
             const prevMonth = getPrevMonth(stateProps.year, stateProps.month);
-            dispatchProps.setMonth(prevMonth.year(), prevMonth.month() + 1, prevMonth.day(0).unix());
+            dispatchProps.setMonth(prevMonth.year(), prevMonth.month() + 1, prevMonth.day(0).date());
         },
         setNextMonth: () => {
             const nextMonth = getNextMonth(stateProps.year, stateProps.month);
-            dispatchProps.setMonth(nextMonth.year(), nextMonth.month() + 1, nextMonth.day(0).unix());
+            dispatchProps.setMonth(nextMonth.year(), nextMonth.month() + 1, nextMonth.day(0).date());
         },
     }
 }

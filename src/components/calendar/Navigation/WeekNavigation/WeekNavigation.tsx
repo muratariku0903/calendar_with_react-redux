@@ -22,7 +22,11 @@ export type WeekNavigationProps = StateProps & DispatchProps & {
 const WeekNavigation: React.FC<WeekNavigationProps> = ({ year, month, setPrevWeek, setNextWeek }) => {
     return (
         <BaseNavigation>
-            <SetWeekNavigation year={year} month={month} setPrevWeek={setPrevWeek} setNextWeek={setNextWeek} />
+            <SetWeekNavigation
+                year={year}
+                month={month}
+                setPrevWeek={setPrevWeek}
+                setNextWeek={setNextWeek} />
         </BaseNavigation>
     );
 }

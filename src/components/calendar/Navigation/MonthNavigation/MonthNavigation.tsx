@@ -21,7 +21,12 @@ export type MonthNavigationProps = StateProps & DispatchProps & {
 const MonthNavigation: React.FC<MonthNavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth }) => {
     return (
         <BaseNavigation>
-            <SetMonthNavigation year={year} month={month} setMonth={setMonth} setPrevMonth={setPrevMonth} setNextMonth={setNextMonth} />
+            <SetMonthNavigation
+                year={year}
+                month={month}
+                setMonth={setMonth}
+                setPrevMonth={setPrevMonth}
+                setNextMonth={setNextMonth} />
         </BaseNavigation>
     );
 }
