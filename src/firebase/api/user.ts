@@ -52,7 +52,6 @@ const fetchAllUsersAnonymously = async (): Promise<User[]> => {
                 res.docs.forEach(doc => {
                     users.push(doc.data() as User);
                 });
-
             });
             console.log('Fetch all users from firestore');
             return users;

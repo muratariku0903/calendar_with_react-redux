@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { DialogContent, DialogActions, Button } from '@material-ui/core';
-import { AddScheduleDialogState, DialogSchedule, Schedule, SchedulesState } from '../../../../redux/stateTypes';
+import { AddScheduleDialogState, DialogSchedule, SchedulesState } from '../../../../redux/stateTypes';
 import BaseInputDialog from '../../../app/Dialog/BaseInputDialog/BaseInputDialog';
 import AddScheduleDialogForm from './parts/Form';
-import { createSchedulesKey, getSchedulesByDate } from "../../../../services/schedules";
 import { ScheduleValidation } from '../../../../services/Validation/scheduleValidation';
 import { rules } from '../../validationRules';
+import { useGetDateSchedules } from '../../../../hooks/schedules';
 
 
 export type StateProps = {
@@ -28,15 +28,11 @@ export type AddScheduleDialogProps = StateProps & DispatchProps & {
 }
 
 const AddScheduleDialog: React.FC<AddScheduleDialogProps> = ({ dialog, schedules, setDialogForm, addSchedule, isEmptyDialog, closeDialog, showAlert, closeAlert }) => {
-    const [dateSchedules, setDateSchedules] = useState<Schedule[]>([]);
-    useEffect(() => {
-        const key = createSchedulesKey(dialog.schedule.date);
-        const dateSchedules = getSchedulesByDate(schedules, key);
-        setDateSchedules(dateSchedules);
-    }, [dialog.isOpenDialog, dialog.schedule.date]);
+    const dateSchedules = useGetDateSchedules([dialog.isOpenDialog, dialog.schedule.date], schedules, dialog.schedule.date);
     const validation = new ScheduleValidation(rules, dateSchedules);
     const validationErrorMessages = validation.validate<AddScheduleDialogState['schedule']>(dialog.schedule);
     const isValid = validation.isEmptyErrorMessages(validationErrorMessages);
+    
     return (
         <BaseInputDialog
             isOpenDialog={dialog.isOpenDialog}
