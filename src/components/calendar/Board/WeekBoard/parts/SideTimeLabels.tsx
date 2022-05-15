@@ -18,15 +18,16 @@ const useStyles = makeStyles(() => {
 });
 
 
-const SideTimeLabels: React.FC = () => {
+const SideTimeLabels: React.FC = React.memo(() => {
     const classes = useStyles();
     const labels: JSX.Element[] = [];
     for (let label = 0; label < 24; label++) labels.push(<div key={label} className={classes.timeLabel}>{label}:00</div>);
+
     return (
         <div className={classes.timeLabelBox}>
             {labels}
         </div>
     );
-};
+});
 
 export default SideTimeLabels;

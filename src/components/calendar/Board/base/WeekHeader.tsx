@@ -12,9 +12,10 @@ const useStyles = makeStyles(() => {
 });
 
 
-const WeekHeader = () => {
+const WeekHeader = (): JSX.Element[] => {
     const classes = useStyles();
-    const dayOfTheWeeks = weeks.map((week, idx) => {
+    
+    return weeks.map((week, idx) => {
         return (
             <li key={idx}>
                 <Typography
@@ -28,7 +29,6 @@ const WeekHeader = () => {
             </li>
         );
     });
-    return dayOfTheWeeks
 };
 
 export default WeekHeader;

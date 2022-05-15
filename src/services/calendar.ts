@@ -67,6 +67,14 @@ export const getDateCntOfMonth = (year: number, month: number): number => {
     return getMonth(year, month).endOf('month').date();
 }
 
+export const getDatesOfWeek = (year: number, month: number, firstDateOfWeek: number): Dayjs[] => {
+    let firstDate = getDate(year, month, firstDateOfWeek);
+    const dates: Dayjs[] = [];
+    for (let i = 0; i < 7; i++) dates.push(firstDate.add(i, 'd'));
+
+    return dates;
+}
+
 export const getTotalCalendarCellCnt = (date: Dayjs): number => {
     const prevMonthDateCnt = date.day();
     const currentMonthDateCnt = date.endOf('month').date();

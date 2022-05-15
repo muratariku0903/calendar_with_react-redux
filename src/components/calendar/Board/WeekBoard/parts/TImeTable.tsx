@@ -1,43 +1,67 @@
-import { Typography } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core';
-import { CalendarDate } from '../../../../../redux/selectors';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { State, Schedule } from '../../../../../redux/stateTypes';
+import { GridList } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/styles';
 import TimeCol from './TimeCol';
-import HolidayLabel from '../../base/HolidayLabel';
-
+import { createSchedulesKey, getSchedulesByDate } from '../../../../../services/schedules';
+import dayjs, { Dayjs } from 'dayjs';
 
 const useStyles = makeStyles(() => {
     return createStyles({
-        timeTable: {
+        week: {
             borderRight: '1px solid #ccc',
-        },
-        holidayLabelBox: {
-            height: '3.5vh',
-        },
+            paddingTop: '10px',
+        }
     });
 });
 
-const TimeTable = (dates: CalendarDate[]): JSX.Element[] => {
-    const classes = useStyles();
-    const timeTable = dates.map((calendarDate, idx) => {
-        return (
-            <li key={idx}>
-                <Typography
-                    align="center"
-                    component="div"
-                    variant="caption"
-                    color="textSecondary"
-                    className={classes.timeTable}
-                >
-                    {calendarDate.date.date()}
-                </Typography>
-                <div className={classes.holidayLabelBox}>
-                    {calendarDate.holiday && (<HolidayLabel name={calendarDate.holiday.name} margin='0' />)}
-                </div>
-                {TimeCol(calendarDate)}
-            </li>
-        );
-    });
-    return timeTable;
+export type DispatchProps = {
+    openAddDialog: (dayOfTheWeek: number, startHour: number, startMinute: number) => void;
+    updateSchedule: (schedule: Schedule, droppedCellDayOfTheWeek: number, droppedCellStartHour: number, droppedCellStartMinute: number) => void;
 }
+
+export type OutterProps = {
+    dates: Dayjs[];
+}
+
+export type TimeTableProps = DispatchProps & OutterProps;
+
+const TimeTable: React.FC<TimeTableProps> = React.memo(({ dates, openAddDialog, updateSchedule }) => {
+    console.log('timeTable');
+    const classes = useStyles();
+    const monthSchedules = useSelector((state: State) => state.schedules.monthSchedules);
+
+    const table: JSX.Element[] = [];
+    for (const date of dates) {
+        const dateKey = createSchedulesKey(date.unix());
+        const schedules = getSchedulesByDate(monthSchedules, dateKey);
+        const dayOfTheWeek = date.day();
+        const dateSchedules: Record<string, Schedule> = {};
+        for (const schedule of schedules) {
+            const scheduleTimeStart = schedule.time.start;
+            const scheduleStartHour = dayjs.unix(scheduleTimeStart).hour();
+            const scheduleStartMinute = dayjs.unix(scheduleTimeStart).minute();
+            const timeKey = `${scheduleStartHour}:${scheduleStartMinute}`;
+            dateSchedules[timeKey] = schedule;
+        }
+
+        table.push(
+            <TimeCol
+                dayOfTheWeek={dayOfTheWeek}
+                dateSchedules={dateSchedules}
+                openAddDialog={openAddDialog}
+                updateSchedule={updateSchedule}
+            />
+        );
+    }
+
+
+    return (
+        <GridList className={classes.week} cols={7} spacing={0} cellHeight="auto">
+            {table}
+        </GridList>
+    );
+});
 
 export default TimeTable;

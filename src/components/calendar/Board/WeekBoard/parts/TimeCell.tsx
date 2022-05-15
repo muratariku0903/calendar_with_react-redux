@@ -1,78 +1,47 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { makeStyles, createStyles } from '@material-ui/core';
-import { State, Schedule, SnackBarState } from '../../../../../redux/stateTypes';
+import { makeStyles, createStyles } from '@material-ui/styles';
+import { Schedule } from '../../../../../redux/stateTypes';
 import ScheduleLabel from './ScheduleLabel';
 import { DndItems } from '../../dnd/constants';
 import { cellHeight } from '../constants';
-import { getSchedulesByDate, createSchedulesKey } from '../../../../../services/schedules';
-import { ScheduleValidation } from '../../../../../services/Validation/scheduleValidation';
-import { rules } from '../../../validationRules';
-import { Dayjs } from 'dayjs';
 
-type Props = {
+type TimeCellStyleProps = {
     borderTop: string;
-    height: string;
     backgroundColor: string;
-};
+}
 
 const useStyles = makeStyles(() => {
     return createStyles({
         gridCell: {
             position: 'relative',
-            height: (props: Props) => props.height,
-            borderTop: (props: Props) => props.borderTop,
+            height: cellHeight('quarter'),
+            borderTop: (props: TimeCellStyleProps) => props.borderTop,
             borderRight: '1px solid #ccc',
             textAlign: 'center',
-            backgroundColor: (props: Props) => props.backgroundColor,
+            backgroundColor: (props: TimeCellStyleProps) => props.backgroundColor,
         },
     });
 });
 
-export type TimeItem = {
-    date: Dayjs;
+type OutterProps = {
+    dayOfTheWeek: number;
+    time: { hour: number, minute: number };
     schedule: Schedule | null;
-};
-
-export type DispatchProps = {
-    openAddDialog: (time: Schedule['time']) => void;
-    updateSchedule: (prevDate: Schedule['date'], schedule: Schedule) => void;
-    openSnackBar: (errorMessage: SnackBarState['message']) => void;
+    openAddDialog: (dayOfTheWeek: number, startHour: number, startMinute: number) => void;
+    updateSchedule: (schedule: Schedule, droppedCellDayOfTheWeek: number, droppedCellStartHour: number, droppedCellStartMinute: number) => void;
 }
 
-export type OutterProps = {
-    timeItem: TimeItem;
-}
+type TimeCellProps = OutterProps;
 
-type TimeCellProps = DispatchProps & OutterProps;
 
-const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDialog, openSnackBar }) => {
-    const monthSchedules = useSelector((state: State) => state.schedules.monthSchedules);
-    const { date, schedule } = timeItem;
+const TimeCell: React.FC<TimeCellProps> = React.memo(({ dayOfTheWeek, time, schedule, openAddDialog, updateSchedule }) => {
+    console.log('timeCell');
+
     const [collected, drop] = useDrop(() => ({
         accept: DndItems.Schedule,
-        drop: (schedule: Schedule) => {
-            const { start, end } = schedule.time;
-            const droppedCellTime = date.unix();
-            const diff = end - start;
-            const newSchedule = {
-                ...schedule,
-                date: droppedCellTime,
-                time: {
-                    start: droppedCellTime,
-                    end: droppedCellTime + diff,
-                }
-            }
-            const key = createSchedulesKey(date.unix());
-            const dateSchedules = getSchedulesByDate(monthSchedules, key).filter(dateSchedule => dateSchedule.id != schedule.id);
-            const validation = new ScheduleValidation(rules);
-            const validationMessage = validation.validateTimeConflict('予定', newSchedule.time, dateSchedules);
-            if (!validationMessage) {
-                updateSchedule(schedule.date, newSchedule);
-            } else {
-                openSnackBar(validationMessage);
-            }
+        drop: (droppedSchedule: Schedule) => {
+            updateSchedule(droppedSchedule, dayOfTheWeek, time.hour, time.minute);
         },
         collect: (monitor) => {
             return {
@@ -80,22 +49,23 @@ const TimeCell: React.FC<TimeCellProps> = ({ timeItem, updateSchedule, openAddDi
                 isHovered: monitor.isOver()
             }
         },
-    }), [date]);
+    }), [dayOfTheWeek, time]);
+
     const classes = useStyles({
-        borderTop: date.format('mm') == '00' ? '1px solid #ccc' : 'none',
-        height: cellHeight('quarter'),
+        borderTop: time.minute == 0 ? '1px solid #ccc' : 'none',
         backgroundColor: collected.isHovered ? 'gray' : 'white',
     });
+
 
     return (
         <div
             ref={drop}
             className={classes.gridCell}
-            onClick={() => openAddDialog({ start: date.unix(), end: date.add(1, 'h').unix() })}
+            onClick={() => openAddDialog(dayOfTheWeek, time.hour, time.minute)}
         >
             {schedule && (<ScheduleLabel schedule={schedule} />)}
         </div>
     );
-}
+});
 
 export default TimeCell;

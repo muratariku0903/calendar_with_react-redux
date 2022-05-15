@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DialogContent, DialogActions, Button } from '@material-ui/core';
 import { Schedule, UpdateScheduleDialogState, SchedulesState } from '../../../../redux/stateTypes';
 import BaseInputDialog from '../../../app/Dialog/BaseInputDialog/BaseInputDialog';
 import UpdateScheduleDialogForm from './parts/Form';
 import { ScheduleValidation } from '../../../../services/Validation/scheduleValidation';
 import { rules } from '../../validationRules';
-import { getSchedulesByDate, createSchedulesKey } from '../../../../services/schedules';
 import { useGetDateSchedules } from '../../../../hooks/schedules';
 
 export type StateProps = {
@@ -32,7 +31,7 @@ const UpdateScheduleDialog: React.FC<UpdateScheduleDialogProps> = ({ dialog, sch
     const validation = new ScheduleValidation(rules, dateSchedules.filter((schedule) => schedule.id != dialog.schedule.id));
     const validationErrorMessages = validation.validate<UpdateScheduleDialogState['schedule']>(dialog.schedule);
     const isValid = validation.isEmptyErrorMessages(validationErrorMessages);
-    
+
     return (
         <BaseInputDialog
             isOpenDialog={dialog.isOpenDialog}

@@ -19,16 +19,18 @@ export type ScheduleValidationRules = {
 type Time = { start: number, end: number };
 
 export class ScheduleValidation extends BaseValidation {
-    private validationRules: ScheduleValidationRules;
+    private validationRules?: ScheduleValidationRules;
     private schedules?: Schedule[];
 
-    constructor(validationRules: ScheduleValidationRules, schedules?: Schedule[]) {
+    constructor(validationRules?: ScheduleValidationRules, schedules?: Schedule[]) {
         super();
         this.validationRules = validationRules;
         this.schedules = schedules;
     }
 
     public validate<T>(items: T): ErrorMessages {
+        if (!this.validationRules) throw ('バリデーションルールを設定してください');
+
         for (const key in items) {
             if (!(key in this.validationRules)) continue;
 

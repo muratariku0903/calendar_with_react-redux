@@ -1,26 +1,53 @@
-import { CalendarDate } from '../../../../../redux/selectors';
-import TimeCell from '../containers/TimeCell';
-import dayjs from 'dayjs';
-import { isSameTime } from '../../../../../services/calendar';
-import { TimeItem } from '../parts/TimeCell';
+import React from 'react';
+import { makeStyles, createStyles } from '@material-ui/styles';
+import { GridListTile } from '@material-ui/core';
+import { Schedule } from '../../../../../redux/stateTypes';
+import TimeCell from './TimeCell';
 
 
-const TimeCol = (calendarDate: CalendarDate): JSX.Element[] => {
-    const { date, dateSchedules } = calendarDate;
-    const timeCol: JSX.Element[] = [];
-    let timeDate = dayjs(`${date.year()}-${date.month() + 1}-${date.date()} 00:00`);
-    for (let i = 0; i < 96; i++) {
-        const timeItem: TimeItem = { date: timeDate, schedule: null };
-        for (const schedule of dateSchedules) {
-            if (isSameTime(schedule.time.start, timeDate.unix())) {
-                timeItem.schedule = schedule;
-            }
-        }
-        timeCol.push(<TimeCell key={timeDate.unix()} timeItem={timeItem} />);
-        timeDate = timeDate.add(15, 'minute');
-    };
+const useStyles = makeStyles(() => {
+    return createStyles({
+        timeCol: {
+            width: 'calc(100% / 7)',
+        },
+    });
+});
 
-    return timeCol;
+type OutterProps = {
+    dayOfTheWeek: number;
+    dateSchedules: Record<string, Schedule>;
+    openAddDialog: (dayOfTheWeek: number, startHour: number, startMinute: number) => void;
+    updateSchedule: (schedule: Schedule, droppedCellDayOfTheWeek: number, droppedCellStartHour: number, droppedCellStartMinute: number) => void;
 }
+
+type TimeColProps = OutterProps;
+
+
+const TimeCol: React.FC<TimeColProps> = React.memo(({ dayOfTheWeek, dateSchedules, openAddDialog, updateSchedule }) => {
+    console.log('timeCol');
+    const classes = useStyles();
+    const timeCol: JSX.Element[] = [];
+    for (let m = 0; m < 1440; m += 15) { // O(96)
+        const hour = ~~(m / 60);
+        const minute = m % 60;
+        const timeKey = `${hour}:${minute}`;
+        const schedule = timeKey in dateSchedules ? dateSchedules[timeKey] : null;
+        timeCol.push(
+            <TimeCell
+                dayOfTheWeek={dayOfTheWeek}
+                time={{ hour, minute }}
+                schedule={schedule}
+                openAddDialog={openAddDialog}
+                updateSchedule={updateSchedule}
+            />
+        );
+    }
+
+    return (
+        <GridListTile className={classes.timeCol}>
+            {timeCol}
+        </GridListTile>
+    );
+});
 
 export default TimeCol;

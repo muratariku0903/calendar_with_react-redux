@@ -22,7 +22,6 @@ export type ShowScheduleDialogProps = StateProps & DispatchProps & {
 }
 
 const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDialog, deleteSchedule, openUpdateScheduleDialog }) => {
-    console.log(dialog.schedule);
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>

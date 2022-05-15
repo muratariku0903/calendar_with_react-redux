@@ -1,11 +1,16 @@
 import React from 'react';
-import { GridList, Grid } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { useGetWeekDates } from '../../../../hooks/calendar';
+import { Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core';
-import { CalendarDate } from '../../../../redux/selectors';
+import { State } from '../../../../redux/stateTypes';
 import BaseBoard from '../base/containers/BaseBoard';
-import WeekHeader from '../base/WeekHeader';
-import TimeTable from './parts/TImeTable';
 import SideTimeLabels from './parts/SideTimeLabels';
+import WeekHeader from './parts//WeekHeader';
+import DateHeader from './parts/DateHeader';
+import TimeTable from './containers/TimeTable';
+import { weeks } from '../../../../constants';
+
 
 
 const useStyles = makeStyles(() => {
@@ -17,15 +22,15 @@ const useStyles = makeStyles(() => {
     });
 });
 
-export type StateProps = {
-    dates: CalendarDate[];
-}
-
-export type WeekBoardProps = StateProps;
+type WeekBoardProps = {};
 
 
-const WeekBoard: React.FC<WeekBoardProps> = ({ dates }) => {
+const WeekBoard: React.FC<WeekBoardProps> = () => {
     const classes = useStyles();
+    const { year, month, firstDateOfWeek } = useSelector((state: State) => state.calendar);
+    const weekDates = useGetWeekDates(year, month, firstDateOfWeek);
+
+
     return (
         <BaseBoard>
             <Grid container>
@@ -33,10 +38,9 @@ const WeekBoard: React.FC<WeekBoardProps> = ({ dates }) => {
                     <SideTimeLabels />
                 </Grid>
                 <Grid item xs={11}>
-                    <GridList className={classes.grid} cols={7} spacing={0} cellHeight="auto">
-                        {WeekHeader()}
-                        {TimeTable(dates)}
-                    </GridList>
+                    <WeekHeader weeks={weeks} />
+                    <DateHeader dates={weekDates} />
+                    <TimeTable dates={weekDates} />
                 </Grid>
             </Grid>
         </BaseBoard>
