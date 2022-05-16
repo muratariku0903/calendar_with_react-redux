@@ -13,6 +13,7 @@
 /src/firebase/config.ts
 /src/sample
 /src/api/GoogleCalendarApi/config.ts
+/firebase-debug.log
 
 # misc
 .DS_Store
