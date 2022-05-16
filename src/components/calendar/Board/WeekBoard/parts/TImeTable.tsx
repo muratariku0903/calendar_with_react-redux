@@ -9,9 +9,8 @@ import dayjs, { Dayjs } from 'dayjs';
 
 const useStyles = makeStyles(() => {
     return createStyles({
-        week: {
+        table: {
             borderRight: '1px solid #ccc',
-            paddingTop: '10px',
         }
     });
 });
@@ -58,7 +57,7 @@ const TimeTable: React.FC<TimeTableProps> = React.memo(({ dates, openAddDialog, 
 
 
     return (
-        <GridList className={classes.week} cols={7} spacing={0} cellHeight="auto">
+        <GridList cols={7} spacing={0} cellHeight="auto" className={classes.table}>
             {table}
         </GridList>
     );

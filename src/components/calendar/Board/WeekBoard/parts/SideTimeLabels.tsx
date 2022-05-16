@@ -6,7 +6,8 @@ import { cellHeight } from '../constants';
 const useStyles = makeStyles(() => {
     return createStyles({
         timeLabelBox: {
-            marginTop: cellHeight('all'),
+            paddingTop: cellHeight('all'),
+            borderRight: '1px solid #ccc',
         },
         timeLabel: {
             marginTop: '1px',

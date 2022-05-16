@@ -7,7 +7,6 @@ const useStyles = makeStyles(() => {
     return createStyles({
         week: {
             borderRight: '1px solid #ccc',
-            paddingTop: '10px',
         }
     });
 });
