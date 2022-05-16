@@ -5,6 +5,7 @@ import { State, SignupDialogState, LoginDialogState, UpdateUserDialogState } fro
 import { setSnackBar } from '../app/snackBar';
 import { userAPI } from '../../../firebase/api/user';
 import { authAPI } from '../../../firebase/api/auth';
+import { localStorageApi } from '../../../api/LocalStorage/CalendarApi';
 import { isAuthError } from '../../../firebase/types/authError';
 import { translateAuthErrorMessage } from '../../../firebase/services/translate';
 
@@ -52,6 +53,7 @@ export const asyncLogout = (): UserThunkAction => async (dispatch: Dispatch<Acti
         await authAPI.logout();
         dispatch(resetUser());
         dispatch(setSnackBar('success', 'ログアウトしました'));
+        localStorageApi.deleteCalendar();
     } catch (e) {
         const isAuthErrorObj = isAuthError(e);
         dispatch(setSnackBar('error', `ログアウトに失敗しました ${isAuthErrorObj ? translateAuthErrorMessage(e.code) : ''}`));
