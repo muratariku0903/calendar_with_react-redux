@@ -25,26 +25,28 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>
+            <Tooltip title='編集' placement='bottom'>
+                    <IconButton onClick={(e) => openUpdateScheduleDialog(e, dialog.schedule)} size="small">
+                        <Edit />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title='削除' placement='bottom'>
+                    <IconButton onClick={deleteSchedule} size="small">
+                        <DeleteOutlineOutlined />
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title='閉じる' placement='bottom'>
                     <IconButton onClick={closeDialog} size="small">
                         <Close />
                     </IconButton>
                 </Tooltip>
             </DialogActions>
-            <DialogActions>
-                <Tooltip title='削除' placement='bottom'>
-                    <IconButton onClick={deleteSchedule} size="small">
-                        <DeleteOutlineOutlined />
-                    </IconButton>
-                </Tooltip>
+            {/* <DialogActions>
+                
             </DialogActions>
             <DialogActions>
-                <Tooltip title='編集' placement='bottom'>
-                    <IconButton onClick={(e) => openUpdateScheduleDialog(e, dialog.schedule)} size="small">
-                        <Edit />
-                    </IconButton>
-                </Tooltip>
-            </DialogActions>
+                
+            </DialogActions> */}
             <DialogContent>
                 {dialog.schedule && (
                     <Fragment>

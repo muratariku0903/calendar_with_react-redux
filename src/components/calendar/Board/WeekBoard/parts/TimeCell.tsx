@@ -36,8 +36,6 @@ type TimeCellProps = OutterProps;
 
 
 const TimeCell: React.FC<TimeCellProps> = React.memo(({ dayOfTheWeek, time, schedule, openAddDialog, updateSchedule }) => {
-    console.log('timeCell');
-
     const [collected, drop] = useDrop(() => ({
         accept: DndItems.Schedule,
         drop: (droppedSchedule: Schedule) => {
