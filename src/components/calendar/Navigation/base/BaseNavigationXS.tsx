@@ -1,16 +1,22 @@
 import React, { ReactNode } from 'react';
-import { IconButton, AppBar, Toolbar, Typography, withStyles, Tooltip, Button } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { IconButton, AppBar, Toolbar, withStyles, Tooltip } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { AccountCircle } from "@material-ui/icons";
 import DehazeIcon from '@material-ui/icons/Dehaze';
-import { CalendarState, SideMenuState, UserState } from '../../../../redux/stateTypes';
+import { State, CalendarState } from '../../../../redux/stateTypes';
 import BoardTypeMenu from './parts/BoardTypeMenu';
-import UserMenu from './parts/UserMenu';
 import { sideMenuWidth } from '../../../../constants';
+import { openSideMenu } from '../../../../redux/actions/calendar/sideMenu';
+import { setType } from '../../../../redux/actions/calendar/calendar';
 
 
 const useStyles = makeStyles((theme: Theme) => {
     return createStyles({
         navigation: {
+            display: 'flex',
+            justifyContent: 'space-between',
             width: '100%',
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
@@ -18,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => {
             }),
         },
         navigationShift: {
-            width: `calc(100% - ${sideMenuWidth}px)`,
+            width: 0,
             marginLeft: sideMenuWidth,
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.easeOut,
@@ -35,34 +41,23 @@ const StyledToolbar = withStyles({
     root: { padding: '0' }
 })(Toolbar);
 
-const StyledTypography = withStyles({
-    root: {
-        margin: '0 30px 0 10px',
-        color: 'white',
-    }
-})(Typography);
-
-export type StateProps = {
-    boardType: CalendarState['type'];
-    isSideMenuOpen: SideMenuState['isOpen'];
-    user: UserState;
-}
-
-export type DispatchProps = {
-    sideMenuOpen: () => void;
-    logout: () => void;
-    setBoardType: (type: CalendarState['type']) => void;
-}
 
 export type ChildrenProps = {
     children: ReactNode;
 }
 
-export type BaseNavigationProps = StateProps & DispatchProps & ChildrenProps;
+export type BaseNavigationXSProps = ChildrenProps;
 
 
-const BaseNavigation: React.FC<BaseNavigationProps> = ({ boardType, isSideMenuOpen, sideMenuOpen, logout, setBoardType, children }) => {
+const BaseNavigationXS: React.FC<BaseNavigationXSProps> = ({ children }) => {
+    const navigate = useNavigate();
     const classes = useStyles();
+    const boardType = useSelector((state: State) => state.calendar.type);
+    const isSideMenuOpen = useSelector((state: State) => state.sideMenu.isOpen);
+    const dispatch = useDispatch();
+    const sideMenuOpen = () => dispatch(openSideMenu());
+    const setBoardType = (type: CalendarState['type']) => dispatch(setType(type));
+
     return (
         <AppBar position='static'>
             <StyledToolbar className={isSideMenuOpen ? classes.navigationShift : classes.navigation}>
@@ -71,15 +66,14 @@ const BaseNavigation: React.FC<BaseNavigationProps> = ({ boardType, isSideMenuOp
                         <DehazeIcon style={{ color: isSideMenuOpen ? 'gray' : 'white' }} />
                     </IconButton>
                 </Tooltip>
-                <StyledTypography variant="h6">カレンダー</StyledTypography>
                 {children}
-                <div className={classes.grow} />
                 <BoardTypeMenu boardType={boardType} setBoardType={setBoardType} />
-                <UserMenu />
-                <Button color="inherit" onClick={logout}>ログアウト</Button>
+                <IconButton onClick={() => navigate('user')}>
+                    <AccountCircle style={{ color: 'white' }} />
+                </IconButton>
             </StyledToolbar>
         </AppBar>
     );
 }
 
-export default BaseNavigation;
+export default BaseNavigationXS;

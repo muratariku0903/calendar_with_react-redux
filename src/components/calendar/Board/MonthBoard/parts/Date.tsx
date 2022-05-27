@@ -32,6 +32,9 @@ const useStyles = makeStyles(() => {
         schedules: {
             overflow: 'scroll',
             height: 'calc(18vh - 40px)',
+            '&::-webkit-scrollbar': {
+                display: 'none',
+            }
         },
     });
 });

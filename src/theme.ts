@@ -1,6 +1,5 @@
 import { MuiPickersOverrides } from '@material-ui/pickers/typings/overrides';
 import { createTheme } from '@material-ui/core/styles';
-import { sideMenuWidth } from './constants';
 
 
 type overridesNameToClassKey = {
@@ -8,22 +7,11 @@ type overridesNameToClassKey = {
 };
 
 type CustomType = {
-    MuiPickersStaticWrapper: {
-        staticWrapperRoot: {
-            minWidth?: string;
-        }
-    };
     MuiPickersBasePicker: {
         pickerView: {
             maxWidth?: string;
         };
     };
-    MuiPickersDay: {
-        day: {
-            width?: string;
-            height?: string;
-        }
-    }
 };
 
 declare module '@material-ui/core/styles/overrides' {
@@ -33,22 +21,10 @@ declare module '@material-ui/core/styles/overrides' {
 
 export const theme = createTheme({
     overrides: {
-        MuiPickersStaticWrapper: {
-            staticWrapperRoot: {
-                minWidth: `${sideMenuWidth}px`,
-            }
-        },
         MuiPickersBasePicker: {
             pickerView: {
-                maxWidth: `${sideMenuWidth}px`,
-                minWidth: `${sideMenuWidth}px`,
+                margin: '0 auto'
             },
         },
-        MuiPickersDay: {
-            day: {
-                width: `${sideMenuWidth / 8}px`,
-                height: `${sideMenuWidth / 8}px`,
-            }
-        }
     }
 });

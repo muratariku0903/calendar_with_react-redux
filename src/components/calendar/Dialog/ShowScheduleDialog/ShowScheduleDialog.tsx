@@ -41,12 +41,6 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
                     </IconButton>
                 </Tooltip>
             </DialogActions>
-            {/* <DialogActions>
-                
-            </DialogActions>
-            <DialogActions>
-                
-            </DialogActions> */}
             <DialogContent>
                 {dialog.schedule && (
                     <Fragment>

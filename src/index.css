@@ -6,6 +6,10 @@ body::-webkit-scrollbar {
     display: none;
 }
 
+#root {
+    overflow: hidden;
+}
+
 li {
     list-style: none;
 }

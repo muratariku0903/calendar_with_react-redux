@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { IconButton, Drawer, Divider, Button, Tooltip } from '@material-ui/core';
+import { IconButton, Drawer, Divider, Button, Tooltip, useMediaQuery } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { Add } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -8,18 +8,25 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { CalendarState, SideMenuState, Schedule } from '../../../redux/stateTypes';
 import { setSnackBar } from '../../../redux/actions/app/snackBar';
 import { getMonth } from '../../../services/calendar';
-import { headerHeight, sideMenuWidth } from '../../../constants';
+import { headerHeight, breakpoints, sideMenuWidth } from '../../../constants';
 import dayjs, { Dayjs } from 'dayjs';
 
+
+type SideMenuStyleProps = {
+    sideMenuWidth: string;
+}
 
 const useStyles = makeStyles((theme: Theme) => {
     return createStyles({
         drawer: {
-            width: sideMenuWidth,
+            width: (props: SideMenuStyleProps) => props.sideMenuWidth,
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
+        },
+        drawerPaper: {
+            width: (props: SideMenuStyleProps) => props.sideMenuWidth,
         },
         drawerHeader: {
             display: 'flex',
@@ -31,8 +38,8 @@ const useStyles = makeStyles((theme: Theme) => {
             height: headerHeight,
         },
         addButton: {
+            width: (props: SideMenuStyleProps) => props.sideMenuWidth,
             borderRadius: '0',
-            width: sideMenuWidth,
         }
     });
 });
@@ -51,7 +58,8 @@ export type DispatchProps = {
 export type SideMenuProps = StateProps & DispatchProps;
 
 const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAddDialog }) => {
-    const classes = useStyles();
+    const isSizeXS = useMediaQuery(`(max-width:${breakpoints.xs}px)`);
+    const classes = useStyles({ sideMenuWidth: isSizeXS ? '100%' : `${sideMenuWidth}px` });
     const dispatch = useDispatch();
     const isFirstRendering = useRef<boolean>(true);
     const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
@@ -63,6 +71,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
             setSelectedDate(getMonth(year, month))
         }
     }, [year, month]);
+
     return (
         <Drawer
             className={classes.drawer}
@@ -70,6 +79,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
             anchor='left'
             onClose={close}
             variant="persistent"
+            classes={{ paper: classes.drawerPaper }}
         >
             <div className={classes.drawerHeader}>
                 <Tooltip title='閉じる' placement='bottom'>

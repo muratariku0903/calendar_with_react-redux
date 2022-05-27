@@ -1,7 +1,10 @@
 import React from 'react';
+import { useMediaQuery } from '@material-ui/core';
 import { CalendarState } from '../../../../redux/stateTypes';
 import SetMonthNavigation from './parts/SetMonthNavigation';
 import BaseNavigation from '../base/containers/BaseNavigation';
+import BaseNavigationXS from '../base/BaseNavigationXS';
+import { breakpoints } from '../../../../constants';
 
 
 export type StateProps = {
@@ -19,16 +22,33 @@ export type MonthNavigationProps = StateProps & DispatchProps & {
 }
 
 const MonthNavigation: React.FC<MonthNavigationProps> = ({ year, month, setMonth, setPrevMonth, setNextMonth }) => {
-    return (
-        <BaseNavigation>
-            <SetMonthNavigation
-                year={year}
-                month={month}
-                setMonth={setMonth}
-                setPrevMonth={setPrevMonth}
-                setNextMonth={setNextMonth} />
-        </BaseNavigation>
-    );
+    const isSizeXS = useMediaQuery(`(max-width:${breakpoints.xs}px)`);
+
+    if (isSizeXS) {
+        return (
+            <BaseNavigationXS>
+                <SetMonthNavigation
+                    year={year}
+                    month={month}
+                    setMonth={setMonth}
+                    setPrevMonth={setPrevMonth}
+                    setNextMonth={setNextMonth}
+                />
+            </BaseNavigationXS>
+        );
+    } else {
+        return (
+            <BaseNavigation>
+                <SetMonthNavigation
+                    year={year}
+                    month={month}
+                    setMonth={setMonth}
+                    setPrevMonth={setPrevMonth}
+                    setNextMonth={setNextMonth}
+                />
+            </BaseNavigation>
+        );
+    }
 }
 
 export default MonthNavigation;
