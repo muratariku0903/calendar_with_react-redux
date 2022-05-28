@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => {
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
+            height: '64px',
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,

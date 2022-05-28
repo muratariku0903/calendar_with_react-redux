@@ -27,10 +27,8 @@ export type OutterProps = {
 export type TimeTableProps = DispatchProps & OutterProps;
 
 const TimeTable: React.FC<TimeTableProps> = React.memo(({ dates, openAddDialog, updateSchedule }) => {
-    console.log('timeTable');
     const classes = useStyles();
     const monthSchedules = useSelector((state: State) => state.schedules.monthSchedules);
-
     const table: JSX.Element[] = [];
     for (const date of dates) {
         const dateKey = createSchedulesKey(date.unix());

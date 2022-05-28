@@ -24,7 +24,6 @@ type TimeColProps = OutterProps;
 
 
 const TimeCol: React.FC<TimeColProps> = React.memo(({ dayOfTheWeek, dateSchedules, openAddDialog, updateSchedule }) => {
-    console.log('timeCol');
     const classes = useStyles();
     const timeCol: JSX.Element[] = [];
     for (let m = 0; m < 1440; m += 15) { // O(96)
