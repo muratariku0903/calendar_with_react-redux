@@ -102,7 +102,7 @@ export class ScheduleValidation extends BaseValidation {
                 ((start < item.start) && (item.start < end))
                 ||
                 ((start < item.end) && (item.end < end))
-            ) return `${itemName}が既にある予定と時間が重複しています`;
+            ) return `${itemName}が既にある${itemName}と時間が重複しています`;
         }
         return '';
     }

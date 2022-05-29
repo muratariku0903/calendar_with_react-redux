@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Dialog, DialogContent, DialogActions, IconButton, Tooltip } from '@material-ui/core';
-import { Close, DeleteOutlineOutlined, Edit } from "@material-ui/icons";
+import { Close, DeleteOutlineOutlined, Edit, MailOutline } from "@material-ui/icons";
 import { Schedule, ShowScheduleDialogState } from '../../../../redux/stateTypes';
 import ScheduleTitle from './parts/ScheduleTitle';
 import ScheduleTime from './parts/ScheduleTime';
@@ -15,17 +15,18 @@ export type DispatchProps = {
     closeDialog: () => void;
     deleteSchedule: (schedule: Schedule) => void;
     openUpdateScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: Schedule) => void;
+    openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export type ShowScheduleDialogProps = StateProps & DispatchProps & {
     deleteSchedule: () => void;
 }
 
-const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDialog, deleteSchedule, openUpdateScheduleDialog }) => {
+const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDialog, deleteSchedule, openUpdateScheduleDialog, openEmailScheduleDialog }) => {
     return (
         <Dialog open={dialog.isOpenDialog} onClose={closeDialog} maxWidth="xs" fullWidth>
             <DialogActions>
-            <Tooltip title='編集' placement='bottom'>
+                <Tooltip title='編集' placement='bottom'>
                     <IconButton onClick={(e) => openUpdateScheduleDialog(e, dialog.schedule)} size="small">
                         <Edit />
                     </IconButton>
@@ -33,6 +34,11 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
                 <Tooltip title='削除' placement='bottom'>
                     <IconButton onClick={deleteSchedule} size="small">
                         <DeleteOutlineOutlined />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title='詳細をメールで送信' placement='bottom'>
+                    <IconButton onClick={(e) => openEmailScheduleDialog(e)} size="small">
+                        <MailOutline />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title='閉じる' placement='bottom'>

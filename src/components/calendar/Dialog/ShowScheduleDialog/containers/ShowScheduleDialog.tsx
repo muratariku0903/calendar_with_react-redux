@@ -6,6 +6,7 @@ import { State, Schedule } from "../../../../../redux/stateTypes";
 import { SchedulesActions } from "../../../../../redux/actions/calendar/schedules";
 import { closeShowScheduleDialog } from "../../../../../redux/actions/calendar/showScheduleDialog";
 import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../../redux/actions/calendar/updateScheduleDialog';
+import { openEmailScheduleDialog } from "../../../../../redux/actions/calendar/emailScheduleDialog";
 import { asyncDeleteSchedule } from "../../../../../redux/actions/effects/schedules";
 
 const mapStateToProps = (state: State): StateProps => {
@@ -26,6 +27,12 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(closeShowScheduleDialog());
             dispatch(setUpdateScheduleDialog(schedule));
             dispatch(openUpdateScheduleDialog());
+        },
+        openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.stopPropagation();
+            dispatch(closeShowScheduleDialog());
+            // dispatch(setUpdateScheduleDialog(schedule));
+            dispatch(openEmailScheduleDialog());
         },
     }
 }

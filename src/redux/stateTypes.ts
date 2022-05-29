@@ -57,6 +57,13 @@ export type UpdateScheduleDialogState = {
     isShowAlert: boolean;
 };
 
+export type EmailScheduleDialogState = {
+    form: { email: string, title: string, description: string };
+    isOpenDialog: boolean;
+    isStartEdit: boolean;
+    isShowAlert: boolean;
+}
+
 
 export type Holiday = {
     date: number;
@@ -118,6 +125,7 @@ export type State = {
     addScheduleDialog: AddScheduleDialogState;
     showScheduleDialog: ShowScheduleDialogState;
     updateScheduleDialog: UpdateScheduleDialogState;
+    emailScheduleDialog: EmailScheduleDialogState;
     user: UserState;
     updateUserDialog: UpdateUserDialogState;
     signupDialog: SignupDialogState;
