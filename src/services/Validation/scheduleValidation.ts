@@ -83,6 +83,7 @@ export class ScheduleValidation extends BaseValidation {
                 }
             }
         }
+        
         return this.validationMessages;
     }
 

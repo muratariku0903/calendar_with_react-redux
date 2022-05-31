@@ -22,5 +22,5 @@ export const rules: ScheduleValidationRules = {
                 max: 300,
             }
         }
-    }
+    },
 }

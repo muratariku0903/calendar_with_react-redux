@@ -4,7 +4,7 @@ import { EmailScheduleDialogState } from '../../../../redux/stateTypes';
 import BaseInputDialog from '../../../app/Dialog/BaseInputDialog/BaseInputDialog';
 import EmailScheduleDialogForm from './parts/Form';
 import { ScheduleValidation } from '../../../../services/Validation/scheduleValidation';
-import { rules } from '../../validationRules';
+import { rules } from './validationRules';
 
 export type StateProps = {
     dialog: EmailScheduleDialogState;

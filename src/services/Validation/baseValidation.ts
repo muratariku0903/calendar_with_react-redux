@@ -10,13 +10,65 @@ export type BaseRuleItems = {
     }
 };
 
+export type BaseValidationRules = {
+    [key: string]: {
+        name: string;
+        rules: BaseRuleItems;
+    },
+}
+
 export type ErrorMessages = Record<string, string>;
 
 export class BaseValidation {
+    private baseValidationRules?: BaseValidationRules;
     protected validationMessages: ErrorMessages;
 
-    constructor() {
+    constructor(baseValidationRules?: BaseValidationRules) {
         this.validationMessages = {};
+        this.baseValidationRules = baseValidationRules;
+    }
+
+    public validate<T>(items: T): ErrorMessages {
+        if (!this.baseValidationRules) throw ('バリデーションルールを設定してください');
+
+        for (const key in items) {
+            if (!(key in this.baseValidationRules)) continue;
+
+            key as keyof BaseValidationRules;
+            const item = items[key];
+            const itemName = this.baseValidationRules[key].name;
+            for (const ruleName in this.baseValidationRules[key].rules) {
+                if (ruleName === 'required') {
+                    const validationMessage = this.validateRequired<T[keyof T]>(itemName, item);
+                    if (!this.isEmpty(validationMessage)) {
+                        this.validationMessages[key] = validationMessage;
+                        break;
+                    }
+                }
+
+                if (ruleName === 'length') {
+                    const max = this.baseValidationRules[key].rules.length?.max;
+                    const min = this.baseValidationRules[key].rules.length?.min;
+                    const validationMessage = this.isNumber(item) || this.isString(item) ? this.validateLength(itemName, item, min, max) : '';
+                    if (!this.isEmpty(validationMessage)) {
+                        this.validationMessages[key] = validationMessage;
+                        break;
+                    }
+                }
+
+                if (ruleName === 'regex') {
+                    const regex = this.baseValidationRules[key].rules.regex;
+                    if (!regex) continue;
+                    const validationMessage = this.isString(item) ? this.validateRegex(itemName, item, regex.pattern, regex.meaning) : '';
+                    if (!this.isEmpty(validationMessage)) {
+                        this.validationMessages[key] = validationMessage;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return this.validationMessages;
     }
 
     protected validateRequired<T>(itemName: string, item: T): string {

@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { EmailScheduleDialogState } from '../../../../../redux/stateTypes';
-import UpdateScheduleDialogTitle from './Title';
-import UpdateScheduleDialogDescription from './Description';
+import EmailScheduleDialogEmail from './Email';
+import EmailScheduleDialogTitle from './Title';
+import EmailScheduleDialogDescription from './Description';
 
 
 type EmailScheduleDialogFormProps = {
@@ -13,8 +14,9 @@ type EmailScheduleDialogFormProps = {
 const EmailScheduleDialogForm: React.FC<EmailScheduleDialogFormProps> = ({ form, setDialogForm, errorMessages }) => {
     return (
         <Fragment>
-            <UpdateScheduleDialogTitle title={form.title} setDialogForm={setDialogForm} errorMessage={errorMessages.title} />
-            <UpdateScheduleDialogDescription description={form.description} setDialogForm={setDialogForm} errorMessage={errorMessages.description} />
+            <EmailScheduleDialogEmail email={form.email} setDialogForm={setDialogForm} errorMessage={errorMessages.email} />
+            <EmailScheduleDialogTitle title={form.title} setDialogForm={setDialogForm} errorMessage={errorMessages.title} />
+            <EmailScheduleDialogDescription description={form.description} setDialogForm={setDialogForm} errorMessage={errorMessages.description} />
         </Fragment>
     );
 }

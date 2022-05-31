@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
         openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             e.stopPropagation();
             dispatch(closeShowScheduleDialog());
-            // dispatch(setUpdateScheduleDialog(schedule));
             dispatch(openEmailScheduleDialog());
         },
     }
