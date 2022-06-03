@@ -6,14 +6,14 @@ type SetMonthAction = {
     payload: {
         year: CalendarState['year'];
         month: CalendarState['month'];
-        firstDateOfWeek: CalendarState['firstDateOfWeek'];
+        firstDateOfWeekTimeStamp: CalendarState['firstDateOfWeekTimeStamp'];
     };
 }
 
-export const setMonth = (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeek: CalendarState['firstDateOfWeek']): SetMonthAction => {
+export const setMonth = (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeekTimeStamp: CalendarState['firstDateOfWeekTimeStamp']): SetMonthAction => {
     return {
         type: ActionTypes.SET_MONTH,
-        payload: { year, month, firstDateOfWeek }
+        payload: { year, month, firstDateOfWeekTimeStamp }
     }
 }
 
@@ -22,14 +22,14 @@ type SetWeekAction = {
     payload: {
         year: CalendarState['year'];
         month: CalendarState['month'];
-        firstDateOfWeek: CalendarState['firstDateOfWeek'];
+        firstDateOfWeekTimeStamp: CalendarState['firstDateOfWeekTimeStamp'];
     };
 }
 
-export const setWeek = (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeek: CalendarState['firstDateOfWeek']): SetWeekAction => {
+export const setWeek = (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeekTimeStamp: CalendarState['firstDateOfWeekTimeStamp']): SetWeekAction => {
     return {
         type: ActionTypes.SET_WEEK,
-        payload: { year, month, firstDateOfWeek }
+        payload: { year, month, firstDateOfWeekTimeStamp }
     }
 }
 

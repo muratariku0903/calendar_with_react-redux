@@ -7,15 +7,14 @@ import BaseNavigationXS from '../base/BaseNavigationXS';
 import { breakpoints } from '../../../../constants';
 
 
-
 export type StateProps = {
     year: CalendarState['year'];
     month: CalendarState['month'];
-    firstDateOfWeek: CalendarState['firstDateOfWeek'];
+    firstDateOfWeekTimeStamp: CalendarState['firstDateOfWeekTimeStamp'];
 }
 
 export type DispatchProps = {
-    setWeek: (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeek: CalendarState['firstDateOfWeek']) => void;
+    setWeek: (year: CalendarState['year'], month: CalendarState['month'], firstDateOfWeekTimeStamp: CalendarState['firstDateOfWeekTimeStamp']) => void;
 }
 
 export type WeekNavigationProps = StateProps & DispatchProps & {

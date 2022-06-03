@@ -67,6 +67,10 @@ export const getDate = (year: number, month: number, date: number) => {
     throw (`Invalid date from year(${year}) and month(${month}) and date(${date}).`);
 }
 
+export const getFirstDateOfMonth = (year: number, month: number): Dayjs => {
+    return dayjs(`${year}-${month}`).day(0);
+}
+
 export const getDateCntOfMonth = (year: number, month: number): number => {
     return getMonth(year, month).endOf('month').date();
 }
@@ -77,6 +81,32 @@ export const getDatesOfWeek = (year: number, month: number, firstDateOfWeek: num
     for (let i = 0; i < 7; i++) dates.push(firstDate.add(i, 'd'));
 
     return dates;
+}
+
+export const getFirstYearOfWeek = (stamp: number): number => {
+    const d = dayjs.unix(stamp)
+
+    return d.subtract(d.day(), 'd').year();
+}
+
+export const getFirstMonthOfWeek = (stamp: number): number => {
+    const d = dayjs.unix(stamp);
+
+    return d.subtract(d.day(), 'd').month() + 1;
+}
+
+export const getFirstDateOfWeekTimeStamp = (stamp: number): number => {
+    const d = dayjs.unix(stamp);
+
+    return d.subtract(d.day(), 'd').unix();
+}
+
+export const getDateOneWeekAgo = (stamp: number): Dayjs => {
+    return dayjs.unix(stamp).subtract(7, 'day');
+}
+
+export const getDateOneWeekLater = (stamp: number): Dayjs => {
+    return dayjs.unix(stamp).add(7, 'day');
 }
 
 export const getTotalCalendarCellCnt = (date: Dayjs): number => {

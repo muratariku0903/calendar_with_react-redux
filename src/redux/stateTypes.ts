@@ -5,7 +5,7 @@ import { roundMinutes } from "../services/calendar";
 export type CalendarState = {
     year: number;
     month: number;
-    firstDateOfWeek: number;
+    firstDateOfWeekTimeStamp: number;
     type: 'month' | 'week';
 };
 

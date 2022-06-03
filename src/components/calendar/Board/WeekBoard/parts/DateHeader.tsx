@@ -30,7 +30,7 @@ const DateHeader: React.FC<DateHeaderProps> = React.memo(({ dates }) => {
                         component="div"
                         variant="caption"
                         color="textSecondary">
-                        {date.date()}
+                        {date.format(date.date() === 1 ? "M月D日" : "D")}
                     </Typography>
                 </li>
             ))}

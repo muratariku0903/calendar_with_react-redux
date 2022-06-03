@@ -30,23 +30,3 @@ export const getCalendarDates = (store: State): CalendarDate[] => {
 
     return dates;
 }
-
-
-export const getCalendarWeekDates = (state: State): CalendarDate[] => {
-    const { year, month, firstDateOfWeek } = state.calendar;
-    const holidays = state.holidays.holidays;
-    const schedules = state.schedules.monthSchedules;
-    const firstDay = getDate(year, month, firstDateOfWeek);
-    const dates: CalendarDate[] = [];
-    for (let i = 0; i < 7; i++) {
-        const date = firstDay.add(i, "day");
-        const dateKey = createSchedulesKey(date.unix());
-        dates.push({
-            date: date,
-            dateSchedules: dateKey in schedules ? schedules[dateKey] : [],
-            holiday: dateKey in holidays ? holidays[dateKey] : null,
-        });
-    }
-
-    return dates;
-}

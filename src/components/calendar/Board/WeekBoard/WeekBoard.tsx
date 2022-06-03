@@ -16,9 +16,9 @@ import { useGetWeekHolidays } from '../../../../hooks/holidays';
 type WeekBoardProps = {};
 
 const WeekBoard: React.FC<WeekBoardProps> = () => {
-    const { year, month, firstDateOfWeek } = useSelector((state: State) => state.calendar);
-    const weekHolidays = useGetWeekHolidays(year, month, firstDateOfWeek);
-    const weekDates = useGetWeekDates(year, month, firstDateOfWeek);
+    const { firstDateOfWeekTimeStamp } = useSelector((state: State) => state.calendar);
+    const weekHolidays = useGetWeekHolidays(firstDateOfWeekTimeStamp);
+    const weekDates = useGetWeekDates(firstDateOfWeekTimeStamp);
 
     return (
         <BaseBoard>

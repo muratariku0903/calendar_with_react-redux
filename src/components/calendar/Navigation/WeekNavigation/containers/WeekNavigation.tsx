@@ -8,21 +8,21 @@ import { SchedulesActions } from "../../../../../redux/actions/calendar/schedule
 import { HolidaysActions } from '../../../../../redux/actions/calendar/holidays';
 import { asyncFetchSchedules } from '../../../../../redux/actions/effects/schedules';
 import { asyncFetchHolidays } from '../../../../../redux/actions/effects/holidays';
-import { getDate } from "../../../../../services/calendar";
+import { getDateOneWeekAgo, getDateOneWeekLater } from "../../../../../services/calendar";
 
 
 const mapStateToProps = (store: State): StateProps => {
     return {
         year: store.calendar.year,
         month: store.calendar.month,
-        firstDateOfWeek: store.calendar.firstDateOfWeek,
+        firstDateOfWeekTimeStamp: store.calendar.firstDateOfWeekTimeStamp,
     }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, SchedulesActions & HolidaysActions>): DispatchProps => {
     return {
-        setWeek: (year: number, month: number, firstDateOfWeek: number) => {
-            dispatch(setWeek(year, month, firstDateOfWeek));
+        setWeek: (year: number, month: number, firstDateOfWeekTimeStamp: number) => {
+            dispatch(setWeek(year, month, firstDateOfWeekTimeStamp));
             dispatch(asyncFetchSchedules(year, month));
             dispatch(asyncFetchHolidays(year, month));
         },
@@ -34,12 +34,12 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): WeekN
         ...stateProps,
         ...dispatchProps,
         setPrevWeek: () => {
-            const prevFirstDateOfWeek = getDate(stateProps.year, stateProps.month, stateProps.firstDateOfWeek).subtract(7, 'day');
-            dispatchProps.setWeek(prevFirstDateOfWeek.year(), prevFirstDateOfWeek.month() + 1, prevFirstDateOfWeek.date());
+            const prevFirstDateOfWeek = getDateOneWeekAgo(stateProps.firstDateOfWeekTimeStamp);
+            dispatchProps.setWeek(prevFirstDateOfWeek.year(), prevFirstDateOfWeek.month() + 1, prevFirstDateOfWeek.unix());
         },
         setNextWeek: () => {
-            const nextFirstDateOfWeek = getDate(stateProps.year, stateProps.month, stateProps.firstDateOfWeek).add(7, 'day');
-            dispatchProps.setWeek(nextFirstDateOfWeek.year(), nextFirstDateOfWeek.month() + 1, nextFirstDateOfWeek.date());
+            const nextFirstDateOfWeek = getDateOneWeekLater(stateProps.firstDateOfWeekTimeStamp);
+            dispatchProps.setWeek(nextFirstDateOfWeek.year(), nextFirstDateOfWeek.month() + 1, nextFirstDateOfWeek.unix());
         },
     }
 }

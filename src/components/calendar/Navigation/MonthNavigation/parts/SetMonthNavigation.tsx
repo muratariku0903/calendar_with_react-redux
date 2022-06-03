@@ -40,7 +40,7 @@ const SetMonthNavigation: React.FC<SetMonthNavigationProps> = ({ year, month, se
             </Tooltip>
             <DatePicker
                 value={getMonth(year, month)}
-                onChange={d => d ? setMonth(d.year(), d.month() + 1, d.day(0).date()) : dispatch(setSnackBar('error', '正しい日付を選択してください'))}
+                onChange={d => d ? setMonth(d.year(), d.month() + 1, d.day(0).unix()) : dispatch(setSnackBar('error', '正しい日付を選択してください'))}
                 format="YYYY年 M月"
                 variant='inline'
                 animateYearScrolling
