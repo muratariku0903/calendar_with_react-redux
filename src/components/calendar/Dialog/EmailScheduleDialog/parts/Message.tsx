@@ -19,13 +19,13 @@ const useStyles = makeStyles(() => {
     });
 });
 
-type EmailScheduleDialogDescriptionProps = {
-    description: EmailScheduleDialogState['form']['description'];
+type EmailScheduleDialogMessageProps = {
+    emailMessage: EmailScheduleDialogState['form']['emailMessage'];
     setDialogForm: (item: Partial<EmailScheduleDialogState['form']>) => void;
     errorMessage: string;
 }
 
-const EmailScheduleDialogDescription: React.FC<EmailScheduleDialogDescriptionProps> = ({ description, setDialogForm, errorMessage }) => {
+const EmailScheduleDialogMessage: React.FC<EmailScheduleDialogMessageProps> = ({ emailMessage, setDialogForm, errorMessage }) => {
     const classes = useStyles();
     const isStartEdit = useSelector((state: State) => state.emailScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
@@ -37,8 +37,8 @@ const EmailScheduleDialogDescription: React.FC<EmailScheduleDialogDescriptionPro
             </Grid>
             <Grid item xs={10}>
                 <TextareaAutosize
-                    value={description}
-                    onChange={(e) => setDialogForm({ description: e.target.value })}
+                    value={emailMessage}
+                    onChange={(e) => setDialogForm({ emailMessage: e.target.value })}
                     style={spacer}
                     minRows={4}
                     placeholder="説明を追加"
@@ -50,4 +50,4 @@ const EmailScheduleDialogDescription: React.FC<EmailScheduleDialogDescriptionPro
     );
 }
 
-export default EmailScheduleDialogDescription;
+export default EmailScheduleDialogMessage;

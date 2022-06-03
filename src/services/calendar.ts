@@ -20,10 +20,12 @@ export const isFirstDay = (day: Dayjs): boolean => {
     return day.date() === 1;
 }
 
+// これは何をするの？
 export const getCurrHourAndCurrMinute = (): { hour: number, minute: number } => {
     const currTime = roundMinutes(dayjs().unix());
     const hour = dayjs.unix(currTime).hour();
     const minute = dayjs.unix(currTime).minute();
+
     return { hour, minute };
 }
 
@@ -44,6 +46,7 @@ export const getPrevMonth = (year: number, month: number): Dayjs => {
     } else {
         month--;
     }
+
     return getMonth(year, month);
 }
 
@@ -54,6 +57,7 @@ export const getNextMonth = (year: number, month: number): Dayjs => {
     } else {
         month++;
     }
+
     return getMonth(year, month);
 }
 
@@ -79,7 +83,20 @@ export const getTotalCalendarCellCnt = (date: Dayjs): number => {
     const prevMonthDateCnt = date.day();
     const currentMonthDateCnt = date.endOf('month').date();
     const nextMonthDateCnt = 6 - date.endOf('month').day();
+
     return prevMonthDateCnt + currentMonthDateCnt + nextMonthDateCnt;
+}
+
+export const getDateStrFromTimeStamp = (timestamp: number): string => {
+    const d = dayjs.unix(timestamp);
+
+    return `${d.year()}-${d.month() + 1}-${d.date()}`;
+}
+
+export const getHourMinuteStrFromTimeStamp = (timestamp: number) => {
+    const d = dayjs.unix(timestamp);
+
+    return `${d.hour()}:${d.minute()}`;
 }
 
 const validateYearMonthDate = (year: number, month: number, date: number): boolean => {

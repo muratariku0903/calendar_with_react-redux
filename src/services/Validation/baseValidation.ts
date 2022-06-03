@@ -113,7 +113,7 @@ export class BaseValidation {
         return '';
     }
 
-    protected isEmptyErrorMessages(errorMessages: ErrorMessages): boolean {
+    public isEmptyErrorMessages(errorMessages: ErrorMessages): boolean {
         return this.isEmpty(errorMessages);
     }
 

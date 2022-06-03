@@ -5,7 +5,7 @@ import { State } from "../../../../redux/stateTypes";
 
 const mapStateToProps = (state: State): StateProps => {
     return {
-        isOpenLoader: state.schedules.isLoading || state.holidays.isLoading || state.user.isLoading
+        isOpenLoader: state.schedules.isLoading || state.holidays.isLoading || state.user.isLoading || state.emailScheduleDialog.isLoading
     };
 };
 

@@ -2,11 +2,11 @@ import ShowScheduleDialog, { StateProps, DispatchProps, ShowScheduleDialogProps 
 import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 import { ThunkDispatch } from "redux-thunk";
-import { State, Schedule } from "../../../../../redux/stateTypes";
+import { State, Schedule, EmailScheduleDialogState } from "../../../../../redux/stateTypes";
 import { SchedulesActions } from "../../../../../redux/actions/calendar/schedules";
 import { closeShowScheduleDialog } from "../../../../../redux/actions/calendar/showScheduleDialog";
 import { openUpdateScheduleDialog, setUpdateScheduleDialog } from '../../../../../redux/actions/calendar/updateScheduleDialog';
-import { openEmailScheduleDialog } from "../../../../../redux/actions/calendar/emailScheduleDialog";
+import { openEmailScheduleDialog, setEmailContentsToEmailScheduleDialog } from "../../../../../redux/actions/calendar/emailScheduleDialog";
 import { asyncDeleteSchedule } from "../../../../../redux/actions/effects/schedules";
 
 const mapStateToProps = (state: State): StateProps => {
@@ -28,9 +28,10 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             dispatch(setUpdateScheduleDialog(schedule));
             dispatch(openUpdateScheduleDialog());
         },
-        openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: EmailScheduleDialogState['schedule']) => {
             e.stopPropagation();
             dispatch(closeShowScheduleDialog());
+            dispatch(setEmailContentsToEmailScheduleDialog(schedule));
             dispatch(openEmailScheduleDialog());
         },
     }

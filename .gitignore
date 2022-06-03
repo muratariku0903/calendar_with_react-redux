@@ -13,6 +13,7 @@
 /src/firebase/config.ts
 /src/sample
 /src/api/GoogleCalendarApi/config.ts
+/src/api/EmailJS/config.ts
 /firebase-debug.log
 /.firebase
 

@@ -16,7 +16,7 @@ const Title = withStyles({
 })(Input);
 
 export type OutterProps = {
-    title: EmailScheduleDialogState['form']['title'];
+    emailTitle: EmailScheduleDialogState['form']['emailTitle'];
     setDialogForm: (updateItem: Partial<EmailScheduleDialogState['form']>) => void;
     errorMessage: string;
 }
@@ -24,7 +24,7 @@ export type OutterProps = {
 
 type EmailScheduleDialogTitleProps = OutterProps;
 
-const EmailScheduleDialogTitle: React.FC<EmailScheduleDialogTitleProps> = ({ title, setDialogForm, errorMessage }) => {
+const EmailScheduleDialogTitle: React.FC<EmailScheduleDialogTitleProps> = ({ emailTitle, setDialogForm, errorMessage }) => {
     const isStartEdit = useSelector((state: State) => state.emailScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
 
@@ -35,8 +35,8 @@ const EmailScheduleDialogTitle: React.FC<EmailScheduleDialogTitleProps> = ({ tit
             </Grid>
             <Grid item xs={10}>
                 <Title
-                    value={title}
-                    onChange={e => setDialogForm({ title: e.target.value })}
+                    value={emailTitle}
+                    onChange={e => setDialogForm({ emailTitle: e.target.value })}
                     error={isError}
                     autoFocus
                     fullWidth

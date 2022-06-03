@@ -50,7 +50,6 @@ export type ShowScheduleDialogState = {
 
 
 export type UpdateScheduleDialogState = {
-    // idだけ独立させて管理するのもありかも
     schedule: Schedule;
     isOpenDialog: boolean;
     isStartEdit: boolean;
@@ -58,10 +57,12 @@ export type UpdateScheduleDialogState = {
 };
 
 export type EmailScheduleDialogState = {
-    form: { email: string, title: string, description: string };
+    form: { emailTo: string, emailTitle: string, emailMessage: string };
+    schedule: Omit<Schedule, 'id'>;
     isOpenDialog: boolean;
     isStartEdit: boolean;
     isShowAlert: boolean;
+    isLoading: boolean;
 }
 
 

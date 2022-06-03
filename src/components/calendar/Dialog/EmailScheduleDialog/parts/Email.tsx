@@ -7,7 +7,7 @@ import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 
 export type OutterProps = {
-    email: EmailScheduleDialogState['form']['email'];
+    emailTo: EmailScheduleDialogState['form']['emailTo'];
     setDialogForm: (item: Partial<EmailScheduleDialogState['form']>) => void;
     errorMessage: string;
 }
@@ -15,7 +15,7 @@ export type OutterProps = {
 
 type EmailScheduleDialogEmailProps = OutterProps;
 
-const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ email, setDialogForm, errorMessage }) => {
+const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ emailTo, setDialogForm, errorMessage }) => {
     const isStartEdit = useSelector((state: State) => state.emailScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
 
@@ -26,8 +26,8 @@ const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ ema
             </Grid>
             <Grid item xs={10}>
                 <TextField
-                    value={email}
-                    onChange={e => setDialogForm({ email: e.target.value })}
+                    value={emailTo}
+                    onChange={e => setDialogForm({ emailTo: e.target.value })}
                     error={isError}
                     autoFocus
                     fullWidth

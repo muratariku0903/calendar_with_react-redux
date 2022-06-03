@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Dialog, DialogContent, DialogActions, IconButton, Tooltip } from '@material-ui/core';
 import { Close, DeleteOutlineOutlined, Edit, MailOutline } from "@material-ui/icons";
-import { Schedule, ShowScheduleDialogState } from '../../../../redux/stateTypes';
+import { EmailScheduleDialogState, Schedule, ShowScheduleDialogState } from '../../../../redux/stateTypes';
 import ScheduleTitle from './parts/ScheduleTitle';
 import ScheduleTime from './parts/ScheduleTime';
 import ScheduleLocation from './parts/ScheduleLocation';
@@ -15,7 +15,7 @@ export type DispatchProps = {
     closeDialog: () => void;
     deleteSchedule: (schedule: Schedule) => void;
     openUpdateScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: Schedule) => void;
-    openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    openEmailScheduleDialog: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, schedule: EmailScheduleDialogState['schedule']) => void;
 }
 
 export type ShowScheduleDialogProps = StateProps & DispatchProps & {
@@ -37,7 +37,7 @@ const ShowScheduleDialog: React.FC<ShowScheduleDialogProps> = ({ dialog, closeDi
                     </IconButton>
                 </Tooltip>
                 <Tooltip title='詳細をメールで送信' placement='bottom'>
-                    <IconButton onClick={(e) => openEmailScheduleDialog(e)} size="small">
+                    <IconButton onClick={(e) => openEmailScheduleDialog(e, dialog.schedule)} size="small">
                         <MailOutline />
                     </IconButton>
                 </Tooltip>
