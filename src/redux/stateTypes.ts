@@ -118,6 +118,10 @@ export type SnackBarState = {
     message: string;
 }
 
+export type LoaderState = {
+    isShow: boolean;
+}
+
 export type State = {
     calendar: CalendarState;
     schedules: SchedulesState;
@@ -132,4 +136,5 @@ export type State = {
     signupDialog: SignupDialogState;
     loginDialog: LoginDialogState;
     snackBar: SnackBarState;
+    loader: LoaderState;
 };

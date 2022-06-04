@@ -60,4 +60,7 @@ export enum ActionTypes {
     OPEN_SNACKBAR = "OPEN_SNACKBAR",
     CLOSE_SNACKBAR = "CLOSE_SNACKBAR",
     SET_SNACKBAR = "SET_SNACKBAR",
+    //loader
+    SHOW_LOADER = "SHOW_LOADER",
+    HIDE_LOADER = "HIDE_LOADER",
 }

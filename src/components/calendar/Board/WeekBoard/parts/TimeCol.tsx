@@ -33,6 +33,7 @@ const TimeCol: React.FC<TimeColProps> = React.memo(({ dayOfTheWeek, dateSchedule
         const schedule = timeKey in dateSchedules ? dateSchedules[timeKey] : null;
         timeCol.push(
             <TimeCell
+                key={`${hour}-${minute}`}
                 dayOfTheWeek={dayOfTheWeek}
                 time={{ hour, minute }}
                 schedule={schedule}

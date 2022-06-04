@@ -1,6 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useGetWeekDates } from '../../../../hooks/calendar';
+import { useComponentDidMount, useComponentWillMount } from '../../../../hooks/lifeCycle';
+import { showLoader, hideLoader } from '../../../../redux/actions/app/loader';
 import { Grid } from '@material-ui/core';
 import { State } from '../../../../redux/stateTypes';
 import BaseBoard from '../base/containers/BaseBoard';
@@ -17,8 +19,11 @@ type WeekBoardProps = {};
 
 const WeekBoard: React.FC<WeekBoardProps> = () => {
     const { firstDateOfWeekTimeStamp } = useSelector((state: State) => state.calendar);
+    const dispatch = useDispatch();
     const weekHolidays = useGetWeekHolidays(firstDateOfWeekTimeStamp);
     const weekDates = useGetWeekDates(firstDateOfWeekTimeStamp);
+    useComponentWillMount(() => dispatch(showLoader()));
+    useComponentDidMount(() => dispatch(hideLoader()));
 
     return (
         <BaseBoard>

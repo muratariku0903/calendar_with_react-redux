@@ -4,8 +4,8 @@ import { State, Schedule } from '../../../../../redux/stateTypes';
 import { GridList } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import TimeCol from './TimeCol';
-import { createSchedulesKey, getSchedulesByDate } from '../../../../../services/schedules';
-import dayjs, { Dayjs } from 'dayjs';
+import { createSchedulesKey, getSchedulesByDate, getDateSchedules } from '../../../../../services/schedules';
+import { Dayjs } from 'dayjs';
 
 const useStyles = makeStyles(() => {
     return createStyles({
@@ -34,17 +34,10 @@ const TimeTable: React.FC<TimeTableProps> = React.memo(({ dates, openAddDialog, 
         const dateKey = createSchedulesKey(date.unix());
         const schedules = getSchedulesByDate(monthSchedules, dateKey);
         const dayOfTheWeek = date.day();
-        const dateSchedules: Record<string, Schedule> = {};
-        for (const schedule of schedules) {
-            const scheduleTimeStart = schedule.time.start;
-            const scheduleStartHour = dayjs.unix(scheduleTimeStart).hour();
-            const scheduleStartMinute = dayjs.unix(scheduleTimeStart).minute();
-            const timeKey = `${scheduleStartHour}:${scheduleStartMinute}`;
-            dateSchedules[timeKey] = schedule;
-        }
-
+        const dateSchedules = getDateSchedules(schedules);
         table.push(
             <TimeCol
+                key={dayOfTheWeek}
                 dayOfTheWeek={dayOfTheWeek}
                 dateSchedules={dateSchedules}
                 openAddDialog={openAddDialog}
@@ -53,6 +46,7 @@ const TimeTable: React.FC<TimeTableProps> = React.memo(({ dates, openAddDialog, 
         );
     }
 
+    console.log('timetable');
 
     return (
         <GridList cols={7} spacing={0} cellHeight="auto" className={classes.table}>

@@ -19,6 +19,19 @@ export const getSchedulesByDate = (schedules: SchedulesState['monthSchedules'], 
     return schedules[key] ? schedules[key] : [];
 }
 
+export const getDateSchedules = (schedules: Schedule[]): Record<string, Schedule> => {
+    const dateSchedules: Record<string, Schedule> = {};
+    for (const schedule of schedules) {
+        const scheduleTimeStart = schedule.time.start;
+        const scheduleStartHour = dayjs.unix(scheduleTimeStart).hour();
+        const scheduleStartMinute = dayjs.unix(scheduleTimeStart).minute();
+        const timeKey = `${scheduleStartHour}:${scheduleStartMinute}`;
+        dateSchedules[timeKey] = schedule;
+    }
+
+    return dateSchedules;
+}
+
 export const updateDateSchedules = (dateSchedules: Schedule[], newSchedule: Schedule): Schedule[] => {
     for (let i = 0; i < dateSchedules.length; i++)
         if (dateSchedules[i].id === newSchedule.id)

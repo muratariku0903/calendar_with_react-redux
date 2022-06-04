@@ -12,6 +12,7 @@ import updateUserDialog from "./user/updateUserDialog";
 import signupDialog from './auth/signupDialog';
 import loginDialog from './auth/loginDialog';
 import snackBar from "./app/snackBar";
+import loader from "./app/loader";
 
 
 export default combineReducers({
@@ -28,4 +29,5 @@ export default combineReducers({
     signupDialog,
     loginDialog,
     snackBar,
+    loader,
 });

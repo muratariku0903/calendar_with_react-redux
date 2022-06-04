@@ -15,12 +15,14 @@ export type StateProps = {
     isOpenLoader: boolean;
 }
 
-export type CalendarLoaderProps = StateProps;
+export type LoaderProps = StateProps;
 
-const CalendarLoader: React.FC<CalendarLoaderProps> = ({ isOpenLoader }) => {
+const Loader: React.FC<LoaderProps> = ({ isOpenLoader }) => {
     const classes = useStyles();
+
+
     return (
-        <Backdrop open={isOpenLoader} className={classes.loader}>
+        <Backdrop open={isOpenLoader} className={classes.loader} transitionDuration={1000}>
             <Oval
                 ariaLabel="loading-indicator"
                 height={100}
@@ -35,4 +37,4 @@ const CalendarLoader: React.FC<CalendarLoaderProps> = ({ isOpenLoader }) => {
 };
 
 
-export default CalendarLoader;
+export default Loader;
