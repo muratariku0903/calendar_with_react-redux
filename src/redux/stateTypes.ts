@@ -57,7 +57,7 @@ export type UpdateScheduleDialogState = {
 };
 
 export type EmailScheduleDialogState = {
-    form: { emailTo: string, emailTitle: string, emailMessage: string };
+    form: { emailTos: string[], emailTitle: string, emailMessage: string };
     schedule: Omit<Schedule, 'id'>;
     isOpenDialog: boolean;
     isStartEdit: boolean;

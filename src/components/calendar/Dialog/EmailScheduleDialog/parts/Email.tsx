@@ -1,13 +1,15 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { MailOutline } from "@material-ui/icons";
+import { ReactMultiEmail } from 'react-multi-email';
+import 'react-multi-email/style.css';
 import { State, EmailScheduleDialogState } from '../../../../../redux/stateTypes';
 import ErrorMessage from '../../../../app/Dialog/ErrorMessage/ErrorMessage';
 
 
 export type OutterProps = {
-    emailTo: EmailScheduleDialogState['form']['emailTo'];
+    emailTos: EmailScheduleDialogState['form']['emailTos'];
     setDialogForm: (item: Partial<EmailScheduleDialogState['form']>) => void;
     errorMessage: string;
 }
@@ -15,7 +17,7 @@ export type OutterProps = {
 
 type EmailScheduleDialogEmailProps = OutterProps;
 
-const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ emailTo, setDialogForm, errorMessage }) => {
+const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ emailTos, setDialogForm, errorMessage }) => {
     const isStartEdit = useSelector((state: State) => state.emailScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
 
@@ -25,14 +27,18 @@ const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ ema
                 <MailOutline />
             </Grid>
             <Grid item xs={10}>
-                <TextField
-                    value={emailTo}
-                    onChange={e => setDialogForm({ emailTo: e.target.value })}
-                    error={isError}
-                    autoFocus
-                    fullWidth
-                    placeholder="メールアドレス"
-                    type="email"
+                <ReactMultiEmail
+                    placeholder='メールアドレス'
+                    emails={emailTos}
+                    onChange={(emails: string[]) => setDialogForm({ emailTos: emails })}
+                    getLabel={(email: string, idx: number, removeEmail: (idx: number) => void) => {
+                        return (
+                            <div data-tag key={idx}>
+                                {email}
+                                <span data-tag-handle onClick={() => removeEmail(idx)}>×</span>
+                            </div>
+                        );
+                    }}
                 />
                 {isError && (<ErrorMessage errorMessage={errorMessage} />)}
             </Grid>

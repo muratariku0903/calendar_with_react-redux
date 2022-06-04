@@ -15,13 +15,13 @@ export const rules: BaseValidationRules = {
             }
         }
     },
-    emailTo: {
+    emailTos: {
         name: 'メールアドレス',
         rules: {
             required: true,
             regex: {
                 pattern: /.+@.+\..+/,
-                meaning: 'RFCに準拠',
+                meaning: 'RFC準拠',
             }
         }
     }

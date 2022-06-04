@@ -1,7 +1,7 @@
 import { State, Schedule, Holiday } from './stateTypes';
-import { getMonth, getTotalCalendarCellCnt, getDate } from '../services/calendar';
+import { getMonth, getTotalCalendarCellCnt } from '../services/calendar';
 import { createSchedulesKey } from '../services/schedules';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 
 export type CalendarDate = {

@@ -14,7 +14,7 @@ type EmailScheduleDialogFormProps = {
 const EmailScheduleDialogForm: React.FC<EmailScheduleDialogFormProps> = ({ form, setDialogForm, errorMessages }) => {
     return (
         <Fragment>
-            <EmailScheduleDialogEmail emailTo={form.emailTo} setDialogForm={setDialogForm} errorMessage={errorMessages.emailTo} />
+            <EmailScheduleDialogEmail emailTos={form.emailTos} setDialogForm={setDialogForm} errorMessage={errorMessages.emailTos} />
             <EmailScheduleDialogTitle emailTitle={form.emailTitle} setDialogForm={setDialogForm} errorMessage={errorMessages.emailTitle} />
             <EmailScheduleDialogDescription emailMessage={form.emailMessage} setDialogForm={setDialogForm} errorMessage={errorMessages.emailMessage} />
         </Fragment>

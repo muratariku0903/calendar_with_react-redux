@@ -3,7 +3,7 @@ import { ActionTypes } from '../../actionTypes';
 import { EmailScheduleDialogActions } from '../../actions/calendar/emailScheduleDialog';
 
 const initialState: EmailScheduleDialogState = {
-    form: { emailTo: '', emailTitle: '', emailMessage: '', },
+    form: { emailTos: [], emailTitle: '', emailMessage: '', },
     schedule: initialDialogForm,
     isStartEdit: false,
     isOpenDialog: false,

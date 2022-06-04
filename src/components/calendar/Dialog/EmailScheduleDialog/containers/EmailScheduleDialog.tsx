@@ -31,7 +31,17 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
             const startHourMinute = getHourMinuteStrFromTimeStamp(schedule.time.start);
             const endHourMinute = getHourMinuteStrFromTimeStamp(schedule.time.end);
             const time = `${startHourMinute}~${endHourMinute}`;
-            dispatch(asyncSendEmail({ ...form, ...schedule, date, time, emailFrom }));
+            const params = {
+                emailTitle: form.emailTitle,
+                emailFrom: emailFrom,
+                emailMessage: form.emailMessage,
+                title: schedule.title,
+                date: date,
+                time: time,
+                location: schedule.location,
+                description: schedule.description
+            }
+            dispatch(asyncSendEmail(params, form.emailTos));
         },
     }
 }

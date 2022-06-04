@@ -15,6 +15,7 @@ const useStyles = makeStyles(() => {
             border: '1px solid rgba(0, 0, 0, 0.42)',
             padding: '10px',
             boxSizing: 'border-box',
+            borderRadius: '0.28571429rem',
         }
     });
 });

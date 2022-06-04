@@ -8,10 +8,10 @@ import { EmailTemplateParams } from '../../../api/EmailJS/types';
 
 type EmailThunkAction = ThunkAction<void, State, undefined, EmailScheduleDialogActions>;
 
-export const asyncSendEmail = (params: EmailTemplateParams): EmailThunkAction => async (dispatch: Dispatch<Action>) => {
+export const asyncSendEmail = (params: Omit<EmailTemplateParams, 'emailTo'>, emailTos: string[]): EmailThunkAction => async (dispatch: Dispatch<Action>) => {
     dispatch(setEmailScheduleDialogLoading(true));
     try {
-        await emailApi.send(params);
+        for (const emailTo of emailTos) await emailApi.send({ ...params, emailTo });
         dispatch(setSnackBar('success', 'メールを送信しました'));
     } catch (e) {
         dispatch(setSnackBar('error', 'メール送信に失敗しました'));
