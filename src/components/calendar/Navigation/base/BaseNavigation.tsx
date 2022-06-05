@@ -3,6 +3,7 @@ import { IconButton, AppBar, Toolbar, Typography, withStyles, Tooltip, Button } 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { CalendarState, SideMenuState, UserState } from '../../../../redux/stateTypes';
+import ScheduleSearchBar from './parts/ScheduleSearchBar';
 import BoardTypeMenu from './parts/BoardTypeMenu';
 import UserMenu from './parts/UserMenu';
 import { sideMenuWidth } from '../../../../constants';
@@ -74,6 +75,7 @@ const BaseNavigation: React.FC<BaseNavigationProps> = ({ boardType, isSideMenuOp
                 <StyledTypography variant="h6">カレンダー</StyledTypography>
                 {children}
                 <div className={classes.grow} />
+                <ScheduleSearchBar />
                 <BoardTypeMenu boardType={boardType} setBoardType={setBoardType} />
                 <UserMenu />
                 <Button color="inherit" onClick={logout}>ログアウト</Button>

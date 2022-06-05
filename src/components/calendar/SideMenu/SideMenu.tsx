@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         addButton: {
             width: (props: SideMenuStyleProps) => props.sideMenuWidth,
+            height: headerHeight,
             borderRadius: '0',
         }
     });
