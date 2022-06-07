@@ -7,7 +7,6 @@ import { makeStyles, createStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(() => {
     return createStyles({
         userMenu: {
-            marginRight: '10px',
             display: 'flex',
             alignItems: 'center',
         },
@@ -30,7 +29,7 @@ const UserMenu: React.FC<UserProps> = () => {
                 <AccountCircle style={{ marginRight: '5px', color: 'white' }} />
             </IconButton>
             <Menu open={open} onClose={() => setAnchorEl(null)} anchorEl={anchorEl}>
-                <MenuItem onClick={() => navigate('user')}>プロフィール</MenuItem>
+                <MenuItem onClick={() => navigate('/user')}>プロフィール</MenuItem>
             </Menu>
         </div>
     );

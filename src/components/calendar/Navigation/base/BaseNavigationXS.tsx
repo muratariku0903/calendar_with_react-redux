@@ -6,7 +6,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { AccountCircle } from "@material-ui/icons";
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { State, CalendarState } from '../../../../redux/stateTypes';
-import BoardTypeMenu from './parts/BoardTypeMenu';
+import BoardTypeMenu from '../../../app/Navigation/BoardTypeMenu';
 import { sideMenuWidth } from '../../../../constants';
 import { openSideMenu } from '../../../../redux/actions/calendar/sideMenu';
 import { setType } from '../../../../redux/actions/calendar/calendar';
@@ -69,7 +69,7 @@ const BaseNavigationXS: React.FC<BaseNavigationXSProps> = ({ children }) => {
                 </Tooltip>
                 {children}
                 <BoardTypeMenu boardType={boardType} setBoardType={setBoardType} />
-                <IconButton onClick={() => navigate('user')}>
+                <IconButton onClick={() => navigate('/user')}>
                     <AccountCircle style={{ color: 'white' }} />
                 </IconButton>
             </StyledToolbar>

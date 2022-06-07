@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { IconButton, Drawer, Divider, Button, Tooltip, useMediaQuery } from '@material-ui/core';
+import { IconButton, Drawer, Divider, Button, Tooltip } from '@material-ui/core';
 import { DatePicker } from '@material-ui/pickers';
 import { Add } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -8,25 +8,21 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { CalendarState, SideMenuState, Schedule } from '../../../redux/stateTypes';
 import { setSnackBar } from '../../../redux/actions/app/snackBar';
 import { getMonth } from '../../../services/calendar';
-import { headerHeight, breakpoints, sideMenuWidth } from '../../../constants';
+import { headerHeight, sideMenuWidth } from '../../../constants';
 import dayjs, { Dayjs } from 'dayjs';
 
-
-type SideMenuStyleProps = {
-    sideMenuWidth: string;
-}
 
 const useStyles = makeStyles((theme: Theme) => {
     return createStyles({
         drawer: {
-            width: (props: SideMenuStyleProps) => props.sideMenuWidth,
+            width: sideMenuWidth,
             transition: theme.transitions.create(['margin', 'width'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
         },
         drawerPaper: {
-            width: (props: SideMenuStyleProps) => props.sideMenuWidth,
+            width: sideMenuWidth,
         },
         drawerHeader: {
             display: 'flex',
@@ -38,10 +34,23 @@ const useStyles = makeStyles((theme: Theme) => {
             height: headerHeight,
         },
         addButton: {
-            width: (props: SideMenuStyleProps) => props.sideMenuWidth,
+            width: sideMenuWidth,
             height: headerHeight,
             borderRadius: '0',
-        }
+        },
+        searchPaper: {
+            height: headerHeight,
+            padding: '2px 4px',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+        },
+        searchInput: {
+            flex: 1,
+        },
+        searchIconButton: {
+            padding: 10,
+        },
     });
 });
 
@@ -59,8 +68,7 @@ export type DispatchProps = {
 export type SideMenuProps = StateProps & DispatchProps;
 
 const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAddDialog }) => {
-    const isSizeXS = useMediaQuery(`(max-width:${breakpoints.xs}px)`);
-    const classes = useStyles({ sideMenuWidth: isSizeXS ? '100%' : `${sideMenuWidth}px` });
+    const classes = useStyles();
     const dispatch = useDispatch();
     const isFirstRendering = useRef<boolean>(true);
     const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs());
@@ -69,7 +77,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
             isFirstRendering.current = false;
             return;
         } else {
-            setSelectedDate(getMonth(year, month))
+            setSelectedDate(getMonth(year, month));
         }
     }, [year, month]);
 
@@ -100,7 +108,6 @@ const SideMenu: React.FC<SideMenuProps> = ({ year, month, isOpen, close, openAdd
             >
                 作成
             </Button>
-            <Divider />
             <DatePicker
                 value={selectedDate}
                 onChange={d => d ? setSelectedDate(d) : dispatch(setSnackBar('error', '正しい日付を選択してください'))}

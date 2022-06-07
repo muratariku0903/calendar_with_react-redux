@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         inputInput: {
             padding: theme.spacing(1, 1, 1, 0),
-            // vertical padding + font size from searchIcon
             paddingLeft: `1em`,
+            paddingRight: `1em`,
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
@@ -65,6 +65,15 @@ const ScheduleSearchBar: React.FC<ScheduleSearchBarProps> = ({ }) => {
     const navigation = useNavigate();
     const [keyword, setKeyword] = useState<string>('');
 
+    const goToSearchPage = (keyword: string): void => {
+        if (keyword.trim() === '') return;
+        
+        navigation({
+            pathname: '/search',
+            search: `?keyword=${keyword}`,
+        });
+    }
+
     return (
         <div className={classes.search}>
             <InputBase
@@ -77,7 +86,7 @@ const ScheduleSearchBar: React.FC<ScheduleSearchBarProps> = ({ }) => {
                 inputProps={{ 'aria-label': 'search' }}
             />
             <IconButton
-                onClick={() => navigation('/search')}
+                onClick={() => goToSearchPage(keyword)}
                 type="submit"
                 className={classes.iconButton}
                 aria-label="search">

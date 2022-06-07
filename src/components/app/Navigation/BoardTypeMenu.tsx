@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select, MenuItem } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { CalendarState } from '../../../../../redux/stateTypes';
+import { CalendarState } from '../../../redux/stateTypes';
 
 const useStyles = makeStyles(() => {
     return createStyles({

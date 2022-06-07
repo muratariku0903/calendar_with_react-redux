@@ -1,20 +1,28 @@
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { useMediaQuery } from '@material-ui/core';
 import { State } from '../../redux/stateTypes';
-import Navigation from './Navigation/containers/Navigation';
-import Profile from './Profile/containers/Profile';
-import UpdateUserDialog from './UpdateUserDialog/containers/UpdateUserDialog';
-
+import Navigation from './Navigation/Navigation';
+import NavigationXS from './Navigation/NavigationXS';
+import Dialog from '../calendar/Dialog/Dialog';
+import SideMenu from '../app/SideMenu/containers/SideMenu';
+import SideMenuXS from '../app/SideMenu/containers/SideMenuXS';
+import { breakpoints } from '../../constants';
 
 
 const Search: React.FC = () => {
     const { isLogin } = useSelector((state: State) => state.user);
+    const isSizeXS = useMediaQuery(`(max-width:${breakpoints.xs}px)`);
 
     if (!isLogin) return <Navigate to='/login' />;
 
     return (
-        <div>検索結果</div>
+        <Fragment>
+            {isSizeXS ? <NavigationXS /> : <Navigation />}
+            <Dialog /> {/* //本来このコンポーネントはappから取り寄せてくるべき */}
+            {isSizeXS ? <SideMenuXS /> : <SideMenu />}
+        </Fragment>
     );
 };
 

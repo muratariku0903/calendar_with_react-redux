@@ -1,4 +1,4 @@
-import Navigation, { DispatchProps } from '../Navigation';
+import Navigation from '../Navigation';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -7,7 +7,7 @@ import { UserActions } from '../../../../redux/actions/user/user';
 import { asyncLogout } from '../../../../redux/actions/effects/user';
 
 
-const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, UserActions>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined, UserActions>) => {
     return {
         logout: () => dispatch(asyncLogout()),
     }
