@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-// import { getDatesOfWeek, getFirstDateOfWeekTimeStamp } from "../services/calendar";
 import dayjs, { Dayjs } from 'dayjs';
 
 export const useGetWeekDates = (firstDateOfWeekTimeStamp: number): Dayjs[] => {

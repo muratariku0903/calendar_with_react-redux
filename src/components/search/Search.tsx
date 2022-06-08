@@ -5,6 +5,7 @@ import { useMediaQuery } from '@material-ui/core';
 import { State } from '../../redux/stateTypes';
 import Navigation from './Navigation/Navigation';
 import NavigationXS from './Navigation/NavigationXS';
+import Result from './Result/Result';
 import Dialog from '../calendar/Dialog/Dialog';
 import SideMenu from '../app/SideMenu/containers/SideMenu';
 import SideMenuXS from '../app/SideMenu/containers/SideMenuXS';
@@ -20,6 +21,7 @@ const Search: React.FC = () => {
     return (
         <Fragment>
             {isSizeXS ? <NavigationXS /> : <Navigation />}
+            <Result />
             <Dialog /> {/* //本来このコンポーネントはappから取り寄せてくるべき */}
             {isSizeXS ? <SideMenuXS /> : <SideMenu />}
         </Fragment>

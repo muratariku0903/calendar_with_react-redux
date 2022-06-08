@@ -1,4 +1,4 @@
-import Profile, { StateProps, DispatchProps, ProfileProps } from '../Profile';
+import Profile, { StateProps, DispatchProps } from '../Result';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -22,12 +22,12 @@ const mapDispatchToProps = (dispatch: Dispatch & ThunkDispatch<State, undefined,
     };
 };
 
-const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): ProfileProps => {
-    return {
-        ...stateProps,
-        ...dispatchProps,
-        openUpdateUserDialog: () => dispatchProps.openUpdateUserDialog(stateProps.user.user),
-    };
-};
+// const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): ProfileProps => {
+//     return {
+//         ...stateProps,
+//         ...dispatchProps,
+//         openUpdateUserDialog: () => dispatchProps.openUpdateUserDialog(stateProps.user.user),
+//     };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

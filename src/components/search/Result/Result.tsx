@@ -18,23 +18,23 @@ const useStyles = makeStyles(() => {
 
 
 export type StateProps = {
-    user: UserState;
+    // user: UserState;
 }
 
 export type DispatchProps = {
-    openUpdateUserDialog: (user: UpdateUserDialogState['user']) => void;
+    // openUpdateUserDialog: (user: UpdateUserDialogState['user']) => void;
 };
 
-export type ProfileProps = StateProps & DispatchProps & {
-    openUpdateUserDialog: () => void;
+export type ResultProps = StateProps & DispatchProps & {
+    // openUpdateUserDialog: () => void;
 };
 
-const Profile: React.FC<ProfileProps> = ({ user: { user: { name, email } }, openUpdateUserDialog }) => {
+const Result: React.FC<ResultProps> = ({ }) => {
     const classes = useStyles();
 
     return (
         <Card variant='outlined' className={classes.card}>
-            <CardHeader variant='h3' title="プロファイル" />
+            {/* <CardHeader variant='h3' title="プロファイル" />
             <CardContent>
                 <List>
                     <ListItem>
@@ -54,9 +54,9 @@ const Profile: React.FC<ProfileProps> = ({ user: { user: { name, email } }, open
             </CardContent>
             <CardActions>
                 <Button onClick={openUpdateUserDialog} color="primary" variant="outlined">編集</Button>
-            </CardActions>
+            </CardActions> */}
         </Card>
     );
 }
 
-export default Profile;
+export default Result;
