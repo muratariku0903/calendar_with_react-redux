@@ -1,61 +1,81 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Card, CardContent, CardHeader, CardActions, List, ListItem, ListItemIcon, ListItemText, Divider, Button } from '@material-ui/core';
-import { Person, Email } from '@material-ui/icons';
-import { UserState, UpdateUserDialogState } from '../../../redux/stateTypes';
+import { Card, CardContent, CardActionArea, Typography, Theme } from '@material-ui/core';
+import { Schedule } from '../../../redux/stateTypes';
+import { useSearchSchedules } from '../../../hooks/search';
+import { useSideMenu } from '../../../hooks/sideMenu';
+import { sideMenuWidth } from '../../../constants';
+import dayjs from 'dayjs';
 
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme: Theme) => {
     return createStyles({
-        card: {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+        board: {
+            width: '100%',
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            padding: '0 10vw',
         },
+        boardShift: {
+            [theme.breakpoints.up('sm')]: {
+                width: `calc(100% - ${sideMenuWidth}px)`,
+                marginLeft: `${sideMenuWidth}px`
+            },
+            [theme.breakpoints.down('sm')]: {
+                width: `0`,
+                marginLeft: `100%`
+            },
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            padding: '0 10vw',
+        },
+        card: {
+            marginTop: '3vh'
+        }
     });
 });
-
 
 export type StateProps = {
     // user: UserState;
 }
 
 export type DispatchProps = {
-    // openUpdateUserDialog: (user: UpdateUserDialogState['user']) => void;
+    openShowScheduleDialog: (schedule: Schedule) => void;
 };
 
 export type ResultProps = StateProps & DispatchProps & {
     // openUpdateUserDialog: () => void;
 };
 
-const Result: React.FC<ResultProps> = ({ }) => {
+const Result: React.FC<ResultProps> = ({ openShowScheduleDialog }) => {
     const classes = useStyles();
+    const search = useLocation().search;
+    const keyword = new URLSearchParams(search).get('keyword');
+    const schedules = useSearchSchedules(keyword);
+    const { isSideMenuOpen } = useSideMenu();
 
     return (
-        <Card variant='outlined' className={classes.card}>
-            {/* <CardHeader variant='h3' title="プロファイル" />
-            <CardContent>
-                <List>
-                    <ListItem>
-                        <ListItemIcon>
-                            <Person />
-                        </ListItemIcon>
-                        <ListItemText primary={name} />
-                    </ListItem>
-                    <Divider />
-                    <ListItem>
-                        <ListItemIcon>
-                            <Email />
-                        </ListItemIcon>
-                        <ListItemText primary={email} />
-                    </ListItem>
-                </List>
-            </CardContent>
-            <CardActions>
-                <Button onClick={openUpdateUserDialog} color="primary" variant="outlined">編集</Button>
-            </CardActions> */}
-        </Card>
+        <div className={isSideMenuOpen ? classes.boardShift : classes.board}>
+            {!schedules.length ? <div>該当する項目がありませんでした</div> : schedules.map(schedule => (
+                <Card key={schedule.id} className={classes.card}>
+                    <CardActionArea onClick={() => openShowScheduleDialog(schedule)}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                {schedule.title}
+                            </Typography>
+                            <Typography variant="body2" color="textSecondary" component="p">
+                                {dayjs.unix(schedule.date).format('YYYY/MM/DD')}
+                            </Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            ))}
+        </div>
     );
 }
 

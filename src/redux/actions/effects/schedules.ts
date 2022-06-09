@@ -3,6 +3,7 @@ import { Dispatch, Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { Schedule, State, DialogSchedule } from '../../stateTypes';
 import { schedulesAPI } from '../../../firebase/api/schedules';
+import { algoliaApi } from '../../../api/algolia/algoliaApi';
 import { setSnackBar } from '../app/snackBar';
 import { createSchedulesKey, getSchedulesByDate } from '../../../services/schedules';
 import { isSameDay } from '../../../services/calendar';
@@ -29,6 +30,7 @@ export const asyncAddSchedule = (form: DialogSchedule): SchedulesThunkAction => 
     dispatch(setScheduleLoading(true));
     try {
         const id = await schedulesAPI.addSchedule(form);
+        await algoliaApi.addSchedule({ id, ...form });
         dispatch(addSchedules(createSchedulesKey(form.date), form, id));
         dispatch(setSnackBar('success', '予定を追加しました'));
     } catch (e) {
@@ -43,6 +45,7 @@ export const asyncDeleteSchedule = (schedule: Schedule): SchedulesThunkAction =>
     const { id, date } = schedule;
     try {
         await schedulesAPI.deleteSchedule(schedule);
+        await algoliaApi.deleteSchedule(id);
         dispatch(deleteSchedule(createSchedulesKey(date), id));
         dispatch(setSnackBar('success', '予定を削除しました'));
     } catch (e) {
@@ -57,6 +60,7 @@ export const asyncUpdateSchedule = (prevDate: Schedule['date'], schedule: Schedu
     const { id, date } = schedule;
     try {
         await schedulesAPI.updateSchedule(prevDate, schedule);
+        await algoliaApi.updateSchedule(schedule);
         if (isSameDay(date, prevDate)) {
             dispatch(updateSchedule(id, createSchedulesKey(date), schedule));
         } else {
@@ -102,6 +106,7 @@ export const asyncUpdateScheduleWithTimeValidate = (prevDate: Schedule['date'], 
 
     try {
         await schedulesAPI.updateSchedule(prevDate, newSchedule);
+        await algoliaApi.updateSchedule(newSchedule);
         if (isSameDay(date, prevDate)) {
             dispatch(updateSchedule(id, newScheduleDateKey, newSchedule));
         } else {

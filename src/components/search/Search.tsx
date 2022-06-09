@@ -5,7 +5,7 @@ import { useMediaQuery } from '@material-ui/core';
 import { State } from '../../redux/stateTypes';
 import Navigation from './Navigation/Navigation';
 import NavigationXS from './Navigation/NavigationXS';
-import Result from './Result/Result';
+import Result from './Result/containers/Result';
 import Dialog from '../calendar/Dialog/Dialog';
 import SideMenu from '../app/SideMenu/containers/SideMenu';
 import SideMenuXS from '../app/SideMenu/containers/SideMenuXS';

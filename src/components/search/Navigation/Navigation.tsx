@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Typography, AppBar, Tooltip, InputBase, Toolbar, Button, IconButton, Paper,withStyles } from '@material-ui/core';
+import { Typography, AppBar, Tooltip, Toolbar, Button, IconButton, withStyles } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
 import DehazeIcon from '@material-ui/icons/Dehaze';
 import { State } from '../../../redux/stateTypes';
 import { openSideMenu } from '../../../redux/actions/calendar/sideMenu';
 import UserMenu from '../../app/Navigation/UserMenu';
+import SearchBar from './parts/SearchBar';
 import { useLogout } from '../../../hooks/auth';
 import { sideMenuWidth } from '../../../constants';
 
@@ -32,21 +32,8 @@ const useStyles = makeStyles((theme: Theme) => {
         title: {
             marginRight: '5%',
         },
-        paper: {
-            padding: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-            width: '25%',
-        },
-        input: {
-            marginLeft: theme.spacing(1),
-            flex: 1,
-        },
         grow: {
             flexGrow: 1,
-        },
-        iconButton: {
-            padding: 10,
         },
     });
 });
@@ -75,16 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({ }) => {
                     </IconButton>
                 </Tooltip>
                 <Typography className={classes.title} variant="h6">検索結果</Typography>
-                <Paper className={classes.paper}>
-                    <InputBase
-                        className={classes.input}
-                        placeholder="予定を検索"
-                        inputProps={{ 'aria-label': 'search google maps' }}
-                    />
-                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                        <SearchIcon />
-                    </IconButton>
-                </Paper>
+                <SearchBar />
                 <div className={classes.grow} />
                 <Button color="inherit" onClick={() => navigate('/')}>戻る</Button>
                 <UserMenu />

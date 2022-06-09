@@ -28,6 +28,7 @@ const fetchSchedules = async (year: number, month: number): Promise<SchedulesSta
     } catch (e) {
         throw (`Error fetching schedules from firestore because:${e}`);
     }
+
     return schedules;
 }
 
@@ -42,6 +43,7 @@ const addSchedule = async (form: DialogSchedule): Promise<number> => {
     } catch (e) {
         throw (`Error adding schedule to firestore because:${e}`);
     }
+    
     return id;
 }
 

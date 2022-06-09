@@ -40,6 +40,8 @@ const mergeProps = (stateProps: StateProps, dispatchProps: DispatchProps): Updat
         isEmptyDialog: () => isEmptyDialog<DialogSchedule>(stateProps.dialog.schedule, ['date']),
         setDialogForm: (updateItem: Partial<Schedule>) => dispatchProps.setDialogForm({ ...stateProps.dialog.schedule, ...updateItem }),
         updateSchedule: () => {
+            // これ検索でアップデートするときにマッチするスケジュールがstateにセットされている三ヶ月分しかない
+            // firebaseにあるスケジュール全て取得した方がいんじゃない？
             const prevSchedule = getScheduleById(stateProps.schedules, stateProps.dialog.schedule.id);
             const prevDate: Schedule['date'] = prevSchedule.date;
             dispatchProps.updateSchedule(prevDate, stateProps.dialog.schedule);

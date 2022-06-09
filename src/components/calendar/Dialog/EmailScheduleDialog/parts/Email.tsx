@@ -19,7 +19,6 @@ type EmailScheduleDialogEmailProps = OutterProps;
 const EmailScheduleDialogEmail: React.FC<EmailScheduleDialogEmailProps> = ({ emailTos, setDialogForm, errorMessage }) => {
     const isStartEdit = useSelector((state: State) => state.emailScheduleDialog.isStartEdit);
     const isError = isStartEdit && Boolean(errorMessage);
-    console.log(emailTos);
 
     return (
         <Grid container spacing={1} alignItems="center" justifyContent="space-between">

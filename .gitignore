@@ -14,6 +14,7 @@
 /src/sample
 /src/api/GoogleCalendarApi/config.ts
 /src/api/EmailJS/config.ts
+/src/api/algolia/config.ts
 /firebase-debug.log
 /.firebase
 
